@@ -6,17 +6,17 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ua.co.myrecipes.ui.HomeFragment"
+        android:name="ua.co.myrecipes.ui.fragments.HomeFragment"
         android:label="fragment_blank1"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/blankFragment2"
-        android:name="ua.co.myrecipes.ui.BlankFragment2"
+        android:name="ua.co.myrecipes.ui.fragments.BlankFragment2"
         android:label="fragment_blank2"
         tools:layout="@layout/fragment_blank2" />
     <fragment
         android:id="@+id/blankFragment3"
-        android:name="ua.co.myrecipes.ui.BlankFragment3"
+        android:name="ua.co.myrecipes.ui.fragments.BlankFragment3"
         android:label="fragment_blank3"
         tools:layout="@layout/fragment_blank3" />
 </navigation>
