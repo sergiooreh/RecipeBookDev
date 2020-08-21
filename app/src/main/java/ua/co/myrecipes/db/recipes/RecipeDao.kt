@@ -3,7 +3,6 @@ package ua.co.myrecipes.db.recipes
 import androidx.room.*
 import ua.co.myrecipes.util.RecipeType
 
-/*
 @Dao
 interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -13,6 +12,6 @@ interface RecipeDao {
     suspend fun get(): List<RecipeCacheEntity>
 
     @Query("SELECT * FROM complexes WHERE type = :type")
-    suspend fun getByName(type :RecipeType): List<RecipeCacheEntity>
+    suspend fun getByName(@TypeConverters(Converters::class) type :RecipeType): List<RecipeCacheEntity>
 
-}*/
+}

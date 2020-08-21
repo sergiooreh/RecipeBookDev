@@ -1,6 +1,5 @@
 package ua.co.myrecipes.di
 
-/*
 import android.content.Context
 import androidx.room.Room
 import dagger.Module
@@ -33,4 +32,4 @@ object RoomModule {
     }
 
 
-}*/
+}

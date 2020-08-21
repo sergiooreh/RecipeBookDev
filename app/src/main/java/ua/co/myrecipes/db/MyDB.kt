@@ -1,6 +1,5 @@
 package ua.co.myrecipes.db
 
-/*
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import ua.co.myrecipes.db.recipes.RecipeCacheEntity
@@ -15,4 +14,3 @@ abstract class MyDB: RoomDatabase() {
         const val DATABASE_NAME: String = "recipe_db"
     }
 }
-*/

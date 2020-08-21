@@ -1,6 +1,5 @@
 package ua.co.myrecipes.di
 
-/*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -29,4 +28,4 @@ object RepositoryModule {
     ): RecipeRepository{
         return RecipeRepository(collectionReference, recipeCacheMapper, recipeDao)
     }
-}*/
+}

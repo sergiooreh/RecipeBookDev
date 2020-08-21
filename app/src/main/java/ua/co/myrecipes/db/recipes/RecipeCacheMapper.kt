@@ -1,6 +1,5 @@
 package ua.co.myrecipes.db.recipes
 
-/*
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.util.EntityMapper
 import javax.inject.Inject
@@ -14,7 +13,7 @@ constructor(): EntityMapper<RecipeCacheEntity, Recipe> {
             name = entity.name
             type = entity.type
             durationPrepare = entity.durationPrepare
-            ingredients = entity.ingredients
+//            ingredients = entity.ingredients
             directions = entity.directions
             img = entity.img
         }
@@ -26,7 +25,7 @@ constructor(): EntityMapper<RecipeCacheEntity, Recipe> {
             name = domainModel.name,
             type = domainModel.type,
             durationPrepare = domainModel.durationPrepare,
-            ingredients = domainModel.ingredients,
+//            ingredients = domainModel.ingredients,
             directions = domainModel.directions,
             img = domainModel.img
         )
@@ -34,4 +33,4 @@ constructor(): EntityMapper<RecipeCacheEntity, Recipe> {
 
     fun mapFromEntityList(entities: List<RecipeCacheEntity>): List<Recipe> =
         entities.map { mapFromEntity(it) }
-}*/
+}

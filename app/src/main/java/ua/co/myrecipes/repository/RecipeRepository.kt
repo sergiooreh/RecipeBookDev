@@ -1,6 +1,5 @@
 package ua.co.myrecipes.repository
 
-/*
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,8 +16,7 @@ class RecipeRepository @Inject constructor(
     private val recipeCacheMapper: RecipeCacheMapper,
     private val recipeDao: RecipeDao
 ){
-    */
-/*suspend fun loadRecipeTypes(recipe: String, hasInternet: Boolean): Flow<DataState<List<Recipe>>> = flow {
+    /*suspend fun loadRecipeTypes(recipe: String, hasInternet: Boolean): Flow<DataState<List<Recipe>>> = flow {
         emit(DataState.Loading)
         try {
             if (hasInternet) {
@@ -31,10 +29,9 @@ class RecipeRepository @Inject constructor(
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
-    }*//*
-
+    }*/
 
     suspend fun addRecipe(recipe: Recipe){
         collectionReference.document(recipe.type.name).collection("Recipe").document(recipe.name).set(Recipe::class)
     }
-}*/
+}
