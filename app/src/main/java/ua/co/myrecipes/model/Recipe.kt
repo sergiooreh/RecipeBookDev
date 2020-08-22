@@ -8,7 +8,13 @@ class Recipe() {
     var name = ""
     lateinit var type: RecipeType
     var durationPrepare = 0
-    var ingredients = mapOf<String,String>()
+    var ingredients = listOf<Ingredient>()
     var directions = listOf<String>()
     lateinit var img: Bitmap
+}
+
+class Ingredient{
+    var name: String = ""
+    var amount: Int = 0
+    var unit: String = ""
 }
