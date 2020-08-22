@@ -8,7 +8,11 @@
         android:id="@+id/homeFragment"
         android:name="ua.co.myrecipes.ui.fragments.HomeFragment"
         android:label="fragment_blank1"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_newRecipeFragment"
+            app:destination="@id/newRecipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/blankFragment2"
         android:name="ua.co.myrecipes.ui.fragments.BlankFragment2"
@@ -19,4 +23,18 @@
         android:name="ua.co.myrecipes.ui.fragments.BlankFragment3"
         android:label="fragment_blank3"
         tools:layout="@layout/fragment_blank3" />
+    <fragment
+        android:id="@+id/newRecipeFragment"
+        android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeFragment"
+        android:label="fragment_new_recipe"
+        tools:layout="@layout/fragment_new_recipe" >
+        <action
+            android:id="@+id/action_newRecipeFragment_to_newRecipeIngrFragment"
+            app:destination="@id/newRecipeIngrFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newRecipeIngrFragment"
+        android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeIngrFragment"
+        android:label="fragment_new_recipe_ingr"
+        tools:layout="@layout/fragment_new_recipe_ingr" />
 </navigation>

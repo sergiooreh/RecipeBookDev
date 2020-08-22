@@ -2,11 +2,14 @@ package ua.co.myrecipes
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -32,13 +35,27 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        bottomNavigationView.setupWithNavController(newsNavHostFragment.findNavController())
+        bottomNavigationView.setupWithNavController(NavHostFragment.findNavController())
+        setupNav()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)){
-            return true
-        }
+        if (toggle.onOptionsItemSelected(item)) return true
         return super.onOptionsItemSelected(item)
     }
+
+    private fun setupNav() {
+        val navController = findNavController(R.id.NavHostFragment)
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.homeFragment, R.id.blankFragment2, R.id.blankFragment3 ->
+                    bottomNavigationView.visibility = View.VISIBLE
+                else -> bottomNavigationView.visibility = View.GONE
+            }
+        }
+    }
+
 }

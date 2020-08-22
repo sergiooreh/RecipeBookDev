@@ -3,6 +3,7 @@ package ua.co.myrecipes.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -18,8 +19,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecycleView()
-
         recipeTypeAdapter.differ.submitList(RecipeType.values().toMutableList())
+
+        add_recipe_fab.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_newRecipeFragment)
+        }
     }
 
     private fun setupRecycleView() {
@@ -27,7 +31,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         recipeTypes.apply {
             adapter = recipeTypeAdapter
             layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
     }

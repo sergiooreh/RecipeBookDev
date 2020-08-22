@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.recipetype_item.view.*
+import kotlinx.android.synthetic.main.item_recipetype.view.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.util.RecipeType
 
@@ -14,7 +14,7 @@ class RecipeTypeAdapter : RecyclerView.Adapter<RecipeTypeAdapter.MyViewHolder>()
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-        MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recipetype_item, parent, false))
+        MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_recipetype, parent, false))
 
     override fun getItemCount() = differ.currentList.size
 
