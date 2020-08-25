@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.newRecipe.NewRecipeDirecFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/finish_add_recipe_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_ok"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@android:color/white"
+        app:tint="@android:color/white" />
 
     <TextView
         android:id="@+id/textView3"
@@ -37,7 +50,7 @@
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/rounded_corners"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -51,7 +51,7 @@
         android:layout_height="36dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/rounded_corners"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

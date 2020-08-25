@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
@@ -33,6 +34,13 @@ class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
 
         val recipe =arguments?.getParcelable<Recipe>("recipe")
         recipe?.directions = directList
+
+        finish_add_recipe_btn.setOnClickListener {
+            if (directList.isEmpty()){
+                Snackbar.make(it,"Add directions", Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+        }
 
     }
 
