@@ -1,4 +1,4 @@
-package ua.co.myrecipes.ui.dialogs
+package ua.co.myrecipes.ui.dialogs.addItem
 
 import android.content.Context
 import android.graphics.Color
@@ -12,15 +12,17 @@ import androidx.appcompat.app.AppCompatDialog
 import kotlinx.android.synthetic.main.dialog_add_ingridient_item.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
+import ua.co.myrecipes.ui.dialogs.AddDialogListenerIngr
 
 class AddIngrItemDialog(
     context: Context,
-    private var addDialogListener: AddDialogListener
+    private var addDialogListenerIngr: AddDialogListenerIngr
 ): AppCompatDialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_add_ingridient_item)
+        this.setTitle("New ingredient")
 
         val types = arrayOf("","slice","tsp","cup","spoon","grams","ml")
         unit_spinner.apply {
@@ -40,18 +42,13 @@ class AddIngrItemDialog(
                 unit = unit_spinner.selectedItem.toString()
                 amount = etAmount.text.toString().toInt()
             }
-            val unit = unit_spinner.selectedItem.toString()
-
 
             if (ingredient.name.isEmpty()){
                 Toast.makeText(context,"Please, enter the ingredient", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-                /*In Kotlin, return inside a lambda means return from the innermost nesting fun (ignoring lambdas), and it is not allowed in lambdas that are not inlined.
-                    The return@label syntax is used to specify the scope to return from.
-                    You can use the name of the function the lambda is passed to (fetchUpcomingTrips) as the label:*/
             }
 
-            addDialogListener.onAddButtonClick(ingredient)
+            addDialogListenerIngr.onAddButtonClick(ingredient)
             dismiss()
         }
 

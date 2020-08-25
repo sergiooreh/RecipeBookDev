@@ -36,5 +36,21 @@
         android:id="@+id/newRecipeIngrFragment"
         android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeIngrFragment"
         android:label="fragment_new_recipe_ingr"
-        tools:layout="@layout/fragment_new_recipe_ingr" />
+        tools:layout="@layout/fragment_new_recipe_ingr" >
+        <argument
+            android:name="recipe"
+            app:argType="ua.co.myrecipes.model.Recipe" />
+        <action
+            android:id="@+id/action_newRecipeIngrFragment_to_newRecipeDirecFragment"
+            app:destination="@id/newRecipeDirecFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newRecipeDirecFragment"
+        android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeDirecFragment"
+        android:label="fragment_new_recipe_direc"
+        tools:layout="@layout/fragment_new_recipe_direc" >
+        <argument
+            android:name="recipe"
+            app:argType="ua.co.myrecipes.model.Recipe" />
+    </fragment>
 </navigation>

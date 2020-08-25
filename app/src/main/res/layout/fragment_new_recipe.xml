@@ -10,15 +10,14 @@
 
     <Spinner
         android:id="@+id/type_spinner"
-        android:layout_width="114dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prep_time_itl" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/prep_time_til" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/prep_time_itl"
+        android:id="@+id/prep_time_til"
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
@@ -35,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Preparation time"
-            android:inputType="textPersonName"
+            android:inputType="number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/client_edt" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -69,23 +68,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="Img"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/type_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_recipe_next_fab"
+        android:id="@+id/to_ingredients_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_chevron_right"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@android:color/white"
         app:tint="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Category:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prep_time_til" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

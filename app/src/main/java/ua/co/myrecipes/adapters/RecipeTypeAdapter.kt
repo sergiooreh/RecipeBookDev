@@ -11,7 +11,7 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.util.RecipeType
 
 class RecipeTypeAdapter : RecyclerView.Adapter<RecipeTypeAdapter.MyViewHolder>()  {
-    inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
         MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_recipetype, parent, false))
