@@ -67,6 +67,9 @@
         <argument
             android:name="recipe"
             app:argType="ua.co.myrecipes.model.Recipe" />
+        <action
+            android:id="@+id/action_newRecipeDirecFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipesFragment"

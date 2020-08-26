@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -79,26 +81,41 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         }
 
     private fun openGalleryForImage() {
-        Intent(Intent.ACTION_PICK).also {
-            it.type = "image/*"
-            startActivityForResult(it, REQUEST_CODE)
+        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+            type = "image/*"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            startActivityForResult(this, REQUEST_CODE)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-            data?.data?.let {
-                imgUri = it
-                recipe_img.setImageURI(it)
+        when(requestCode){
+            REQUEST_CODE ->{
+                if (resultCode == Activity.RESULT_OK){ data?.data?.let { launchImageCrop(it) } } }
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ->{
+                val result = CropImage.getActivityResult(data)
+                if (resultCode == Activity.RESULT_OK){
+                    result.uri?.let {
+                        imgUri = it
+                        recipe_img.setImageURI(it)
+                    }
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                        /////////
+                }
             }
         }
     }
 
+    private fun launchImageCrop(uri: Uri) {
+        CropImage.activity(uri)
+            .setAspectRatio(500,500)
+            .setFixAspectRatio(true)
+            .start(requireContext(), this)
+    }
+
     private fun requestPermissions(){
-        if (Permissions.hasStoragePermissions(requireContext())){
-            return
-        }
+        if (Permissions.hasStoragePermissions(requireContext())){ return }
         EasyPermissions.requestPermissions(
             this,
             "You have to accept permission to load image",
@@ -117,10 +134,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }

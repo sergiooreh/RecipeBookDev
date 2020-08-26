@@ -11,7 +11,7 @@
         android:layout_height="200dp"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
-        android:scaleType="fitStart"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/traditional" />

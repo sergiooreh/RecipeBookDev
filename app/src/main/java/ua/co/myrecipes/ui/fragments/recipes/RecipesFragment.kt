@@ -34,6 +34,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
         recipes_rv.apply {
             adapter = recipesAdapter
             layoutManager = GridLayoutManager(requireContext(),2)
+            setHasFixedSize(true)
         }
 
     }

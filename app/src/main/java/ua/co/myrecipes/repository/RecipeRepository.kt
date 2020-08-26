@@ -30,16 +30,12 @@ class RecipeRepository @Inject constructor(
     }
 
     fun addRecipe(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
-        collectionReference.document(recipe.type.name).collection("Recipe").document(recipe.name)
-            .set(recipe)
-        uploadImageToStorage(recipe)
-    }
-
-    private fun uploadImageToStorage(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            recipe.img.let {
-                Firebase.storage.reference.child("images/${recipe.name}").putFile(it.toUri()).await()
-            }
-        } catch (e: Exception) { }
+        recipe.img.let {
+            val snapshot = Firebase.storage.reference.child("images/${recipe.name}").putFile(it.toUri()).await()
+                val url = snapshot.storage.downloadUrl
+                while (!url.isSuccessful);
+                recipe.img = url.result.toString()
+        }
+        collectionReference.document(recipe.type.name).collection("Recipe").document(recipe.name).set(recipe)
     }
 }
