@@ -1,7 +1,9 @@
 package ua.co.myrecipes.db.recipes
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.room.*
+import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.util.RecipeType
 
 @Entity(tableName = "complexes")
@@ -20,14 +22,13 @@ data class RecipeCacheEntity(
     @ColumnInfo(name = "durationPrepare")
     var durationPrepare: Int,
 
-   /* @ColumnInfo(name = "ingredients")
-    var ingredients: Map<String,String>,*/
+    @ColumnInfo(name = "ingredients")
+    var ingredients: List<Ingredient>,
 
     @ColumnInfo(name = "directions")
     var directions: List<String>,
 
     @ColumnInfo(name = "img")
-    var img: Bitmap,
-
-) {
+    var img: String,
+    ) {
 }

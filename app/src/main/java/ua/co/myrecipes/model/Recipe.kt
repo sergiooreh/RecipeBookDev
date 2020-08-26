@@ -1,24 +1,17 @@
 package ua.co.myrecipes.model
 
-import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import ua.co.myrecipes.util.RecipeType
 
 class Recipe() : Parcelable {
     var id: Int = 0
-
     var name = ""
-
     lateinit var type: RecipeType
-
     var durationPrepare = 0
-
     var ingredients = listOf<Ingredient>()
-
     var directions = listOf<String>()
-
-    lateinit var img: Bitmap
+    lateinit var img: String
 
     constructor(source: Parcel) : this(
     )
@@ -34,10 +27,32 @@ class Recipe() : Parcelable {
             override fun newArray(size: Int): Array<Recipe?> = arrayOfNulls(size)
         }
     }
-}
 
-class Ingredient{
-    var name: String = ""
-    var amount: Int = 0
-    var unit: String = ""
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Recipe
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (type != other.type) return false
+        if (durationPrepare != other.durationPrepare) return false
+        if (ingredients != other.ingredients) return false
+        if (directions != other.directions) return false
+        if (img != other.img) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + name.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + durationPrepare
+        result = 31 * result + ingredients.hashCode()
+        result = 31 * result + directions.hashCode()
+        result = 31 * result + img.hashCode()
+        return result
+    }
 }

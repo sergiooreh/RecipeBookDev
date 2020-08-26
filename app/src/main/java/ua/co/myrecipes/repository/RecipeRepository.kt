@@ -1,13 +1,17 @@
 package ua.co.myrecipes.repository
 
+import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ua.co.myrecipes.db.recipes.RecipeCacheMapper
 import ua.co.myrecipes.db.recipes.RecipeDao
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 import javax.inject.Inject
 
@@ -16,22 +20,26 @@ class RecipeRepository @Inject constructor(
     private val recipeCacheMapper: RecipeCacheMapper,
     private val recipeDao: RecipeDao
 ){
-    /*suspend fun loadRecipeTypes(recipe: String, hasInternet: Boolean): Flow<DataState<List<Recipe>>> = flow {
-        emit(DataState.Loading)
-        try {
-            if (hasInternet) {
-                val objects = collectionReference.document(recipe).collection("objects").get().await()
-                for (objct in objects) {
-                    recipeDao.insert(recipeCacheMapper.mapToEntity(objct.toObject(Recipe::class.java)))
-                }
-            }
-            emit(DataState.Success(recipeCacheMapper.mapFromEntityList(recipeDao.getByName(recipe))))
-        } catch (e: Exception){
-            emit(DataState.Error(e))
+    fun loadRecipes(recipeType: RecipeType) = flow<List<Recipe>> {
+        val list = mutableListOf<Recipe>()
+        val recipes = collectionReference.document(recipeType.name).collection("Recipe").get().await()
+        for (recipe in recipes){
+            list.add(recipe.toObject(Recipe::class.java))
         }
-    }*/
+        emit(list)
+    }
 
-    suspend fun addRecipe(recipe: Recipe){
-        collectionReference.document(recipe.type.name).collection("Recipe").document(recipe.name).set(Recipe::class)
+    fun addRecipe(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
+        collectionReference.document(recipe.type.name).collection("Recipe").document(recipe.name)
+            .set(recipe)
+        uploadImageToStorage(recipe)
+    }
+
+    private fun uploadImageToStorage(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            recipe.img.let {
+                Firebase.storage.reference.child("images/${recipe.name}").putFile(it.toUri()).await()
+            }
+        } catch (e: Exception) { }
     }
 }

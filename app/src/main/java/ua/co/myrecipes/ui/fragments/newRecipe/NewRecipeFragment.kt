@@ -2,13 +2,10 @@ package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,7 +22,7 @@ import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
 
 class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions. PermissionCallbacks {
-    private var img: Uri? = null
+    private var imgUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +53,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                 name = recipe_name_et.text.toString().trim()
                 durationPrepare = prep_time_et.text.toString().trim().toInt()
                 type = type_spinner.selectedItem as RecipeType
-                img = (recipe_img.drawable as BitmapDrawable).bitmap
+                img = imgUri.toString()
             }
 
             findNavController().navigate(
@@ -82,16 +79,19 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         }
 
     private fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE)
+        Intent(Intent.ACTION_PICK).also {
+            it.type = "image/*"
+            startActivityForResult(it, REQUEST_CODE)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-            img = data?.data!!
-            recipe_img.setImageURI(img)
+            data?.data?.let {
+                imgUri = it
+                recipe_img.setImageURI(it)
+            }
         }
     }
 
@@ -103,13 +103,10 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
             this,
             "You have to accept permission to load image",
             Constants.REQUEST_CODE_EXTERNAL_STORAGE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+            android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        openGalleryForImage()
-    }
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) { openGalleryForImage() }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this,perms)){
