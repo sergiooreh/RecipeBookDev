@@ -3,41 +3,45 @@ package ua.co.myrecipes.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_new_recipe.view.*
+import kotlinx.android.synthetic.main.item_recipes.view.*
 import kotlinx.android.synthetic.main.item_recipetype.view.*
 import ua.co.myrecipes.R
-import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.model.Recipe
 
-class RecipeTypeAdapter : RecyclerView.Adapter<RecipeTypeAdapter.MyViewHolder>()  {
+class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>()  {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-        MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_recipetype, parent, false))
+        MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_recipes, parent, false))
 
     override fun getItemCount() = differ.currentList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val recipeType = differ.currentList[position]
+        val recipe = differ.currentList[position]
         holder.itemView.apply {
-            recipeType_tv.text = recipeType.toString()
-            recipeType_imv.setImageResource(recipeType.img)
+            recipeName_tv.text = recipe.name
+            duration_tv.text = recipe.durationPrepare.toString()
+            imageView.setImageURI(recipe.img.toUri())
             setOnClickListener {
-                onItemClickListener?.let { it(recipeType) }
+                onItemClickListener?.let { it(recipe) }
             }
         }
     }
 
-    private var onItemClickListener: ((RecipeType) -> Unit)? = null
+    private var onItemClickListener: ((Recipe) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: ((RecipeType) -> Unit)) { onItemClickListener = listener }
+    fun setOnItemClickListener(listener: ((Recipe) -> Unit)) { onItemClickListener = listener }
 
-    private val differCallback = object : DiffUtil.ItemCallback<RecipeType>() {
-        override fun areItemsTheSame(oldItem: RecipeType, newItem: RecipeType): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<Recipe>() {
+        override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
             return oldItem.name == newItem.name     //we could check by id, but we use api articles, there can be different id
         }
-        override fun areContentsTheSame(oldItem: RecipeType, newItem: RecipeType): Boolean {
+        override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
             return oldItem == newItem
         }
     }

@@ -13,7 +13,7 @@ constructor(): EntityMapper<RecipeCacheEntity, Recipe> {
             name = entity.name
             type = entity.type
             durationPrepare = entity.durationPrepare
-//            ingredients = entity.ingredients
+            ingredients = entity.ingredients
             directions = entity.directions
             img = entity.img
         }
@@ -25,7 +25,7 @@ constructor(): EntityMapper<RecipeCacheEntity, Recipe> {
             name = domainModel.name,
             type = domainModel.type,
             durationPrepare = domainModel.durationPrepare,
-//            ingredients = domainModel.ingredients,
+            ingredients = domainModel.ingredients,
             directions = domainModel.directions,
             img = domainModel.img
         )

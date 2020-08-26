@@ -2,6 +2,7 @@ package ua.co.myrecipes.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,6 +24,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         add_recipe_fab.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_newRecipeFragment)
+        }
+
+        recipeTypeAdapter.setOnItemClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_recipesFragment, bundleOf("recipeType" to it.name))
         }
     }
 

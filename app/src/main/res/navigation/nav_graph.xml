@@ -11,7 +11,14 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_newRecipeFragment"
-            app:destination="@id/newRecipeFragment" />
+            app:destination="@id/newRecipeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/blankFragment2"
@@ -30,11 +37,44 @@
         tools:layout="@layout/fragment_new_recipe" >
         <action
             android:id="@+id/action_newRecipeFragment_to_newRecipeIngrFragment"
-            app:destination="@id/newRecipeIngrFragment" />
+            app:destination="@id/newRecipeIngrFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/newRecipeIngrFragment"
         android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeIngrFragment"
         android:label="fragment_new_recipe_ingr"
-        tools:layout="@layout/fragment_new_recipe_ingr" />
+        tools:layout="@layout/fragment_new_recipe_ingr" >
+        <argument
+            android:name="recipe"
+            app:argType="ua.co.myrecipes.model.Recipe" />
+        <action
+            android:id="@+id/action_newRecipeIngrFragment_to_newRecipeDirecFragment"
+            app:destination="@id/newRecipeDirecFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/newRecipeDirecFragment"
+        android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeDirecFragment"
+        android:label="fragment_new_recipe_direc"
+        tools:layout="@layout/fragment_new_recipe_direc" >
+        <argument
+            android:name="recipe"
+            app:argType="ua.co.myrecipes.model.Recipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipesFragment"
+        android:name="ua.co.myrecipes.ui.fragments.recipes.RecipesFragment"
+        android:label="fragment_recipes"
+        tools:layout="@layout/fragment_recipes" >
+        <argument
+            android:name="recipeType"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -1,41 +1,27 @@
 package ua.co.myrecipes.ui
 
-/*
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import ua.co.myrecipes.model.Ingredient
+import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.RecipeRepository
+import ua.co.myrecipes.util.RecipeType
 
 class RecipeViewModel @ViewModelInject constructor(
     val app: Application,
-    */
-/*private val recipeRepository: RecipeRepository*//*
-
+    private val recipeRepository: RecipeRepository
 ): AndroidViewModel(app) {
 
+    fun insertRecipe(recipe: Recipe) = recipeRepository.addRecipe(recipe)
 
-    fun setStateEvent(mainStateEvent: MainStateEvent){
-        viewModelScope.launch {
-            when(mainStateEvent){
-                */
-/*is MainStateEvent.GetAllRecipesEvent -> {
-                    recipeRepository.getAllComplexes(hasInternetConnection())
-                        .onEach {dataState -> _allComplexState.value = dataState }
-                        .launchIn(viewModelScope)
-                }*//*
+    fun loadRecipes(recipeType: RecipeType): LiveData<List<Recipe>> = recipeRepository.loadRecipes(recipeType).asLiveData()
 
-                MainStateEvent.None -> {
-                    // who cares
-                }
-            }
-        }
-    }
+
 }
-
-sealed class MainStateEvent{
-    object GetAllRecipesEvent: MainStateEvent()
-    object None: MainStateEvent()
-
-}*/

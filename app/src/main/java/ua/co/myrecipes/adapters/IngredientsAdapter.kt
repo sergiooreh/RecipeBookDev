@@ -12,8 +12,7 @@ class IngredientsAdapter(
     var items: ArrayList<Ingredient>,
 ): RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>() {
 
-
-    inner class IngredientViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    class IngredientViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_ingredient, parent, false)
@@ -31,16 +30,18 @@ class IngredientsAdapter(
 
         holder.itemView.ivDelete.setOnClickListener {
             items.remove(currentIngredientItem)
+            notifyItemRemoved(position)
         }
 
         holder.itemView.ivPlus.setOnClickListener {
-           /* currentIngredientItem.amount++
-            viewModel.upsert(currentIngredientItem)           //db will update item if it has same ID (OnStrategy)*/
+            currentIngredientItem.amount += 1
+            notifyDataSetChanged()
         }
 
         holder.itemView.ivMinus.setOnClickListener {
             if (currentIngredientItem.amount > 0){
-                currentIngredientItem.amount--
+                currentIngredientItem.amount -= 1
+                notifyDataSetChanged()
             }
         }
     }

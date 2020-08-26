@@ -10,8 +10,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toggle: ActionBarDrawerToggle
@@ -35,15 +37,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
         bottomNavigationView.setupWithNavController(NavHostFragment.findNavController())
         setupNav()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)){
-            return true
-        }
+        if (toggle.onOptionsItemSelected(item)) return true
         return super.onOptionsItemSelected(item)
     }
 
@@ -54,15 +53,11 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.homeFragment -> showBottomNav()
-                R.id.blankFragment2 -> showBottomNav()
-                R.id.blankFragment3 -> showBottomNav()
-                else -> hideBottomNav()
+                R.id.homeFragment, R.id.blankFragment2, R.id.blankFragment3 ->
+                    bottomNavigationView.visibility = View.VISIBLE
+                else -> bottomNavigationView.visibility = View.GONE
             }
         }
     }
 
-    private fun showBottomNav() { bottomNavigationView.visibility = View.VISIBLE }
-
-    private fun hideBottomNav() { bottomNavigationView.visibility = View.GONE }
 }
