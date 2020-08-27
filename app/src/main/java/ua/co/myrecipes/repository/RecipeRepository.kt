@@ -1,5 +1,6 @@
 package ua.co.myrecipes.repository
 
+import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.ktx.Firebase
@@ -13,6 +14,7 @@ import ua.co.myrecipes.db.recipes.RecipeCacheMapper
 import ua.co.myrecipes.db.recipes.RecipeDao
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.util.RecipeType
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class RecipeRepository @Inject constructor(
@@ -30,12 +32,19 @@ class RecipeRepository @Inject constructor(
     }
 
     fun addRecipe(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
+        val byteArray = compressBitmap(recipe.imgBitmap!!)
         recipe.img.let {
-            val snapshot = Firebase.storage.reference.child("images/${recipe.name}").putFile(it.toUri()).await()
+            val snapshot = Firebase.storage.reference.child("images/${recipe.name}").putBytes(byteArray).await()
                 val url = snapshot.storage.downloadUrl
                 while (!url.isSuccessful);
                 recipe.img = url.result.toString()
         }
         collectionReference.document(recipe.type.name).collection("Recipe").document(recipe.name).set(recipe)
+    }
+
+    private fun compressBitmap(bitmap: Bitmap):ByteArray{
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 5, stream)
+        return stream.toByteArray()
     }
 }

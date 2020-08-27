@@ -1,7 +1,11 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.app.Activity
+import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,9 +26,11 @@ import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Constants.REQUEST_CODE
 import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
+import java.text.SimpleDateFormat
 
 class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions. PermissionCallbacks {
     private var imgUri: Uri? = null
+    var time = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,12 +43,30 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
             openGalleryForImage()
         }
 
+        prep_time_btn.setOnClickListener {
+            val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
+                { timePicker, h, m ->
+                    time = if (m==0) "$h Hr" else "$h Hr $m Min"
+                    new_time_tv.apply {
+                        visibility = View.VISIBLE
+                        text = time
+                    }
+                }, 0, 0, true
+            )
+            timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            timePickerDialog.show()
+        }
+
         type_spinner.adapter =
             ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line, RecipeType.values())
 
         to_ingredients_fab.setOnClickListener {
-            if (!validateInput(recipe_name_et.text.toString(), recipe_name_til) ||
-                (!validateInput(prep_time_et.text.toString(), prep_time_til))){
+            if (!validateInput(recipe_name_et.text.toString(), recipe_name_til)){
+                return@setOnClickListener
+            }
+
+            if (new_time_tv.visibility == View.GONE){
+                Snackbar.make(it,"Choose time", Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -53,9 +77,10 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
 
             val recipe = Recipe().apply {
                 name = recipe_name_et.text.toString().trim()
-                durationPrepare = prep_time_et.text.toString().trim().toInt()
+                durationPrepare = time
                 type = type_spinner.selectedItem as RecipeType
                 img = imgUri.toString()
+                imgBitmap = (recipe_img.drawable as BitmapDrawable).bitmap
             }
 
             findNavController().navigate(
