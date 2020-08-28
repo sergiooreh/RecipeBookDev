@@ -10,26 +10,14 @@
         android:label="fragment_blank1"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_newRecipeFragment"
-            app:destination="@id/newRecipeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_homeFragment_to_recipesFragment"
             app:destination="@id/recipesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/blankFragment2"
-        android:name="ua.co.myrecipes.ui.fragments.BlankFragment2"
-        android:label="fragment_blank2"
-        tools:layout="@layout/fragment_blank2" />
-    <fragment
         android:id="@+id/blankFragment3"
-        android:name="ua.co.myrecipes.ui.fragments.BlankFragment3"
+        android:name="ua.co.myrecipes.ui.fragments.profile.ProfileFragment"
         android:label="fragment_blank3"
-        tools:layout="@layout/fragment_blank3" />
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/newRecipeFragment"
         android:name="ua.co.myrecipes.ui.fragments.newRecipe.NewRecipeFragment"

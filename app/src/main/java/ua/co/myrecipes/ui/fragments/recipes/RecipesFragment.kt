@@ -11,7 +11,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_recipes.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipesAdapter
+import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.RecipeViewModel
+import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 
 @AndroidEntryPoint
@@ -24,9 +26,43 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
 
         setupRecycleView()
         val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
-        recipeViewModel.loadRecipes(type).observe(viewLifecycleOwner, Observer {
-            recipesAdapter.differ.submitList(it)
+
+        start_srLayout.apply {
+            setOnRefreshListener {
+                getRecipes(type)
+                progress_bar.visibility = View.GONE
+                start_srLayout.isRefreshing = false
+            }
+        }
+
+        getRecipes(type)
+    }
+
+    private fun getRecipes(type: RecipeType){
+        recipeViewModel.loadRecipes(type).observe(viewLifecycleOwner, {     //observe - подписываемся (определять состояние Activity/fragment, подписчик, т.е. колбэк, в который LiveData будет отправлять данные)
+            // recipesAdapter.differ.submitList(emptyList())
+            when(it){
+                is DataState.Success<List<Recipe>> ->{
+                    displayProgressBar(false)
+                    recipesAdapter.differ.submitList(it.data)
+                }
+                is DataState.Error -> {
+                    displayProgressBar(false)
+//                    displayError(dataState.exception.message)
+                }
+                is DataState.Loading -> {
+                    displayProgressBar(true)
+                }
+            }
         })
+    }
+
+    /*private fun displayError(message: String?){
+       if(message != null) text.text = message else text.text = "Unknown error."
+   }*/
+
+    private fun displayProgressBar(isDisplayed: Boolean){
+        progress_bar.visibility = if(isDisplayed) View.VISIBLE else View.GONE
     }
 
     private fun setupRecycleView() {

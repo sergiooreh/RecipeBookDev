@@ -13,6 +13,7 @@ import kotlinx.coroutines.tasks.await
 import ua.co.myrecipes.db.recipes.RecipeCacheMapper
 import ua.co.myrecipes.db.recipes.RecipeDao
 import ua.co.myrecipes.model.Recipe
+import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -22,13 +23,18 @@ class RecipeRepository @Inject constructor(
     private val recipeCacheMapper: RecipeCacheMapper,
     private val recipeDao: RecipeDao
 ){
-    fun loadRecipes(recipeType: RecipeType) = flow<List<Recipe>> {
-        val list = mutableListOf<Recipe>()
-        val recipes = collectionReference.document(recipeType.name).collection("Recipe").get().await()
-        for (recipe in recipes){
-            list.add(recipe.toObject(Recipe::class.java))
+
+    fun loadRecipes(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
+        emit(DataState.Loading)
+        try {
+            val recipes = collectionReference.document(recipeType.name).collection("Recipe").get().await()
+            emit(DataState.Success
+                (recipes.toObjects(Recipe::class.java)
+            ))
+        } catch (e: Exception){
+            emit(DataState.Error(e))
         }
-        emit(list)
+
     }
 
     fun addRecipe(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
@@ -44,7 +50,7 @@ class RecipeRepository @Inject constructor(
 
     private fun compressBitmap(bitmap: Bitmap):ByteArray{
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 5, stream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream)
         return stream.toByteArray()
     }
 }

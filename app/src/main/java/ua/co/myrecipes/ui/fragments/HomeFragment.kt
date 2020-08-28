@@ -22,10 +22,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setupRecycleView()
         recipeTypeAdapter.differ.submitList(RecipeType.values().toMutableList())
 
-        add_recipe_fab.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_newRecipeFragment)
-        }
-
         recipeTypeAdapter.setOnItemClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_recipesFragment, bundleOf("recipeType" to it.name))
         }

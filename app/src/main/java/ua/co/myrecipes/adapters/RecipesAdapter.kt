@@ -3,7 +3,6 @@ package ua.co.myrecipes.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +32,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>()  {
             duration_tv.text = recipe.durationPrepare
             Picasso.get()
                 .load(recipe.img)
+                .fit()
                 .placeholder(R.drawable.ic_broken)
                 .into(imageView)
 

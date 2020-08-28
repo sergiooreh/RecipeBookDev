@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.RecipeRepository
+import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 
 class RecipeViewModel @ViewModelInject constructor(
@@ -21,7 +22,7 @@ class RecipeViewModel @ViewModelInject constructor(
 
     fun insertRecipe(recipe: Recipe) = recipeRepository.addRecipe(recipe)
 
-    fun loadRecipes(recipeType: RecipeType): LiveData<List<Recipe>> = recipeRepository.loadRecipes(recipeType).asLiveData()
+    fun loadRecipes(recipeType: RecipeType): LiveData<DataState<List<Recipe>>> = recipeRepository.loadRecipes(recipeType).asLiveData()
 
 
 }

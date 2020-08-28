@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.homeFragment, R.id.blankFragment2, R.id.blankFragment3 ->
+                R.id.homeFragment, R.id.newRecipeFragment, R.id.blankFragment3 ->
                     bottomNavigationView.visibility = View.VISIBLE
                 else -> bottomNavigationView.visibility = View.GONE
             }
