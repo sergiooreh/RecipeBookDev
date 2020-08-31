@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:text="SergeiOri"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_imv" />
@@ -69,11 +68,10 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/recipes_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="textEnd"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -93,11 +91,10 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/followers_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="textEnd"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -117,11 +114,10 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/following_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="textEnd"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -141,14 +137,24 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/liked_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="textEnd"
                 android:textSize="24sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_registration.*
@@ -15,32 +14,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.UserViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class RegistrationFragment : Fragment(R.layout.fragment_registration) {
-    @set:Inject
-    var isFirstAppOpen = true
-
+class RegFragment: Fragment(R.layout.fragment_registration) {
     private val userViewModel: UserViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isFirstAppOpen){
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
-        }
-
-        tvSkip.setOnClickListener {
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
-        }
-
-        tvLogIn.setOnClickListener {
-            signInUp(false)
-        }
+        constraintLayout.visibility = View.GONE
+        logIn_btn.visibility = View.VISIBLE
 
         signup_btn.setOnClickListener {
             signInUp(true)
+        }
+
+        logIn_btn.setOnClickListener {
+            signInUp(false)
         }
     }
 
@@ -57,7 +47,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                         userViewModel.signInUser(email, password)
                     }
                     withContext(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
+                        findNavController().navigate(R.id.action_regFragment_to_profileFragment)
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
@@ -68,4 +58,3 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         }
     }
 }
-
