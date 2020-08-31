@@ -1,7 +1,5 @@
 package ua.co.myrecipes.db.recipes
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -9,9 +7,6 @@ import androidx.core.net.toUri
 import androidx.room.TypeConverter
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.util.RecipeType
-import java.io.ByteArrayOutputStream
-import java.util.*
-import java.util.Arrays.asList
 import java.util.stream.Collectors
 
 class Converters {

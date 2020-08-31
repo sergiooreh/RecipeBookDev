@@ -1,8 +1,9 @@
 package ua.co.myrecipes.db.recipes
 
-import android.graphics.Bitmap
-import android.net.Uri
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.util.RecipeType
 
@@ -20,7 +21,7 @@ data class RecipeCacheEntity(
     var type: RecipeType,
 
     @ColumnInfo(name = "durationPrepare")
-    var durationPrepare: Int,
+    var durationPrepare: String,
 
     @ColumnInfo(name = "ingredients")
     var ingredients: List<Ingredient>,

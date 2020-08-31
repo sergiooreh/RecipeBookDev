@@ -5,12 +5,12 @@
         android:title="Recipes"
         android:icon="@drawable/ic_menu_book"/>
 
-    <item android:id="@+id/blankFragment2"
-        android:title="Saved News"
-        android:icon="@drawable/ic_menu_book"/>
+    <item android:id="@+id/newRecipeFragment"
+        android:title="New recipe"
+        android:icon="@drawable/upload"/>
 
-    <item android:id="@+id/blankFragment3"
+    <item android:id="@+id/profileFragment"
         android:title="Profile"
-        android:icon="@drawable/ic_menu_book"/>
+        android:icon="@drawable/profile"/>
 
 </menu>

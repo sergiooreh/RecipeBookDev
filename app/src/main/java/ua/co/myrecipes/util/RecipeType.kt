@@ -7,7 +7,7 @@ enum class RecipeType(val img: Int) {
     TRADITIONAL(img = R.drawable.traditional),
     SANDWICH(img = R.drawable.sandwich),
     PIZZA(img = R.drawable.pizza),
-    COCKTAILS(img = R.drawable.coctails),
+    COCKTAILS(img = R.drawable.cocktails),
     DESSERTS(img = R.drawable.desserts),
     SALADS(img = R.drawable.salads)
 }
