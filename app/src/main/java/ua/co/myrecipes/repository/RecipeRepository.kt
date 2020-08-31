@@ -1,7 +1,6 @@
 package ua.co.myrecipes.repository
 
 import android.graphics.Bitmap
-import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -34,7 +33,6 @@ class RecipeRepository @Inject constructor(
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
-
     }
 
     fun addRecipe(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {

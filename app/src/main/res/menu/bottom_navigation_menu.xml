@@ -9,7 +9,7 @@
         android:title="New recipe"
         android:icon="@drawable/upload"/>
 
-    <item android:id="@+id/blankFragment3"
+    <item android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@drawable/profile"/>
 

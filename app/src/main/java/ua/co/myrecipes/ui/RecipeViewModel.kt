@@ -6,10 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.RecipeRepository
 import ua.co.myrecipes.util.DataState
@@ -20,7 +17,9 @@ class RecipeViewModel @ViewModelInject constructor(
     private val recipeRepository: RecipeRepository
 ): AndroidViewModel(app) {
 
-    fun insertRecipe(recipe: Recipe) = recipeRepository.addRecipe(recipe)
+    fun insertRecipe(recipe: Recipe) = viewModelScope.launch {
+        recipeRepository.addRecipe(recipe)
+    }
 
     fun loadRecipes(recipeType: RecipeType): LiveData<DataState<List<Recipe>>> = recipeRepository.loadRecipes(recipeType).asLiveData()
 

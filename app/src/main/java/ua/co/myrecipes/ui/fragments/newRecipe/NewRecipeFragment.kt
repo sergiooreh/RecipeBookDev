@@ -26,7 +26,6 @@ import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Constants.REQUEST_CODE
 import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
-import java.text.SimpleDateFormat
 
 class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions. PermissionCallbacks {
     private var imgUri: Uri? = null

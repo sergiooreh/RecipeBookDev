@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.IgnoreExtraProperties
 import ua.co.myrecipes.util.RecipeType
 
 class Recipe() : Parcelable {
