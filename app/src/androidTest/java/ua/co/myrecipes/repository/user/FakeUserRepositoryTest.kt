@@ -17,6 +17,10 @@ class FakeUserRepositoryTest: UserRepositoryInt {
         TODO("Not yet implemented")
     }
 
+    override suspend fun logOut() {
+        TODO("Not yet implemented")
+    }
+
     override fun getUserEmail(): String {
         TODO("Not yet implemented")
     }

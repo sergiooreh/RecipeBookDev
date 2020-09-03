@@ -10,8 +10,12 @@ interface UserRepositoryInt {
 
     suspend fun signInUser(email: String, password: String): AuthResult
 
+    suspend fun logOut()
+
     fun getUserEmail(): String
 
     fun getUser(): Flow<DataState<User>>
+
+
 
 }

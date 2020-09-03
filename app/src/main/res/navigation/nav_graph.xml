@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registrationFragment">
+    app:startDestination="@id/welcomeRegFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="ua.co.myrecipes.ui.fragments.recipes.HomeFragment"
@@ -73,15 +73,15 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/registrationFragment"
-        android:name="ua.co.myrecipes.ui.fragments.profile.RegistrationFragment"
+        android:id="@+id/welcomeRegFragment"
+        android:name="ua.co.myrecipes.ui.fragments.profile.WelcomeRegFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/registrationFragment"
+            app:popUpTo="@+id/welcomeRegFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

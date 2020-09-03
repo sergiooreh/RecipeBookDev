@@ -17,7 +17,7 @@ import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RegistrationFragment : Fragment(R.layout.fragment_registration) {
+class WelcomeRegFragment : Fragment(R.layout.fragment_registration) {
     @set:Inject
     var isFirstAppOpen = true
 

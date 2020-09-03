@@ -16,15 +16,13 @@ class UserRepository @Inject constructor(
 
     override suspend fun registerUser(email: String, password: String): AuthResult{
         val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        collectionReference.document(email).set(
-            User(email, password)
-        )
+        collectionReference.document(email).set(User(email, password))
         return result
     }
 
     override suspend fun signInUser(email: String, password: String): AuthResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
 
-    override fun getUserEmail() = firebaseAuth.currentUser?.email ?:""
+    override fun getUserEmail() = firebaseAuth.currentUser?.email ?: ""
 
     override fun getUser() = flow {
         emit(DataState.Loading)
@@ -34,8 +32,9 @@ class UserRepository @Inject constructor(
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
-
     }
+
+    override suspend fun logOut() = firebaseAuth.signOut()
 
 
 }

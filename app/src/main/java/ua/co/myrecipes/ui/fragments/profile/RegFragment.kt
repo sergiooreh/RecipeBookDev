@@ -48,6 +48,7 @@ class RegFragment: Fragment(R.layout.fragment_registration) {
                     }
                     withContext(Dispatchers.Main) {
                         findNavController().navigate(R.id.action_regFragment_to_profileFragment)
+                        activity?.recreate()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {

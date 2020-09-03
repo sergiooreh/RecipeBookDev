@@ -20,7 +20,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (userViewModel.getUserEmail() == null){
+        if (userViewModel.getUserEmail() == ""){
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.homeFragment, false)
                 .build()
