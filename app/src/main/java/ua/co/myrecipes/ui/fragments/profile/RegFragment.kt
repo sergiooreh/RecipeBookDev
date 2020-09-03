@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.R
-import ua.co.myrecipes.ui.UserViewModel
+import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
 class RegFragment: Fragment(R.layout.fragment_registration) {

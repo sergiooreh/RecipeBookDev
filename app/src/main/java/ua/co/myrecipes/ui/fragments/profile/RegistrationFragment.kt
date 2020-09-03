@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_registration.*
@@ -14,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.R
-import ua.co.myrecipes.ui.UserViewModel
+import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,7 +53,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                     if (registration) {
                         userViewModel.registerUser(email, password)
                     } else {
-                        userViewModel.signInUser(email, password)
+                       val g = userViewModel.signInUser(email, password)
                     }
                     withContext(Dispatchers.Main) {
                         findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)

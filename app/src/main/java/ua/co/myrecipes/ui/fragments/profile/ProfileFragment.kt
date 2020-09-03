@@ -4,20 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_recipes.*
-import kotlinx.android.synthetic.main.fragment_registration.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
-import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.model.User
-import ua.co.myrecipes.ui.UserViewModel
+import ua.co.myrecipes.viewmodels.UserViewModel
 import ua.co.myrecipes.util.DataState
 
 @AndroidEntryPoint

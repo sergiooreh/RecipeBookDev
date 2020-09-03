@@ -9,8 +9,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import ua.co.myrecipes.db.recipes.RecipeCacheMapper
 import ua.co.myrecipes.db.recipes.RecipeDao
-import ua.co.myrecipes.repository.RecipeRepository
-import ua.co.myrecipes.repository.UserRepository
+import ua.co.myrecipes.repository.recipe.RecipeRepository
+import ua.co.myrecipes.repository.user.UserRepository
+import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
+import ua.co.myrecipes.repository.user.UserRepositoryInt
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -38,25 +40,23 @@ object RepositoryModule {
         @Recipes collectionReference: CollectionReference,
         recipeCacheMapper: RecipeCacheMapper,
         recipeDao: RecipeDao,
-    ): RecipeRepository{
-        return RecipeRepository(collectionReference, recipeCacheMapper, recipeDao)
-    }
+    ): RecipeRepositoryInt = RecipeRepository(collectionReference, recipeCacheMapper, recipeDao)
+
 
     @Singleton
     @Provides
     fun provideUserRepository(
         @Users collectionReference: CollectionReference,
         firebaseAuth: FirebaseAuth
-    ): UserRepository{
-        return UserRepository(collectionReference, firebaseAuth)
-    }
+    ): UserRepositoryInt = UserRepository(collectionReference, firebaseAuth)
+
 
 
     @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
+    @Retention(AnnotationRetention.BINARY)
     annotation class Recipes
 
     @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
+    @Retention(AnnotationRetention.BINARY)
     annotation class Users
 }

@@ -1,13 +1,10 @@
-package ua.co.myrecipes.repository
+package ua.co.myrecipes.repository.recipe
 
 import android.graphics.Bitmap
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ua.co.myrecipes.db.recipes.RecipeCacheMapper
 import ua.co.myrecipes.db.recipes.RecipeDao
@@ -21,9 +18,9 @@ class RecipeRepository @Inject constructor(
     private val collectionReference: CollectionReference,
     private val recipeCacheMapper: RecipeCacheMapper,
     private val recipeDao: RecipeDao
-){
+): RecipeRepositoryInt{
 
-    fun loadRecipes(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
+    override fun loadRecipes(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
         emit(DataState.Loading)
         try {
             val recipes = collectionReference.document(recipeType.name).collection("Recipe").get().await()
@@ -35,7 +32,7 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    fun addRecipe(recipe: Recipe) = CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun addRecipe(recipe: Recipe) {
         val byteArray = compressBitmap(recipe.imgBitmap!!)
         recipe.img.let {
             val snapshot = Firebase.storage.reference.child("images/${recipe.name}").putBytes(byteArray).await()

@@ -1,4 +1,4 @@
-package ua.co.myrecipes
+package ua.co.myrecipes.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import ua.co.myrecipes.R
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
