@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.R
-import ua.co.myrecipes.ui.UserViewModel
+import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
 class RegFragment: Fragment(R.layout.fragment_registration) {
@@ -48,6 +48,7 @@ class RegFragment: Fragment(R.layout.fragment_registration) {
                     }
                     withContext(Dispatchers.Main) {
                         findNavController().navigate(R.id.action_regFragment_to_profileFragment)
+                        activity?.recreate()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {

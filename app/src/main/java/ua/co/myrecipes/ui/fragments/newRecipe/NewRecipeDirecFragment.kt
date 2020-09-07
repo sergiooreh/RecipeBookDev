@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.ui.RecipeViewModel
+import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.ui.dialogs.AddDialogListenerDir
 import ua.co.myrecipes.ui.dialogs.addDirections.AddDirectionsDialog
 

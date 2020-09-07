@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_recipes.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipesAdapter
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.ui.RecipeViewModel
+import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 
@@ -24,20 +24,21 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
 
         setupRecycleView()
         val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
+        recipeViewModel.loadRecipes(type)
+
+        getRecipes()
 
         start_srLayout.apply {
             setOnRefreshListener {
-                getRecipes(type)
+                getRecipes()
                 progress_bar.visibility = View.GONE
                 start_srLayout.isRefreshing = false
             }
         }
-
-        getRecipes(type)
     }
 
-    private fun getRecipes(type: RecipeType){
-        recipeViewModel.loadRecipes(type).observe(viewLifecycleOwner, {     //observe - подписываемся (определять состояние Activity/fragment, подписчик, т.е. колбэк, в который LiveData будет отправлять данные)
+    private fun getRecipes(){
+        recipeViewModel.recipes.observe(viewLifecycleOwner, {     //observe - подписываемся (определять состояние Activity/fragment, подписчик, т.е. колбэк, в который LiveData будет отправлять данные)
             // recipesAdapter.differ.submitList(emptyList())
             when(it){
                 is DataState.Success<List<Recipe>> ->{
