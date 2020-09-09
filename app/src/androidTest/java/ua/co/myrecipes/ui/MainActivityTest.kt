@@ -1,5 +1,6 @@
 package ua.co.myrecipes.ui
 
+import android.content.SharedPreferences
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -7,18 +8,38 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ua.co.myrecipes.R
+import ua.co.myrecipes.launchFragmentInHiltContainer
+import ua.co.myrecipes.ui.fragments.recipes.HomeFragment
+import ua.co.myrecipes.util.Constants
+import javax.inject.Inject
+import javax.inject.Named
 
-@RunWith(AndroidJUnit4ClassRunner::class)
+@ExperimentalCoroutinesApi
+@HiltAndroidTest
 class MainActivityTest{
-    private var isFirstAppOpen = false
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @set:Inject
+    @Named("test_preferences_app_enter")
+    var isFirstAppOpen = true
+
+    @Inject
+    @Named("test_preferences")
+    lateinit var sharedPref: SharedPreferences
 
     @Before
     fun setup(){
-        isFirstAppOpen = true
+        hiltRule.inject()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
     }
 
@@ -26,6 +47,9 @@ class MainActivityTest{
     fun testActivity(){
         if (isFirstAppOpen){
             onView(withId(R.id.welcomeReg_layout)).check(matches(isDisplayed()))
+            sharedPref.edit()
+                .putBoolean(Constants.KEY_FIRST_TIME_ENTER, false)
+                .apply()
         } else{
             onView(withId(R.id.recipeTypes_layout)).check(matches(isDisplayed()))
         }
@@ -40,6 +64,6 @@ class MainActivityTest{
     @Test
     fun openProfileFragment(){
         onView(withId(R.id.profileFragment)).perform(click())
-        onView(withId(R.id.profile_layout)).check(matches(isDisplayed()))
+        onView(withId(R.id.welcomeReg_layout)).check(matches(isDisplayed()))
     }
 }

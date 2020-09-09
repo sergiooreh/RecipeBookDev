@@ -8,9 +8,9 @@ import dagger.hilt.android.testing.HiltTestApplication
 class HiltTestRunner: AndroidJUnitRunner() {
     override fun newApplication(
         cl: ClassLoader?,
-        className: String?,
+        className: String?,         //classname of actual Application class
         context: Context?
     ): Application {
-        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)  //replace it with our own
     }
 }
