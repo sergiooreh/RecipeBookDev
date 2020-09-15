@@ -38,9 +38,10 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.item1 -> Toast.makeText(applicationContext,"Clicked item 1",Toast.LENGTH_LONG).show()
-                R.id.item2 -> Toast.makeText(applicationContext,"Clicked item 2",Toast.LENGTH_LONG).show()
-                R.id.item3 -> Toast.makeText(applicationContext,"Clicked item 3",Toast.LENGTH_LONG).show()
+                R.id.settings_item -> navController.navigate(R.id.settingsFragment)
+                R.id.about_item -> navController.navigate(R.id.aboutUsFragment)
             }
+            drawerLayout.closeDrawer(GravityCompat.START, false)
             true
         }
 
@@ -57,7 +58,8 @@ class MainActivity : AppCompatActivity() {
             navHeader.nickName_drawer_tv.text = userViewModel.getUserEmail().substringBefore("@")
             navHeader.log_out_btn.visibility = View.VISIBLE
         }
-            navHeader.log_out_btn.setOnClickListener {
+
+        navHeader.log_out_btn.setOnClickListener {
             userViewModel.logOut()
             val navOptions = NavOptions.Builder()
                 .setLaunchSingleTop(true)

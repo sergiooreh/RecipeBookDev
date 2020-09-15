@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Main">
+        <ListPreference
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="language"
+            app:title="Language"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="eng"/>
+        <SwitchPreferenceCompat
+            app:key="theme"
+            app:title="Color Theme"
+            app:summaryOff="Light "
+            app:summaryOn="Dark" />
+        <SwitchPreferenceCompat
+            app:key="notification"
+            app:summaryOff="Notifications are disabled "
+            app:summaryOn="Notifications are enabled"
+            app:title="Notification" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Contacts">
+        <Preference
+            app:key="feedback"
+            android:title="Feedback"
+            android:summary="Click here to send an email to us">
+        </Preference>
+        <Preference
+            app:key="app"
+            android:title="App Version">
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

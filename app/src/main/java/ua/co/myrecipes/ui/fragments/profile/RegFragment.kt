@@ -5,13 +5,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_registration.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.viewmodels.UserViewModel
 
@@ -39,7 +37,7 @@ class RegFragment: Fragment(R.layout.fragment_registration) {
         val password = password_edt.text.toString()
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
-            CoroutineScope(Dispatchers.IO).launch {
+            lifecycleScope.launch {
                 try {
                     if (registration) {
                         userViewModel.registerUser(email, password)
