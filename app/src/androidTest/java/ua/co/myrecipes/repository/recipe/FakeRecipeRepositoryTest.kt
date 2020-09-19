@@ -12,7 +12,7 @@ class FakeRecipeRepositoryTest: RecipeRepositoryInt{
     private val recipeList = mutableListOf<Recipe>()
     private var shouldReturnError = false
 
-    override fun loadRecipes(recipeType: RecipeType): Flow<DataState<List<Recipe>>>  = flow {
+    override fun loadRecipesByType(recipeType: RecipeType): Flow<DataState<List<Recipe>>>  = flow {
         if (shouldReturnError){
             emit(DataState.Error(Exception("Error while loading recipes")))
         } else{

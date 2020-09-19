@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.repository.recipe.RecipeRepository
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
@@ -21,10 +20,20 @@ class RecipeViewModel @ViewModelInject constructor(
     val recipes: LiveData<DataState<List<Recipe>>>
         get() = _recipes
 
+    private var _recipe: MutableLiveData<DataState<Recipe>> = MutableLiveData()
+    val recipe: LiveData<DataState<Recipe>>
+        get() = _recipe
+
     fun loadRecipes(recipeType: RecipeType){
-        recipeRepository.loadRecipes(recipeType)
+        recipeRepository.loadRecipesByType(recipeType)
             .onEach { _recipes.value = it }
             .launchIn(viewModelScope)
+    }
+
+    fun loadRecipe(recipe: Recipe){
+       recipeRepository.loadRecipe(recipe)
+           .onEach { _recipe.value = it }
+           .launchIn(viewModelScope)
     }
 
     fun insertRecipe(recipe: Recipe){

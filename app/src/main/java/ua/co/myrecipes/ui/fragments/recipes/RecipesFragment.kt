@@ -2,8 +2,10 @@ package ua.co.myrecipes.ui.fragments.recipes
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipes.*
@@ -34,6 +36,10 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
                 progress_bar.visibility = View.GONE
                 start_srLayout.isRefreshing = false
             }
+        }
+
+        recipesAdapter.setOnItemClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_recipeFragment, bundleOf("recipe" to it))
         }
     }
 

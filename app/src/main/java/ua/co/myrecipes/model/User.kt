@@ -6,7 +6,7 @@ class User() {
     private lateinit var password: String
     lateinit var nickname: String
 
-    var recipe = listOf<Recipe>()
+    var recipe = listOf<Int>()
     var likedRecipes = listOf<Recipe>()
     var followers = listOf<User>()
     var following = listOf<User>()

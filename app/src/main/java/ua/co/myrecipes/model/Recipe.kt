@@ -9,6 +9,7 @@ import ua.co.myrecipes.util.RecipeType
 class Recipe() : Parcelable {
     var id: Int = 0
     var name = ""
+    var author = ""
     lateinit var type: RecipeType
     var durationPrepare = ""
     var ingredients = listOf<Ingredient>()

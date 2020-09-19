@@ -12,10 +12,12 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.viewmodels.UserViewModel
 import ua.co.myrecipes.util.DataState
+import ua.co.myrecipes.viewmodels.RecipeViewModel
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val userViewModel: UserViewModel by viewModels()
+    private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,6 +34,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
         getUser()
 
+        recipes_tv.setOnClickListener {
+            recipeViewModel
+        }
     }
 
     private fun getUser(){

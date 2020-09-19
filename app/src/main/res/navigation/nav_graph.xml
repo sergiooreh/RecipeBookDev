@@ -71,6 +71,9 @@
         <argument
             android:name="recipeType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_recipesFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/welcomeRegFragment"
@@ -104,4 +107,13 @@
         android:name="ua.co.myrecipes.ui.fragments.drawer.AboutUsFragment"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/recipeFragment"
+        android:name="ua.co.myrecipes.ui.fragments.recipes.RecipeFragment"
+        android:label="fragment_recipe"
+        tools:layout="@layout/fragment_recipe" >
+        <argument
+            android:name="recipe"
+            app:argType="ua.co.myrecipes.model.Recipe" />
+    </fragment>
 </navigation>

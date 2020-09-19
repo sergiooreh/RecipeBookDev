@@ -13,10 +13,12 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.theartofdev.edmodo.cropper.CropImage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -26,8 +28,11 @@ import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Constants.REQUEST_CODE
 import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.viewmodels.UserViewModel
 
+@AndroidEntryPoint
 class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions. PermissionCallbacks {
+    private val userViewModel: UserViewModel by viewModels()
     private var imgUri: Uri? = null
     var time = ""
 
@@ -76,6 +81,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
 
             val recipe = Recipe().apply {
                 name = recipe_name_et.text.toString().trim()
+                author = userViewModel.getUserEmail().substringBefore("@")
                 durationPrepare = time
                 type = type_spinner.selectedItem as RecipeType
                 img = imgUri.toString()

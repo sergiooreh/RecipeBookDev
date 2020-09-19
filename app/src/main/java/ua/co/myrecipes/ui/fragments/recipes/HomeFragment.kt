@@ -3,6 +3,7 @@ package ua.co.myrecipes.ui.fragments.recipes
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,9 +26,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPref.edit()
-            .putBoolean(KEY_FIRST_TIME_ENTER, false)
-            .apply()
+        sharedPref.edit {
+            putBoolean(KEY_FIRST_TIME_ENTER, false)         //new with Android KTX
+        }
 
         setupRecycleView()
         recipeTypeAdapter.differ.submitList(RecipeType.values().toMutableList())
