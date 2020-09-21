@@ -24,7 +24,17 @@ class UserRepository @Inject constructor(
 
     override fun getUserEmail() = firebaseAuth.currentUser?.email ?: ""
 
-    override fun getUser() = flow {
+    override fun getUser(userName: String) = flow {
+        emit(DataState.Loading)
+        try {
+            val user = collectionReference.whereEqualTo("nickname", userName).get().await().first().toObject(User::class.java)
+            emit(DataState.Success(user))
+        } catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    }
+
+    override fun getCurrentUser() = flow {
         emit(DataState.Loading)
         try {
             val user = collectionReference.document(getUserEmail()).get().await().toObject(User::class.java)
@@ -32,6 +42,18 @@ class UserRepository @Inject constructor(
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
+    }
+
+    override suspend fun followUser(userName: String) {
+        val userRecipes = (collectionReference.document(firebaseAuth.currentUser?.email!!).get().await().get("following") as List<String>)
+        userRecipes.toMutableList().add(userName)
+        collectionReference.document(firebaseAuth.currentUser?.email!!).update("following", userRecipes)
+
+        getFollower(userName)
+    }
+
+    fun getFollower(userName: String){
+        collectionReference.document()
     }
 
     override suspend fun logOut() = firebaseAuth.signOut()

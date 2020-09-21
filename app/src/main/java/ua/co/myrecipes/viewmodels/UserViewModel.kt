@@ -17,7 +17,9 @@ class UserViewModel @ViewModelInject constructor(
 
     fun getUserEmail() = userRepository.getUserEmail()
 
-    fun getUser() = userRepository.getUser().asLiveData()
+    fun getCurrentUser() = userRepository.getCurrentUser().asLiveData()
+
+    fun getUser(userName: String) = userRepository.getUser(userName).asLiveData()
 
     fun logOut() = viewModelScope.launch {
         userRepository.logOut()

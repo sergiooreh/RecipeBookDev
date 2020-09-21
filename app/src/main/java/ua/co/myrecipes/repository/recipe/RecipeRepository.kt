@@ -11,6 +11,8 @@ import kotlinx.coroutines.tasks.await
 import ua.co.myrecipes.db.recipes.RecipeCacheMapper
 import ua.co.myrecipes.db.recipes.RecipeDao
 import ua.co.myrecipes.model.Recipe
+import ua.co.myrecipes.util.Constants.COUNT_F
+import ua.co.myrecipes.util.Constants.RECIPE_F
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 import java.io.ByteArrayOutputStream
@@ -28,24 +30,36 @@ class RecipeRepository @Inject constructor(
     override fun loadRecipesByType(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
         emit(DataState.Loading)
         try {
-            val recipes = recipeRef.document(recipeType.name).collection("Recipe").get().await()
+            val recipes = recipeRef.document(recipeType.name).collection(RECIPE_F).get().await()
             emit(DataState.Success(recipes.toObjects(Recipe::class.java)))
-
-            //
-            val a = loadRecipesByAuthor()
-            val aa = 21
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
     }
 
-    override fun loadRecipesByAuthor() = flow<DataState<List<Recipe>>> {
+    override fun loadRecipesCurrentUser() = flow<DataState<List<Recipe>>> {
         emit(DataState.Loading)
         val list = mutableListOf<Recipe>()
         try {
-            val ids = userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe",List::class.java)
-            for (id in ids!!){
-                list.add(recipeRef.whereEqualTo("id",id).get().await().first().toObject(Recipe::class.java))
+            val ids = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<*, *>)
+            for (id in ids){
+                list.add(recipeRef.document(id.value.toString()).collection(RECIPE_F)
+                    .document(id.key.toString()).get().await().toObject(Recipe::class.java)!!)
+            }
+            emit(DataState.Success(list))
+        } catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    }
+
+    override fun loadRecipesUser(userName: String) = flow<DataState<List<Recipe>>> {
+        emit(DataState.Loading)
+        val list = mutableListOf<Recipe>()
+        try {
+            val ids = (userRef.whereEqualTo("nickname",userName).get().await().first().get("recipe") as HashMap<*, *>)
+            for (id in ids){
+                list.add(recipeRef.document(id.value.toString()).collection(RECIPE_F)
+                    .document(id.key.toString()).get().await().toObject(Recipe::class.java)!!)
             }
             emit(DataState.Success(list))
         } catch (e: Exception){
@@ -56,8 +70,8 @@ class RecipeRepository @Inject constructor(
     override fun loadRecipe(recipe: Recipe) =  flow<DataState<Recipe>> {
         emit(DataState.Loading)
         try {
-            val recipeItem = recipeRef.document(recipe.type.name).collection("Recipe")
-                .document(recipe.name).get().await()
+            val recipeItem = recipeRef.document(recipe.type.name).collection(RECIPE_F)
+                .document(recipe.id.toString()).get().await()
             emit(DataState.Success(recipeItem.toObject(Recipe::class.java)!!))
         } catch (e: Exception){
             emit(DataState.Error(e))
@@ -73,13 +87,16 @@ class RecipeRepository @Inject constructor(
             recipe.img = url.result.toString()
         }
         recipe.id = increaseCount()!!
-        userRef.document(firebaseAuth.currentUser?.email!!).update("recipe", FieldValue.arrayUnion(recipe.id))
-        recipeRef.document(recipe.type.name).collection("Recipe").document(recipe.name).set(recipe)
+
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<String, String>)
+        userRecipes[recipe.id.toString()] = recipe.type.name
+        userRef.document(firebaseAuth.currentUser?.email!!).update("recipe", userRecipes)
+        recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id.toString()).set(recipe)
     }
 
     private suspend fun increaseCount(): Int?{
-        val incrementId = statRef.document("Recipe").get().await().get("Count", Int::class.java)?.plus(1)
-        statRef.document("Recipe").update("Count", incrementId)
+        val incrementId = statRef.document(RECIPE_F).get().await().get(COUNT_F, Int::class.java)?.plus(1)
+        statRef.document(RECIPE_F).update(COUNT_F, incrementId)
         return incrementId
     }
 

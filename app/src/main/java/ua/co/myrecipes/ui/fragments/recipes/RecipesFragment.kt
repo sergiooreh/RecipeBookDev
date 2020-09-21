@@ -2,6 +2,7 @@ package ua.co.myrecipes.ui.fragments.recipes
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,18 +16,31 @@ import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment(R.layout.fragment_recipes){
     private lateinit var recipesAdapter: RecipesAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecycleView()
-        val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
-        recipeViewModel.loadRecipes(type)
+
+        val recipesAuthor = arguments?.getString("recipeAuthor") ?: ""
+
+        if (recipesAuthor!=""){
+            if (recipesAuthor == userViewModel.getUserEmail()){
+                recipeViewModel.loadRecipesCurrentUser()
+            } else{
+                recipeViewModel.loadRecipesUser(recipesAuthor)
+            }
+        } else{
+            val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
+                recipeViewModel.loadRecipes(type)
+        }
 
         getRecipes()
 
@@ -53,13 +67,17 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
                 }
                 is DataState.Error -> {
                     displayProgressBar(false)
-//                    displayError(dataState.exception.message)
+                    displayError(it.exception.message)
                 }
                 is DataState.Loading -> {
                     displayProgressBar(true)
                 }
             }
         })
+    }
+
+    private fun displayError(message: String?) {
+        Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
     }
 
     /*private fun displayError(message: String?){

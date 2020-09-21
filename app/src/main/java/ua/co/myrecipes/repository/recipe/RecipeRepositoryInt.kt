@@ -11,9 +11,11 @@ interface RecipeRepositoryInt {
 
     fun loadRecipesByType(recipeType: RecipeType): Flow<DataState<List<Recipe>>>
 
-    fun loadRecipesByAuthor(): Flow<DataState<List<Recipe>>>
+    fun loadRecipesCurrentUser(): Flow<DataState<List<Recipe>>>
 
     fun loadRecipe(recipe: Recipe): Flow<DataState<Recipe>>
 
     suspend fun addRecipe(recipe: Recipe)
+
+    fun loadRecipesUser(userName: String): Flow<DataState<List<Recipe>>>
 }

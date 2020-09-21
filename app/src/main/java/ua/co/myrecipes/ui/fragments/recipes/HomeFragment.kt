@@ -50,7 +50,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             layoutManager = LinearLayoutManager(activity)
             //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-
     }
 
 }

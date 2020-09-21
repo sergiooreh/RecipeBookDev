@@ -14,8 +14,10 @@ interface UserRepositoryInt {
 
     fun getUserEmail(): String
 
-    fun getUser(): Flow<DataState<User>>
+    fun getUser(userName: String): Flow<DataState<User>>
 
+    fun getCurrentUser(): Flow<DataState<User>>
 
+    suspend fun followUser(userName: String)
 
 }

@@ -30,6 +30,18 @@ class RecipeViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun loadRecipesCurrentUser(){
+        recipeRepository.loadRecipesCurrentUser()
+            .onEach { _recipes.value = it }
+            .launchIn(viewModelScope)
+    }
+
+    fun loadRecipesUser(userName: String){
+        recipeRepository.loadRecipesUser(userName)
+            .onEach { _recipes.value = it }
+            .launchIn(viewModelScope)
+    }
+
     fun loadRecipe(recipe: Recipe){
        recipeRepository.loadRecipe(recipe)
            .onEach { _recipe.value = it }

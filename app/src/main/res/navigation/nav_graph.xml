@@ -21,6 +21,12 @@
         <action
             android:id="@+id/action_profileFragment_to_regFragment"
             app:destination="@id/regFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/newRecipeFragment"
@@ -74,6 +80,9 @@
         <action
             android:id="@+id/action_recipesFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <argument
+            android:name="recipeAuthor"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/welcomeRegFragment"
@@ -115,5 +124,8 @@
         <argument
             android:name="recipe"
             app:argType="ua.co.myrecipes.model.Recipe" />
+        <action
+            android:id="@+id/action_recipeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

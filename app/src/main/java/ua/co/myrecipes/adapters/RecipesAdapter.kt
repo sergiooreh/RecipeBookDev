@@ -29,6 +29,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>()  {
         val recipe = differ.currentList[position]
         holder.itemView.apply {
             recipeName_tv.text = recipe.name
+            recipeAuthor_tv.text = recipe.author
             duration_tv.text = recipe.durationPrepare
             Picasso.get()
                 .load(recipe.img)

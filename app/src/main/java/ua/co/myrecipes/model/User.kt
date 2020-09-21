@@ -6,10 +6,10 @@ class User() {
     private lateinit var password: String
     lateinit var nickname: String
 
-    var recipe = listOf<Int>()
+    var recipe = mutableMapOf<String,String>()
     var likedRecipes = listOf<Recipe>()
     var followers = listOf<User>()
-    var following = listOf<User>()
+    var following = listOf<String>()
 
     constructor(_email: String, _password: String) : this() {
         this.email = _email

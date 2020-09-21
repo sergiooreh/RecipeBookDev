@@ -9,7 +9,8 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
 
 class IngredientsAdapter(
-    var items: ArrayList<Ingredient>,
+    var items: List<Ingredient>,
+    private val isForAddRecipe: Boolean = true
 ): RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>() {
 
     class IngredientViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
@@ -28,8 +29,14 @@ class IngredientsAdapter(
         holder.itemView.tvAmount.text = "${currentIngredientItem.amount}"
         holder.itemView.tvUnit.text = currentIngredientItem.unit
 
+        if (!isForAddRecipe){
+            holder.itemView.ivDelete.visibility = View.GONE
+            holder.itemView.ivPlus.visibility = View.GONE
+            holder.itemView.ivMinus.visibility = View.GONE
+        }
+
         holder.itemView.ivDelete.setOnClickListener {
-            items.remove(currentIngredientItem)
+            items.toMutableList().remove(currentIngredientItem)
             notifyItemRemoved(position)
         }
 
