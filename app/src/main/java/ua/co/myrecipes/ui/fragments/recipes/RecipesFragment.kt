@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipes.*
 import ua.co.myrecipes.R
@@ -17,12 +18,15 @@ import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.viewmodels.UserViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment(R.layout.fragment_recipes){
     private lateinit var recipesAdapter: RecipesAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
+    @Inject
+    lateinit var requestManager: RequestManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,7 +93,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
     }
 
     private fun setupRecycleView() {
-        recipesAdapter = RecipesAdapter()
+        recipesAdapter = RecipesAdapter(requestManager)
         recipes_rv.apply {
             adapter = recipesAdapter
             layoutManager = GridLayoutManager(requireContext(),2)

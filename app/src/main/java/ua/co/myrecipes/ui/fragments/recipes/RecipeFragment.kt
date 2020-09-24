@@ -8,9 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe.*
+import kotlinx.android.synthetic.main.item_recipes.view.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.adapters.IngredientsAdapter
@@ -18,6 +19,7 @@ import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.viewmodels.RecipeViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
@@ -25,6 +27,9 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     private lateinit var directionsAdapter: DirectionsAdapter
     private lateinit var ingredientsAdapter: IngredientsAdapter
+
+    @Inject
+    lateinit var glide: RequestManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,10 +42,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         recipeAuthor_tv.setOnClickListener {
             findNavController().navigate(R.id.action_recipeFragment_to_profileFragment, bundleOf("userName" to recipeAuthor_tv.text))
         }
-
-        follow_btn.setOnClickListener {
-
-        }
     }
 
     private fun getRecipe(){
@@ -51,11 +52,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                         recipeName_tv.text = name
                         recipeAuthor_tv.text = author
                         recipeTime_tv.text = durationPrepare
-                        Picasso.get()
-                            .load(img)
-                            .fit()
-                            .placeholder(R.drawable.ic_broken)
-                            .into(recipeImg_img)
+                        glide.load(img).into(recipeImg_img)
+
                         setupRecycleView(ingredients,directions)
                     }
                     displayProgressBar(false)

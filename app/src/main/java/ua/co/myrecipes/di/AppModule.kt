@@ -2,11 +2,14 @@ package ua.co.myrecipes.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import ua.co.myrecipes.R
 import ua.co.myrecipes.util.Constants.KEY_FIRST_TIME_ENTER
 import ua.co.myrecipes.util.Constants.SHARED_PREFERENCES_NAME
 import javax.inject.Singleton
@@ -23,4 +26,15 @@ object AppModule {
     @Provides
     fun provideFirstTimeEnter(sharedPreferences: SharedPreferences) =
         sharedPreferences.getBoolean(KEY_FIRST_TIME_ENTER, true)
+
+    @Singleton
+    @Provides
+    fun provideGlideInstance(
+        @ApplicationContext context: Context
+    ) = Glide.with(context).setDefaultRequestOptions(
+        RequestOptions()
+            .placeholder(R.drawable.ic_broken)
+            .error(R.drawable.ic_broken)
+            .fitCenter()
+    )
 }

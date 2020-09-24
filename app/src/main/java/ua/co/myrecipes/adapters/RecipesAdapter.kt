@@ -6,12 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_recipes.view.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Recipe
+import javax.inject.Inject
 
-class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>()  {
+class RecipesAdapter @Inject constructor(
+    private val glide: RequestManager
+): RecyclerView.Adapter<RecipesAdapter.MyViewHolder>()  {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
@@ -31,11 +34,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>()  {
             recipeName_tv.text = recipe.name
             recipeAuthor_tv.text = recipe.author
             duration_tv.text = recipe.durationPrepare
-            Picasso.get()
-                .load(recipe.img)
-                .fit()
-                .placeholder(R.drawable.ic_broken)
-                .into(imageView)
+            glide.load(recipe.img).into(imageView)
 
             setOnClickListener {
                 onItemClickListener?.let { it(recipe) }

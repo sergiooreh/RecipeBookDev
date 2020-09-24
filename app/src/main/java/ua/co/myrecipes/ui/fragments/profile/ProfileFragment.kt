@@ -65,9 +65,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 val user = it.data
                 nickname_tv.text = user.nickname
                 recipes_tv.text = user.recipe.size.toString()
-                followers_tv.text = user.followers.size.toString()
-                following_tv.text = user.following.size.toString()
-                liked_tv.text = user.likedRecipes.size.toString()
             }
             is DataState.Error -> {
                 displayProgressBar(false)

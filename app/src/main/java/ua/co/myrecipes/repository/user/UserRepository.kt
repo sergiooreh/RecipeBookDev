@@ -44,19 +44,6 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun followUser(userName: String) {
-        val userRecipes = (collectionReference.document(firebaseAuth.currentUser?.email!!).get().await().get("following") as List<String>)
-        userRecipes.toMutableList().add(userName)
-        collectionReference.document(firebaseAuth.currentUser?.email!!).update("following", userRecipes)
-
-        getFollower(userName)
-    }
-
-    fun getFollower(userName: String){
-        collectionReference.document()
-    }
-
     override suspend fun logOut() = firebaseAuth.signOut()
-
 
 }
