@@ -44,6 +44,10 @@ class UserRepository @Inject constructor(
         }
     }
 
+    override fun updateAbout(about: String){
+        collectionReference.document(getUserEmail()).update("about",about)
+    }
+
     override suspend fun logOut() = firebaseAuth.signOut()
 
 }

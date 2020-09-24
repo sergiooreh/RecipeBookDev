@@ -8,8 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_registration.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,7 +17,7 @@ import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WelcomeRegFragment : Fragment(R.layout.fragment_registration) {
+class WelcomeRegFragment : Fragment(R.layout.fragment_welcome) {
     @set:Inject
     var isFirstAppOpen = true
 
@@ -28,36 +27,33 @@ class WelcomeRegFragment : Fragment(R.layout.fragment_registration) {
         super.onViewCreated(view, savedInstanceState)
 
         if (!isFirstAppOpen){
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
         }
 
         tvSkip.setOnClickListener {
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
         }
 
         tvLogIn.setOnClickListener {
-            signInUp(false)
+            signIn()
         }
 
         signup_btn.setOnClickListener {
-            signInUp(true)
+            findNavController().navigate(R.id.action_welcomeRegFragment_to_registrationFragment)
         }
     }
 
-    private fun signInUp(registration: Boolean){
+    private fun signIn(){
         val email = email_edt.text.toString()
         val password = password_edt.text.toString()
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
             lifecycleScope.launch {
                 try {
-                    if (registration) {
-                        userViewModel.registerUser(email, password)
-                    } else {
-                        userViewModel.signInUser(email, password)
-                    }
+                    userViewModel.signInUser(email, password)
                     withContext(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
+                        findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
+                        activity?.recreate()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {

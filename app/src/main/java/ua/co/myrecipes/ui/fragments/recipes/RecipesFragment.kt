@@ -35,16 +35,19 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
 
         val recipesAuthor = arguments?.getString("recipeAuthor") ?: ""
 
-        if (recipesAuthor!=""){
-            if (recipesAuthor == userViewModel.getUserEmail()){
-                recipeViewModel.loadRecipesCurrentUser()
+        when(recipesAuthor){
+            "" -> {
+                val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
+                recipeViewModel.loadRecipes(type)
+            }
+            userViewModel.getUserEmail() -> recipeViewModel.loadRecipesCurrentUser()
+            else -> if (recipesAuthor.startsWith("@")) {
+                recipeViewModel.loadLikedRecipes()
             } else{
                 recipeViewModel.loadRecipesUser(recipesAuthor)
             }
-        } else{
-            val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
-                recipeViewModel.loadRecipes(type)
         }
+
 
         getRecipes()
 

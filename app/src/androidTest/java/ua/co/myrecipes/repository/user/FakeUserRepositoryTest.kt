@@ -25,7 +25,15 @@ class FakeUserRepositoryTest: UserRepositoryInt {
         TODO("Not yet implemented")
     }
 
-    override fun getUser(): Flow<DataState<User>> {
+    override fun getUser(userName: String): Flow<DataState<User>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCurrentUser(): Flow<DataState<User>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateAbout(about: String) {
         TODO("Not yet implemented")
     }
 }

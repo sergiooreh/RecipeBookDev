@@ -17,4 +17,6 @@ interface UserRepositoryInt {
     fun getUser(userName: String): Flow<DataState<User>>
 
     fun getCurrentUser(): Flow<DataState<User>>
+
+    fun updateAbout(about: String)
 }

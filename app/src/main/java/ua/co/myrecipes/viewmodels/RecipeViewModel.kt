@@ -3,9 +3,11 @@ package ua.co.myrecipes.viewmodels
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
 import ua.co.myrecipes.util.DataState
@@ -36,6 +38,12 @@ class RecipeViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun loadLikedRecipes(){
+        recipeRepository.loadMyLikedRecipes()
+            .onEach { _recipes.value = it }
+            .launchIn(viewModelScope)
+    }
+
     fun loadRecipesUser(userName: String){
         recipeRepository.loadRecipesUser(userName)
             .onEach { _recipes.value = it }
@@ -53,5 +61,19 @@ class RecipeViewModel @ViewModelInject constructor(
             recipeRepository.addRecipe(recipe)
         }
     }
+
+    fun addLikedRecipe(recipe: Recipe) = viewModelScope.launch {
+        recipeRepository.addLikedRecipe(recipe)
+    }
+
+    fun removeLikedRecipe(recipe: Recipe) = viewModelScope.launch {
+        recipeRepository.removeLikedRecipe(recipe)
+    }
+
+    fun isLikedRecipe(recipe: Recipe) = viewModelScope.async {
+        recipeRepository.isLikedRecipe(recipe)
+    }
+
+
 
 }

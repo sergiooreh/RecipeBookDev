@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -34,10 +35,20 @@ import ua.co.myrecipes.viewmodels.UserViewModel
 class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions. PermissionCallbacks {
     private val userViewModel: UserViewModel by viewModels()
     private var imgUri: Uri? = null
-    var time = ""
+    private var time = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (userViewModel.getUserEmail() == ""){
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.homeFragment, false)
+                .build()
+            findNavController().navigate(
+                R.id.action_newRecipeFragment_to_regFragment,
+                savedInstanceState,
+                navOptions)
+        }
 
         add_recipe_img.setOnClickListener {
             if (!Permissions.hasStoragePermissions(requireContext())){

@@ -25,5 +25,5 @@ class UserViewModel @ViewModelInject constructor(
         userRepository.logOut()
     }
 
-
+    fun updateAbout(about: String) = userRepository.updateAbout(about)
 }

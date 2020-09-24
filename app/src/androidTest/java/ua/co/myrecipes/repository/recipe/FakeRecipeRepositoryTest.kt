@@ -20,8 +20,36 @@ class FakeRecipeRepositoryTest: RecipeRepositoryInt{
         }
     }
 
+    override fun loadRecipesCurrentUser(): Flow<DataState<List<Recipe>>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun loadMyLikedRecipes(): Flow<DataState<List<Recipe>>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun addLikedRecipe(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun removeLikedRecipe(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
+
+    override fun loadRecipe(recipe: Recipe): Flow<DataState<Recipe>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun addRecipe(recipe: Recipe) {
         recipeList.add(recipe)
+    }
+
+    override fun loadRecipesUser(userName: String): Flow<DataState<List<Recipe>>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun isLikedRecipe(recipe: Recipe): Boolean {
+        TODO("Not yet implemented")
     }
 
     fun setShouldReturnError(value: Boolean){

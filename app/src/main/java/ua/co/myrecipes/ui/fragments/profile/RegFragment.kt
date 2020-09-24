@@ -8,13 +8,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_registration.*
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.coroutines.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
-class RegFragment: Fragment(R.layout.fragment_registration) {
+class RegFragment: Fragment(R.layout.fragment_welcome) {
     private val userViewModel: UserViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,26 +24,22 @@ class RegFragment: Fragment(R.layout.fragment_registration) {
         logIn_btn.visibility = View.VISIBLE
 
         signup_btn.setOnClickListener {
-            signInUp(true)
+            findNavController().navigate(R.id.action_regFragment_to_registrationFragment)
         }
 
         logIn_btn.setOnClickListener {
-            signInUp(false)
+            signIn()
         }
     }
 
-    private fun signInUp(registration: Boolean){
+    private fun signIn(){
         val email = email_edt.text.toString()
         val password = password_edt.text.toString()
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
             lifecycleScope.launch {
                 try {
-                    if (registration) {
-                        userViewModel.registerUser(email, password)
-                    } else {
-                        userViewModel.signInUser(email, password)
-                    }
+                    userViewModel.signInUser(email, password)
                     withContext(Dispatchers.Main) {
                         findNavController().navigate(R.id.action_regFragment_to_profileFragment)
                         activity?.recreate()

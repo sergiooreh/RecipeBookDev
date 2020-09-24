@@ -40,6 +40,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_newRecipeFragment_to_regFragment"
+            app:destination="@id/regFragment" />
     </fragment>
     <fragment
         android:id="@+id/newRecipeIngrFragment"
@@ -88,13 +91,16 @@
         android:id="@+id/welcomeRegFragment"
         android:name="ua.co.myrecipes.ui.fragments.profile.WelcomeRegFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
+        tools:layout="@layout/fragment_welcome" >
         <action
-            android:id="@+id/action_registrationFragment_to_homeFragment"
+            android:id="@+id/action_welcomeFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/welcomeRegFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcomeRegFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/regFragment"
@@ -106,6 +112,9 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/regFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_regFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -127,5 +136,14 @@
         <action
             android:id="@+id/action_recipeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="ua.co.myrecipes.ui.fragments.profile.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

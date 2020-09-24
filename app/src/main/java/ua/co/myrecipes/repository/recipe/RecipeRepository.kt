@@ -52,6 +52,21 @@ class RecipeRepository @Inject constructor(
         }
     }
 
+    override fun loadMyLikedRecipes() = flow<DataState<List<Recipe>>> {
+        emit(DataState.Loading)
+        val list = mutableListOf<Recipe>()
+        try {
+            val ids = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<*, *>)
+            for (id in ids){
+                list.add(recipeRef.document(id.value.toString()).collection(RECIPE_F)
+                    .document(id.key.toString()).get().await().toObject(Recipe::class.java)!!)
+            }
+            emit(DataState.Success(list))
+        } catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    }
+
     override fun loadRecipesUser(userName: String) = flow<DataState<List<Recipe>>> {
         emit(DataState.Loading)
         val list = mutableListOf<Recipe>()
@@ -91,7 +106,25 @@ class RecipeRepository @Inject constructor(
         val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<String, String>)
         userRecipes[recipe.id.toString()] = recipe.type.name
         userRef.document(firebaseAuth.currentUser?.email!!).update("recipe", userRecipes)
+
         recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id.toString()).set(recipe)
+    }
+
+    override suspend fun addLikedRecipe(recipe: Recipe){
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<String, String>)
+        userRecipes[recipe.id.toString()] = recipe.type.name
+        userRef.document(firebaseAuth.currentUser?.email!!).update("likedRecipes", userRecipes)
+    }
+
+    override suspend fun removeLikedRecipe(recipe: Recipe){
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<String, String>)
+        userRecipes.remove(recipe.id.toString())
+        userRef.document(firebaseAuth.currentUser?.email!!).update("likedRecipes", userRecipes)
+    }
+
+    override suspend fun isLikedRecipe(recipe: Recipe): Boolean{
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<String, String>)
+        return userRecipes.keys.contains(recipe.id.toString())
     }
 
     private suspend fun increaseCount(): Int?{

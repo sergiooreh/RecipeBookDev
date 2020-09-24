@@ -1,13 +1,18 @@
 package ua.co.myrecipes.ui.fragments.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.User
@@ -30,25 +35,50 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             findNavController().navigate(
                 R.id.action_profileFragment_to_regFragment,
                 savedInstanceState,
-                navOptions
-            )
+                navOptions)
         }
         getUser()
 
-        recipes_tv.setOnClickListener {
+        log_out_btn2.setOnClickListener {
+            userViewModel.logOut()
+            val navOptions = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .build()
+            findNavController().navigate(R.id.regFragment,savedInstanceState,navOptions)
+            activity?.recreate()
+        }
+
+        userRecipes_lnr.setOnClickListener {
+            if (recipes_tv.toString()=="0"){
+                Toast.makeText(requireContext(),"You don't have your own recipes",Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             findNavController().navigate(R.id.action_profileFragment_to_recipesFragment, bundleOf("recipeAuthor" to userName))
+        }
+
+        linearLayoutLiked.setOnClickListener {
+            if (liked_tv.text=="0"){
+                Toast.makeText(requireContext(),"You don't have liked recipes",Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            findNavController().navigate(R.id.action_profileFragment_to_recipesFragment, bundleOf("recipeAuthor" to "@".plus(userName)))
         }
     }
 
     private fun getUser(){
-        if (userName!=""){
+        if (userName!="" && userName!=userViewModel.getUserEmail().substringBefore("@")){
             userViewModel.getUser(userName).observe(viewLifecycleOwner, {
+                aboutMe_img.visibility = View.GONE
+                log_out_btn2.visibility = View.GONE
                 handlingStates(it)
             })
         } else{
             userViewModel.getCurrentUser().observe(viewLifecycleOwner, {
                 handlingStates(it)
                 userName = userViewModel.getUserEmail().substringBefore("@")
+                constraintLayout2.setOnClickListener {
+                    actNumberDialog()
+                }
             })
         }
 
@@ -65,6 +95,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 val user = it.data
                 nickname_tv.text = user.nickname
                 recipes_tv.text = user.recipe.size.toString()
+                liked_tv.text = user.likedRecipes.size.toString()
+                userAbout_tv.text = user.about
             }
             is DataState.Error -> {
                 displayProgressBar(false)
@@ -73,6 +105,20 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             is DataState.Loading -> {
                 displayProgressBar(true)
             }
+        }
+    }
+
+    private fun actNumberDialog() {
+        val editText = EditText(requireContext())
+        editText.setText(userAbout_tv.text)
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("About You")
+            setView(editText)
+            setPositiveButton("OK") { _, _ ->
+                userViewModel.updateAbout(editText.text.toString())
+                userAbout_tv.text = editText.text.toString()}
+            setNegativeButton("Cancel") { dialogInterface, _ -> dialogInterface.cancel() }
+            show()
         }
     }
 }
