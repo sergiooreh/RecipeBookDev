@@ -43,13 +43,13 @@ class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
 
         finish_add_recipe_btn.setOnClickListener {
             if (directList.isEmpty()){
-                Snackbar.make(it,"Add directions", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it,R.string.add_directions, Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (recipe != null) {
                 finish_add_recipe_btn.isClickable = false
                 recipeViewModel.insertRecipe(recipe)
-                Snackbar.make(it,"Recipe added", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(it, R.string.recipe_added, Snackbar.LENGTH_LONG).show()
                 findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
             }
         }

@@ -1,5 +1,6 @@
 package ua.co.myrecipes.repository.user
 
+import android.graphics.Bitmap
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.flow.Flow
 import ua.co.myrecipes.model.User
@@ -14,9 +15,13 @@ interface UserRepositoryInt {
 
     fun getUserEmail(): String
 
+    suspend fun getUserImg(): String
+
     fun getUser(userName: String): Flow<DataState<User>>
 
     fun getCurrentUser(): Flow<DataState<User>>
 
     fun updateAbout(about: String)
+
+    suspend fun updateImage(imgBitmap: Bitmap)
 }

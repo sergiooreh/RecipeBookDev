@@ -40,7 +40,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-        activity?.title = "RecipeBookApp"
+        activity?.title = getString(R.string.app_name)
     }
 
     private fun setupRecycleView() {

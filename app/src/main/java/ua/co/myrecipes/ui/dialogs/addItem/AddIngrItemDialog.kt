@@ -22,9 +22,9 @@ class AddIngrItemDialog(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_add_ingridient_item)
-        this.setTitle("New ingredient")
+        this.setTitle(R.string.new_ingredient)
 
-        val types = arrayOf("","slice","tsp","cup","spoon","grams","ml")
+        val types = arrayOf("","slice","tsp","cup","spoon","grams","ml")                                                    ////
         unit_spinner.apply {
             adapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, types)
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -44,7 +44,7 @@ class AddIngrItemDialog(
             }
 
             if (ingredient.name.isEmpty()){
-                Toast.makeText(context,"Please, enter the ingredient", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,R.string.please_enter_the_ingredient, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

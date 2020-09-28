@@ -9,7 +9,7 @@
     android:id="@+id/profile_layout"
     android:background="#fafafa"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/linearLayoutLiked"
@@ -32,11 +32,11 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/textViewddd"
+                android:id="@+id/textView40"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Liked Recipes  "
+                android:text="@string/liked_recipes"
                 android:textSize="24sp" />
 
             <TextView
@@ -59,7 +59,7 @@
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:drawableRight="@drawable/ic_exit"
-        android:text="Log out"
+        android:text="@string/Log_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -68,8 +68,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_imv"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/userlogo"
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Recipes  "
+                android:text="@string/recipes"
                 android:textSize="24sp" />
 
             <TextView
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginTop="16dp"
-            android:text="About Me:"
+            android:text="@string/about_me"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/aboutMe_img"
             app:layout_constraintTop_toTopOf="parent" />
@@ -190,7 +190,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="15dp"
-            android:hint="No information..."
+            android:hint="@string/no_information"
             android:textSize="18sp"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"

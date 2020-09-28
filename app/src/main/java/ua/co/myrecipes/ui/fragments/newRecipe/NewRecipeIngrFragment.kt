@@ -42,7 +42,7 @@ class NewRecipeIngrFragment : Fragment(R.layout.fragment_new_recipe_ingr) {
 
         to_directions_fab.setOnClickListener {
             if (ingrList.isEmpty()){
-                Snackbar.make(it,"Add ingredients",Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it,R.string.add_ingredients,Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             findNavController().navigate(R.id.action_newRecipeIngrFragment_to_newRecipeDirecFragment, bundleOf("recipe" to recipe))

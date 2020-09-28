@@ -9,7 +9,7 @@ class User() {
     private lateinit var password: String
     lateinit var nickname: String
     var about: String = ""
-    lateinit var img: String
+    var img: String = ""
 
     @get:Exclude
     var imgBitmap: Bitmap? = null

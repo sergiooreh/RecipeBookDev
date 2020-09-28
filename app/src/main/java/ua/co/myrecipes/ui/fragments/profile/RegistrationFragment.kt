@@ -47,7 +47,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                         }
                     }
                 }
-            } else Toast.makeText(context,"Your passwords do not match",Toast.LENGTH_LONG).show()
+            } else Toast.makeText(context,R.string.your_passwords_do_not_match,Toast.LENGTH_LONG).show()
         }
     }
 

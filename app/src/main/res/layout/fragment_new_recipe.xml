@@ -23,9 +23,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
-        android:text="Time"
+        android:text="@string/time"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/textView4"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/recipe_name_til"
@@ -44,7 +44,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="Recipe name"
+            android:hint="@string/recipe_name"
             android:inputType="textPersonName"
             android:textAlignment="textStart"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
-        android:text="Img"
+        android:text="@string/img"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prep_time_btn" />
 
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Category:"
+        android:text="@string/category"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipe_name_til" />
@@ -108,7 +108,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="00:00"
         android:textSize="30sp"
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@+id/prep_time_btn"

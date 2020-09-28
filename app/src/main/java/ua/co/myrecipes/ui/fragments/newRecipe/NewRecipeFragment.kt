@@ -81,12 +81,12 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
             }
 
             if (new_time_tv.visibility == View.GONE){
-                Snackbar.make(it,"Choose time", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it, R.string.choose_time, Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (recipe_img.drawable == null){
-                Snackbar.make(it,"Insert image", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it, R.string.insert_image, Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -99,22 +99,18 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                 imgBitmap = (recipe_img.drawable as BitmapDrawable).bitmap
             }
 
-            findNavController().navigate(
-                R.id.action_newRecipeFragment_to_newRecipeIngrFragment, bundleOf(
-                    "recipe" to recipe
-                )
-            )
+            findNavController().navigate(R.id.action_newRecipeFragment_to_newRecipeIngrFragment, bundleOf("recipe" to recipe))
         }
     }
 
     override fun onResume() {
         super.onResume()
-        activity?.title = "Add new recipe"
+        activity?.title = getString(R.string.add_new_recipe)
     }
 
     private fun validateInput(string: String, textInputLayout: TextInputLayout)=
         if (string.isEmpty()){
-            textInputLayout.error = "The field can't be empty"
+            textInputLayout.error = getString(R.string.the_field_cant_be_empty)
             false
         } else {
             textInputLayout.error = null
@@ -159,7 +155,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         if (Permissions.hasStoragePermissions(requireContext())){ return }
         EasyPermissions.requestPermissions(
             this,
-            "You have to accept permission to load image",
+            getString(R.string.you_have_to_accept_permission_to_load_image),
             Constants.REQUEST_CODE_EXTERNAL_STORAGE,
             android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }

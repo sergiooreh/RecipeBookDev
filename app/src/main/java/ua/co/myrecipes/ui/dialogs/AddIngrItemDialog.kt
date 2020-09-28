@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.dialog_add_ingridient_item.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
 
-class AddIngrItemDialog(
+class AddIngrItemDialog(                                                /////
     context: Context,
     private var addDialogListener: AddDialogListener
 ): AppCompatDialog(context) {

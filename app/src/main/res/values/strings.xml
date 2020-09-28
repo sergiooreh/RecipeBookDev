@@ -1,21 +1,68 @@
 <resources>
     <string name="app_name">RecipeBookApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="app_version">App version</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="ADD">ADD</string>
+    <string name="Direction">Direction</string>
+    <string name="CANCEL">CANCEL</string>
+    <string name="Amount">Amount</string>
+    <string name="Name">Name</string>
+    <string name="Log_out">Log out</string>
+    <string name="guest">guest</string>
+    <string name="Welcome">Welcome,</string>
+    <string name="time">Time</string>
+    <string name="recipe_name">Recipe name</string>
+    <string name="img">Img</string>
+    <string name="category">Category:</string>
+    <string name="directions">Directions:</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="liked_recipes">Liked Recipes</string>
+    <string name="recipes">Recipes</string>
+    <string name="about_me">About Me:</string>
+    <string name="about_you">About You</string>
+    <string name="no_information">No information...</string>
+    <string name="author">Author:</string>
+    <string name="time_">Time:</string>
+    <string name="create_account">Create Account</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="create">Create</string>
+    <string name="welcome_nplease_log_in_to_have_profile">Welcome!\nPlease Log In To Have Profile</string>
+    <string name="log_in">Log In</string>
+    <string name="skip">Skip</string>
+    <string name="recipe_added">Recipe added</string>
+    <string name="add_directions">Add directions</string>
+    <string name="choose_time">Choose time</string>
+    <string name="insert_image">Insert image</string>
+    <string name="add_new_recipe">Add new recipe</string>
+    <string name="the_field_cant_be_empty">The field can\'t be empty</string>
+    <string name="you_have_to_accept_permission_to_load_image">You have to accept permission to load image</string>
+    <string name="you_dont_have_your_own_recipes">You don\'t have your own recipes</string>
+    <string name="you_dont_have_liked_recipes">You don\'t have liked recipes</string>
+    <string name="add_ingredients">Add ingredients</string>
+    <string name="your_passwords_do_not_match">Your passwords do not match</string>
+    <string name="new_direction">New direction</string>
+    <string name="new_ingredient">New ingredient</string>
+    <string name="please_enter_the_direction">Please, enter the direction</string>
+    <string name="please_enter_the_ingredient">Please, enter the ingredient</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="unit" translatable="false">Unit</string>
+    <string name="open" translatable="false">Open</string>
+    <string name="close" translatable="false">Close</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="new_recipe">New recipe</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+    <string name="language">Language</string>
+    <string name="color_theme">Color Theme</string>
+    <string name="notification">Notifications</string>
+    <string name="notifications_are_disabled">Notifications are disabled</string>
+    <string name="notifications_are_enabled">Notifications are enabled</string>
+    <string name="contacts">Contacts</string>
+    <string name="feedback">Feedback</string>
+    <string name="click_here_to_send_an_email_to_us">Click here to send an email to us</string>
+    <string name="App_version">App Version</string>
+    <string name="main">Main</string>
 </resources>

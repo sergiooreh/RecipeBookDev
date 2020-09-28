@@ -21,12 +21,12 @@ class AddDirectionsDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_add_direction_item)
 
-        this.setTitle("New direction")
+        this.setTitle(R.string.new_direction)
         add_ingr_tv.setOnClickListener {
             val direction = direction_edt.text.toString()
 
             if (direction.isEmpty()){
-                Toast.makeText(context,"Please, enter the direction", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,R.string.please_enter_the_direction, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
