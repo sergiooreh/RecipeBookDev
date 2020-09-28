@@ -7,8 +7,8 @@
     </string-array>
 
     <string-array name="language_values">
-        <item>eng</item>
-        <item>rus</item>
-        <item>ukr</item>
+        <item>en</item>
+        <item>ru</item>
+        <item>uk</item>
     </string-array>
 </resources>

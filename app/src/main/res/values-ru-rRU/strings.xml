@@ -11,7 +11,7 @@
     <string name="no_information">Нет информации...</string>
     <string name="about_me">Про меня:</string>
     <string name="recipes">Рецепты</string>
-    <string name="liked_recipes">Понравившиеся рецепты</string>
+    <string name="liked_recipes">Понравившиеся</string>
     <string name="ingredients">Ингредиенты:</string>
     <string name="directions">Пошаговое приготовление:</string>
     <string name="category">Категория:</string>
@@ -27,15 +27,15 @@
     <string name="Direction">Шаг</string>
     <string name="ADD">ДОБАВИТЬ</string>
     <string name="confirm_password">Подтвердите пароль</string>
-    <string name="welcome_nplease_log_in_to_have_profile">Добро пожаловать!</string>
+    <string name="welcome_nplease_log_in_to_have_profile">Добро пожаловать!\nВойдите или создайте аккаунт</string>
     <string name="recipe_added">Рецепт добавлен</string>
     <string name="add_directions">Добавьте шаги</string>
     <string name="choose_time">Выберите время</string>
     <string name="insert_image">Вставьте изображение</string>
     <string name="add_new_recipe">Новый рецепт</string>
     <string name="the_field_cant_be_empty">Поле не может быть пустым</string>
-    <string name="you_have_to_accept_permission_to_load_image">Вы должны принять разрешение что-бы загрузить изображение</string>
-    <string name="you_dont_have_your_own_recipes">У вас нету ваших рецептов</string>
+    <string name="you_have_to_accept_permission_to_load_image">Вы должны принять разрешение чтобы загрузить изображение</string>
+    <string name="you_dont_have_your_own_recipes">У вас нету рецептов</string>
     <string name="you_dont_have_liked_recipes">У вас нету понравившиеся рецепты</string>
     <string name="add_ingredients">Добавьте ингредиенты</string>
     <string name="your_passwords_do_not_match">Пароли не совпадают</string>

@@ -82,6 +82,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.title = getString(R.string.profile)
+    }
+
     private fun getUser(){
         if (userName!="" && userName!=userViewModel.getUserEmail().substringBefore("@")){
             userViewModel.getUser(userName).observe(viewLifecycleOwner, {

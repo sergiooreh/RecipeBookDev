@@ -16,7 +16,7 @@
     <string name="category">Category:</string>
     <string name="directions">Directions:</string>
     <string name="ingredients">Ingredients:</string>
-    <string name="liked_recipes">Liked Recipes</string>
+    <string name="liked_recipes">Liked</string>
     <string name="recipes">Recipes</string>
     <string name="about_me">About Me:</string>
     <string name="about_you">About You</string>
@@ -28,7 +28,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="create">Create</string>
-    <string name="welcome_nplease_log_in_to_have_profile">Welcome!\nPlease Log In To Have Profile</string>
+    <string name="welcome_nplease_log_in_to_have_profile">Welcome!\nPlease log in or create account</string>
     <string name="log_in">Log In</string>
     <string name="skip">Skip</string>
     <string name="recipe_added">Recipe added</string>
