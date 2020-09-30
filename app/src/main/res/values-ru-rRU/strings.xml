@@ -59,4 +59,6 @@
     <string name="click_here_to_send_an_email_to_us">Напишите нам на почту</string>
     <string name="App_version">Версия приложения</string>
     <string name="main">Главное</string>
+    <string name="set_time">(не выбрано)</string>
+    <string name="set_image">(не выбрано)</string>
 </resources>

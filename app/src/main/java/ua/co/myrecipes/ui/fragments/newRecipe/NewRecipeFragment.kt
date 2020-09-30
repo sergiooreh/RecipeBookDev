@@ -40,7 +40,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (userViewModel.getUserEmail() == ""){
+        if (userViewModel.getUserEmail().isBlank()){
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.homeFragment, false)
                 .build()
@@ -60,12 +60,10 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
 
         prep_time_btn.setOnClickListener {
             val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
-                { timePicker, h, m ->
-                    time = if (m==0) "$h Hr" else "$h Hr $m Min"
-                    new_time_tv.apply {
-                        visibility = View.VISIBLE
-                        text = time
-                    }
+                { _, h, m ->
+                    time = if (h==0) "$m min" else
+                        if (m==0) "$h Hr" else "$h Hr $m min"
+                    new_time_tv.text = time
                 }, 0, 0, true
             )
             timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -80,7 +78,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                 return@setOnClickListener
             }
 
-            if (new_time_tv.visibility == View.GONE){
+            if (new_time_tv.text.isBlank()){
                 Snackbar.make(it, R.string.choose_time, Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -136,9 +134,8 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                     result.uri?.let {
                         imgUri = it
                         recipe_img.setImageURI(it)
+                        setImage_tv.hint = ""
                     }
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
-                        /////////
                 }
             }
         }

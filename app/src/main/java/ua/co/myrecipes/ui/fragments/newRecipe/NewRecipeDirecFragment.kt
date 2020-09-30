@@ -38,7 +38,7 @@ class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
             }).show()
         }
 
-        val recipe =arguments?.getParcelable<Recipe>("recipe")
+        val recipe = arguments?.getParcelable<Recipe>("recipe")
         recipe?.directions = directList
 
         finish_add_recipe_btn.setOnClickListener {
@@ -53,7 +53,6 @@ class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
                 findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
             }
         }
-
     }
 
     private fun setupRecycleView() {

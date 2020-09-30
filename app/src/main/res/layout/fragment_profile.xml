@@ -7,7 +7,6 @@
     tools:context=".ui.fragments.profile.ProfileFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/profile_layout"
-    android:background="#fafafa"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -73,7 +72,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/userlogo"
-        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_color="#757575"
         app:civ_border_width="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -77,7 +77,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     }
 
     private fun handleLikeBtn(recipe: Recipe){
-        if (userViewModel.getUserEmail()==""){
+        if (userViewModel.getUserEmail().isBlank()){
             like_btn.visibility = View.GONE
         } else{
             lifecycleScope.launch {
@@ -102,7 +102,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 }
             }
         }
-
     }
 
     private fun displayProgressBar(isDisplayed: Boolean){

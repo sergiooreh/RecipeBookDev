@@ -5,9 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import ua.co.myrecipes.BuildConfig
 import ua.co.myrecipes.R
 import java.util.*
@@ -15,14 +18,30 @@ import java.util.*
 class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
         val language: ListPreference? = findPreference("language")
-
         language?.setOnPreferenceChangeListener { _, newValue ->
             resources.configuration.setLocale(Locale(newValue as String))
             resources.updateConfiguration(resources.configuration,resources.displayMetrics)
             activity?.recreate()
+            true
+        }
+
+        val theme: SwitchPreferenceCompat? = findPreference("theme")
+        theme?.isChecked
+        theme?.setOnPreferenceChangeListener { preference, _ ->
+            if (theme.isChecked){
+                activity?.setTheme(R.style.AppTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                activity?.recreate()
+            }
+            else {
+                activity?.setTheme(R.style.DarkTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                activity?.recreate()
+            }
             true
         }
 

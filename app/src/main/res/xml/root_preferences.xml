@@ -1,7 +1,9 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <PreferenceCategory app:title="@string/main">
+
         <ListPreference
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"

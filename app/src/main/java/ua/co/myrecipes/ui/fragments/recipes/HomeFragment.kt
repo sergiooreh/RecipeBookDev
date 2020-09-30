@@ -48,7 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         recipeTypes.apply {
             adapter = recipeTypeAdapter
             layoutManager = LinearLayoutManager(activity)
-            //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 

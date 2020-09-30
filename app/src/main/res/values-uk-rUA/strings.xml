@@ -59,4 +59,6 @@
     <string name="App_version">Версія додатку</string>
     <string name="main">Головне</string>
     <string name="welcome_nplease_log_in_to_have_profile">Ласкаво просимо!\nУвійдіть або створіть новий акаунт</string>
+    <string name="set_time">(не обрано)</string>
+    <string name="set_image">(не обрано)</string>
 </resources>

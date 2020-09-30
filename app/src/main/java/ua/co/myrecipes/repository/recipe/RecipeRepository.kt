@@ -37,14 +37,13 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    override fun loadRecipesCurrentUser() = flow<DataState<List<Recipe>>> {
+    override fun loadRecipesCurrentUser() = flow {
         emit(DataState.Loading)
-        val list = mutableListOf<Recipe>()
         try {
             val ids = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<*, *>)
-            for (id in ids){
-                list.add(recipeRef.document(id.value.toString()).collection(RECIPE_F)
-                    .document(id.key.toString()).get().await().toObject(Recipe::class.java)!!)
+            val list = ids.map {
+                recipeRef.document(it.value.toString()).collection(RECIPE_F)
+                    .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
             emit(DataState.Success(list))
         } catch (e: Exception){
@@ -52,14 +51,13 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    override fun loadMyLikedRecipes() = flow<DataState<List<Recipe>>> {
+    override fun loadMyLikedRecipes() = flow {
         emit(DataState.Loading)
-        val list = mutableListOf<Recipe>()
         try {
             val ids = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<*, *>)
-            for (id in ids){
-                list.add(recipeRef.document(id.value.toString()).collection(RECIPE_F)
-                    .document(id.key.toString()).get().await().toObject(Recipe::class.java)!!)
+            val list = ids.map {
+                recipeRef.document(it.value.toString()).collection(RECIPE_F)
+                    .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
             emit(DataState.Success(list))
         } catch (e: Exception){
@@ -67,14 +65,13 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    override fun loadRecipesUser(userName: String) = flow<DataState<List<Recipe>>> {
+    override fun loadRecipesUser(userName: String) = flow {
         emit(DataState.Loading)
-        val list = mutableListOf<Recipe>()
         try {
             val ids = (userRef.whereEqualTo("nickname",userName).get().await().first().get("recipe") as HashMap<*, *>)
-            for (id in ids){
-                list.add(recipeRef.document(id.value.toString()).collection(RECIPE_F)
-                    .document(id.key.toString()).get().await().toObject(Recipe::class.java)!!)
+            val list = ids.map {
+                recipeRef.document(it.value.toString()).collection(RECIPE_F)
+                    .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
             emit(DataState.Success(list))
         } catch (e: Exception){
@@ -82,12 +79,12 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    override fun loadRecipe(recipe: Recipe) =  flow<DataState<Recipe>> {
+    override fun loadRecipe(recipe: Recipe) =  flow {
         emit(DataState.Loading)
         try {
             val recipeItem = recipeRef.document(recipe.type.name).collection(RECIPE_F)
-                .document(recipe.id.toString()).get().await()
-            emit(DataState.Success(recipeItem.toObject(Recipe::class.java)!!))
+                .document(recipe.id.toString()).get().await().toObject(Recipe::class.java)!!
+            emit(DataState.Success(recipeItem))
         } catch (e: Exception){
             emit(DataState.Error(e))
         }

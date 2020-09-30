@@ -48,7 +48,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
             }
         }
 
-
         getRecipes()
 
         start_srLayout.apply {
@@ -66,7 +65,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
 
     private fun getRecipes(){
         recipeViewModel.recipes.observe(viewLifecycleOwner, {     //observe - подписываемся (определять состояние Activity/fragment, подписчик, т.е. колбэк, в который LiveData будет отправлять данные)
-            // recipesAdapter.differ.submitList(emptyList())
             when(it){
                 is DataState.Success<List<Recipe>> ->{
                     displayProgressBar(false)
@@ -102,6 +100,5 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
             layoutManager = GridLayoutManager(requireContext(),2)
             setHasFixedSize(true)
         }
-
     }
 }

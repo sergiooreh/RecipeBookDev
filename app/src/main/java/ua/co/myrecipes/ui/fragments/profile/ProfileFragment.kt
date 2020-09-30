@@ -45,7 +45,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
         super.onViewCreated(view, savedInstanceState)
 
         userName = arguments?.getString("userName")?: ""
-        if (userViewModel.getUserEmail() == ""){
+        if (userViewModel.getUserEmail().isBlank()){
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.homeFragment, false)
                 .build()
@@ -82,20 +82,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.title = getString(R.string.profile)
-    }
-
     private fun getUser(){
         if (userName!="" && userName!=userViewModel.getUserEmail().substringBefore("@")){
             userViewModel.getUser(userName).observe(viewLifecycleOwner, {
+                activity?.title = userName
                 aboutMe_img.visibility = View.GONE
                 log_out_btn2.visibility = View.GONE
                 handlingStates(it)
             })
         } else{
             userViewModel.getCurrentUser().observe(viewLifecycleOwner, {
+                activity?.title = getString(R.string.profile)
                 handlingStates(it)
                 userName = userViewModel.getUserEmail().substringBefore("@")
                 constraintLayout2.setOnClickListener {
@@ -110,7 +107,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
                 }
             })
         }
-
     }
 
     private fun displayProgressBar(isDisplayed: Boolean){
@@ -175,8 +171,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
                         userViewModel.updateImage((user_imv.drawable as BitmapDrawable).bitmap)
                         glide.load(it).into(user_imv)
                     }
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
-                    /////////
                 }
             }
         }
