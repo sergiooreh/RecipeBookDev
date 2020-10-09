@@ -18,11 +18,9 @@ class UserRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ): UserRepositoryInt {
 
-    override suspend fun registerUser(email: String, password: String): AuthResult{
-        val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        collectionReference.document(email).set(User(email, password))
-        return result
-    }
+    override suspend fun registerUser(email: String, password: String): AuthResult =
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+            collectionReference.document(email).set(User(email, password))}.await()
 
     override suspend fun signInUser(email: String, password: String): AuthResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
 
