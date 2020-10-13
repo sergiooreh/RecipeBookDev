@@ -1,7 +1,6 @@
 package ua.co.myrecipes.ui.fragments.recipes
 
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -12,19 +11,29 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe.*
-import kotlinx.android.synthetic.main.item_recipes.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.adapters.IngredientsAdapter
+import ua.co.myrecipes.notification.api.RetrofitInstance
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
+import ua.co.myrecipes.notification.PushNotification
+import ua.co.myrecipes.notification.PushNotificationData
+import ua.co.myrecipes.notification.service.FirebaseService
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.viewmodels.UserViewModel
+import java.lang.Exception
 import javax.inject.Inject
+
+const val TOPIC = "/topics/myTopic"
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
@@ -85,20 +94,29 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 if (recipeViewModel.isLikedRecipe(recipe).await()){
                     like_btn.setColorFilter(Color.RED)
                 } else{
-                    like_btn.setColorFilter(Color.BLACK)
+                    like_btn.setColorFilter(Color.GRAY)
                 }
 
                 like_btn.setColorFilter(
                     if (recipeViewModel.isLikedRecipe(recipe).await())
-                        (Color.RED) else (Color.BLACK))
+                        (Color.RED) else (Color.GRAY))
             }
             like_btn.setOnClickListener {
                 if (isLiked){
                     recipeViewModel.removeLikedRecipe(recipe)
-                    like_btn.setColorFilter(Color.BLACK)
+                    like_btn.setColorFilter(Color.GRAY)
                 } else{
                     recipeViewModel.addLikedRecipe(recipe)
                     like_btn.setColorFilter(Color.RED)
+                    lifecycleScope.launch {
+                        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)         //subscribe
+                        PushNotification(
+                            PushNotificationData("${userViewModel.getUserEmail().substringBefore('@')} liked your recipe", "He actually liked"),
+                            userViewModel.getUserToken(recipe.author).await()
+                        ).also {
+                            sendNotification(it)
+                        }
+                    }
                 }
             }
         }
@@ -122,6 +140,17 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
             overScrollMode = View.OVER_SCROLL_NEVER
+        }
+    }
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if (response.isSuccessful) {
+
+            }
+        } catch (e: Exception){
+
         }
     }
 }

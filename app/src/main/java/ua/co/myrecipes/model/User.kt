@@ -4,6 +4,7 @@ class User() {
     var id = 0
     lateinit var email: String
     private lateinit var password: String
+    var token = ""
     lateinit var nickname: String
     var about: String = ""
     var img: String = ""

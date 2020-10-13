@@ -17,11 +17,13 @@ interface UserRepositoryInt {
 
     suspend fun getUserImg(): String
 
+    suspend fun getUserToken(nickName: String): String
+
     fun getUser(userName: String): Flow<DataState<User>>
 
     fun getCurrentUser(): Flow<DataState<User>>
 
-    fun updateAbout(about: String)
+    suspend fun updateAbout(about: String)
 
     suspend fun updateImage(imgBitmap: Bitmap)
 }

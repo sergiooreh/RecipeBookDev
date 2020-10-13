@@ -25,6 +25,11 @@ class UserViewModel @ViewModelInject constructor(
         userRepository.getUserImg()
     }
 
+    fun getUserToken(nickName: String) = viewModelScope.async {
+            userRepository.getUserToken(nickName)
+        }
+
+
     fun getCurrentUser() = userRepository.getCurrentUser().asLiveData()
 
     fun getUser(userName: String) = userRepository.getUser(userName).asLiveData()
@@ -39,5 +44,9 @@ class UserViewModel @ViewModelInject constructor(
         }
     }
 
-    fun updateAbout(about: String) = userRepository.updateAbout(about)
+    fun updateAbout(about: String){
+        viewModelScope.launch {
+            userRepository.updateAbout(about)
+        }
+    }
 }

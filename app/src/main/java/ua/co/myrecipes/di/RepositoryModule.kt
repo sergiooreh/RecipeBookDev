@@ -55,8 +55,9 @@ object RepositoryModule {
     @Provides
     fun provideUserRepository(
         @Users collectionReference: CollectionReference,
+        @Stat collectionReferenceStat: CollectionReference,
         firebaseAuth: FirebaseAuth
-    ): UserRepositoryInt = UserRepository(collectionReference, firebaseAuth)
+    ): UserRepositoryInt = UserRepository(collectionReference, collectionReferenceStat, firebaseAuth)
 
 
 
