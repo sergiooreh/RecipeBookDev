@@ -5,8 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -31,22 +29,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val theme: SwitchPreferenceCompat? = findPreference("theme")
         theme?.isChecked
-        theme?.setOnPreferenceChangeListener { preference, _ ->
-            if (theme.isChecked){
-                activity?.setTheme(R.style.AppTheme)
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                activity?.recreate()
-            }
-            else {
-                activity?.setTheme(R.style.DarkTheme)
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                activity?.recreate()
-            }
+        theme?.setOnPreferenceChangeListener { _, _ ->
+            activity?.recreate()
             true
         }
 
         val feedback: Preference? = findPreference("feedback")
-        feedback?.intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:serhiooreh@gmail.com"))
+        feedback?.intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:serhioorehh@gmail.com"))
         feedback?.setOnPreferenceClickListener {
             it?.intent?.apply {
                 this.putExtra(
@@ -65,7 +54,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         app?.setOnPreferenceClickListener {
             it?.intent?.apply {
                 try {
-                    this.data = Uri.parse("market://details?id=ua.silpo.android")               //later change
+                    this.data = Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
                     startActivity(this)
                 } catch (exception: ActivityNotFoundException) {
                     this.data = Uri.parse("https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")

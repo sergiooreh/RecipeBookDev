@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe.*
@@ -21,16 +20,14 @@ import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.adapters.IngredientsAdapter
-import ua.co.myrecipes.notification.api.RetrofitInstance
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.notification.PushNotification
 import ua.co.myrecipes.notification.PushNotificationData
-import ua.co.myrecipes.notification.service.FirebaseService
+import ua.co.myrecipes.notification.api.RetrofitInstance
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.viewmodels.UserViewModel
-import java.lang.Exception
 import javax.inject.Inject
 
 const val TOPIC = "/topics/myTopic"
@@ -91,27 +88,22 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else{
             lifecycleScope.launch {
                 isLiked = recipeViewModel.isLikedRecipe(recipe).await()
-                if (recipeViewModel.isLikedRecipe(recipe).await()){
-                    like_btn.setColorFilter(Color.RED)
-                } else{
-                    like_btn.setColorFilter(Color.GRAY)
-                }
-
-                like_btn.setColorFilter(
-                    if (recipeViewModel.isLikedRecipe(recipe).await())
-                        (Color.RED) else (Color.GRAY))
+                if (isLiked) like_btn.setColorFilter((Color.RED))
             }
             like_btn.setOnClickListener {
                 if (isLiked){
                     recipeViewModel.removeLikedRecipe(recipe)
                     like_btn.setColorFilter(Color.GRAY)
+                    isLiked = false
                 } else{
                     recipeViewModel.addLikedRecipe(recipe)
                     like_btn.setColorFilter(Color.RED)
+                    isLiked = true
+
                     lifecycleScope.launch {
                         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)         //subscribe
                         PushNotification(
-                            PushNotificationData("${userViewModel.getUserEmail().substringBefore('@')} liked your recipe", "He actually liked"),
+                            PushNotificationData("RecipeBookApp", "${userViewModel.getUserEmail().substringBefore('@')} liked your recipe"),
                             userViewModel.getUserToken(recipe.author).await()
                         ).also {
                             sendNotification(it)

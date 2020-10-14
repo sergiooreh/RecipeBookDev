@@ -1,5 +1,6 @@
 package ua.co.myrecipes.ui.fragments.profile
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.R
+import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
 import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
@@ -20,6 +22,9 @@ import javax.inject.Inject
 class WelcomeRegFragment : Fragment(R.layout.fragment_welcome) {
     @set:Inject
     var isFirstAppOpen = true
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     private val userViewModel: UserViewModel by viewModels()
 
@@ -50,7 +55,8 @@ class WelcomeRegFragment : Fragment(R.layout.fragment_welcome) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             lifecycleScope.launch {
                 try {
-                    userViewModel.signInUser(email, password)
+                    val token = sharedPreferences.getString(KEY_FIRST_NEW_TOKEN,"") ?: ""
+                    userViewModel.signInUser(email, password, token)
                     withContext(Dispatchers.Main) {
                         findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
                         activity?.recreate()

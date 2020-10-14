@@ -3,6 +3,7 @@ package ua.co.myrecipes.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
@@ -35,6 +36,6 @@ object AppModule {
         RequestOptions()
             .placeholder(R.drawable.ic_broken)
             .error(R.drawable.ic_broken)
-            .fitCenter()
+            .fitCenter().diskCacheStrategy(DiskCacheStrategy.DATA)
     )
 }

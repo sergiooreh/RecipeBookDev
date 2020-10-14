@@ -5,4 +5,5 @@
     <color name="colorAccent">#ff8f00</color>
 
     <color name="colorLight">#eeeeee</color>
+    <color name="colorNotLiked">#E2E3D9</color>
 </resources>

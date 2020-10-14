@@ -27,8 +27,7 @@
                 android:layout_height="165dp"
                 android:adjustViewBounds="false"
                 android:cropToPadding="true"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/traditional" />
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/recipeName_tv"

@@ -9,7 +9,7 @@ import ua.co.myrecipes.util.DataState
 interface UserRepositoryInt {
     suspend fun registerUser(email: String, password: String): AuthResult
 
-    suspend fun signInUser(email: String, password: String): AuthResult
+    suspend fun signInUser(email: String, password: String, token: String): AuthResult
 
     suspend fun logOut()
 
@@ -26,4 +26,6 @@ interface UserRepositoryInt {
     suspend fun updateAbout(about: String)
 
     suspend fun updateImage(imgBitmap: Bitmap)
+
+    suspend fun updateToken(token: String)
 }

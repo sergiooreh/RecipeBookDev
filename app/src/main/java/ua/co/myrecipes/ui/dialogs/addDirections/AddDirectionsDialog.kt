@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialog
 import kotlinx.android.synthetic.main.dialog_add_direction_item.*
-import kotlinx.android.synthetic.main.dialog_add_ingridient_item.*
 import kotlinx.android.synthetic.main.dialog_add_ingridient_item.tvCancel
-import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.dialogs.AddDialogListenerDir
-import ua.co.myrecipes.ui.dialogs.AddDialogListenerIngr
 
 class AddDirectionsDialog(
     context: Context,

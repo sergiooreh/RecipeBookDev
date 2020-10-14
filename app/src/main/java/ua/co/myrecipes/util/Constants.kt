@@ -7,6 +7,7 @@ object Constants {
 
     const val SHARED_PREFERENCES_NAME = "SHARED_PREFERENCES_NAME"
     const val KEY_FIRST_TIME_ENTER = "KEY_FIRST_TIME_ENTER"
+    const val KEY_FIRST_NEW_TOKEN = "KEY_FIRST_NEW_TOKEN"
 
     const val RECIPE_F = "Recipe"
     const val USER_F = "User"

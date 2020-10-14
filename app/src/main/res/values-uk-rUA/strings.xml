@@ -14,8 +14,8 @@
     <string name="recipe_name">Назва рецепту</string>
     <string name="img">Фото</string>
     <string name="category">Категорія:</string>
-    <string name="directions">Покрокове приготування:</string>
-    <string name="ingredients">Ingrediyenty: 12/5000 Інгредієнти:</string>
+    <string name="directions">Приготування:</string>
+    <string name="ingredients">Інгредієнти:</string>
     <string name="liked_recipes">Вподобані</string>
     <string name="recipes">Рецепти</string>
     <string name="about_me">Про мене:</string>
@@ -61,4 +61,13 @@
     <string name="welcome_nplease_log_in_to_have_profile">Ласкаво просимо!\nУвійдіть або створіть новий акаунт</string>
     <string name="set_time">(не обрано)</string>
     <string name="set_image">(не обрано)</string>
+    <string name="hour">г</string>
+    <string name="min">хв</string>
+    <string name="cookies">ПЕЧИВО</string>
+    <string name="traditional">ТРАДИЦІЙНИЙ</string>
+    <string name="sandwich">СЕНДВІЧ</string>
+    <string name="pizza">ПІЦА</string>
+    <string name="cocktails">КОКТЕЙЛИ</string>
+    <string name="desserts">ДЕСЕРТИ</string>
+    <string name="salads">САЛАТИ</string>
 </resources>

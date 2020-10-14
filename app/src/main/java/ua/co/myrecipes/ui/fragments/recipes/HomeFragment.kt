@@ -8,11 +8,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipeTypeAdapter
-import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Constants.KEY_FIRST_TIME_ENTER
 import ua.co.myrecipes.util.RecipeType
 import javax.inject.Inject
@@ -21,6 +21,10 @@ import javax.inject.Inject
 class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var sharedPref: SharedPreferences
+
+    @Inject
+    lateinit var requestManager: RequestManager
+
     private lateinit var recipeTypeAdapter: RecipeTypeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupRecycleView() {
-        recipeTypeAdapter = RecipeTypeAdapter()
+        recipeTypeAdapter = RecipeTypeAdapter(requestManager)
         recipeTypes.apply {
             adapter = recipeTypeAdapter
             layoutManager = LinearLayoutManager(activity)

@@ -8,7 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="ua.co.myrecipes.ui.fragments.recipes.HomeFragment"
         android:label="fragment_blank1"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_recipesFragment"
             app:destination="@id/recipesFragment" />

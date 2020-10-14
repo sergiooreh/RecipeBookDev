@@ -67,4 +67,24 @@
     <string name="main">Main</string>
     <string name="set_time">(set time)</string>
     <string name="set_image">(set image)</string>
+    <string name="hour">Hr</string>
+    <string name="min">min</string>
+
+    <string name="cookies">COOKIES</string>
+    <string name="traditional">TRADITIONAL</string>
+    <string name="sandwich">SANDWICH</string>
+    <string name="pizza">PIZZA</string>
+    <string name="cocktails">COCKTAILS</string>
+    <string name="desserts">DESSERTS</string>
+    <string name="salads">SALADS</string>
+
+    <string-array name="recipeTypes">
+        <item>@string/cookies</item>
+        <item>@string/traditional</item>
+        <item>@string/sandwich</item>
+        <item>@string/pizza</item>
+        <item>@string/cocktails</item>
+        <item>@string/desserts</item>
+        <item>@string/salads</item>
+    </string-array>
 </resources>

@@ -12,33 +12,42 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.preference.PreferenceManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.hilt.android.scopes.ServiceScoped
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 import ua.co.myrecipes.R
-import ua.co.myrecipes.repository.user.UserRepository
+import ua.co.myrecipes.repository.user.UserRepositoryInt
 import ua.co.myrecipes.ui.MainActivity
+import ua.co.myrecipes.util.Constants
+import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
 import javax.inject.Inject
 import kotlin.random.Random
 
 private const val CHANNEL_ID = "my_channel"                     //const here cause we need this nowhere else
 
-class FirebaseService @Inject constructor(
-    private val userRepository: UserRepository
-): FirebaseMessagingService() {                 //to have ability get notifications when we don't use app
+@AndroidEntryPoint
+class FirebaseService: FirebaseMessagingService() {                 //to have ability get notifications when we don't use app
+    @Inject
+    lateinit var userRepositoryInt: UserRepositoryInt
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onNewToken(newToken: String) {                         //whenever we get a new token
         super.onNewToken(newToken)
-        CoroutineScope(Dispatchers.IO).launch {
-            userRepository.updateToken(newToken)
+        if(sharedPreferences.getBoolean(Constants.KEY_FIRST_TIME_ENTER,true)){
+            sharedPreferences.edit().putString(KEY_FIRST_NEW_TOKEN,newToken).apply()
         }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {        //when this device gets message
         super.onMessageReceived(message)
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val getNotifications = sharedPreferences.getBoolean("notification", true)
+        if (!getNotifications){
+            return
+        }
 
         val intent = Intent(this, MainActivity::class.java)      //when we clicked notification
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

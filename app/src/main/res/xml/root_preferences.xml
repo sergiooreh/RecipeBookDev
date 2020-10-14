@@ -20,7 +20,8 @@
             app:key="notification"
             app:summaryOff="@string/notifications_are_disabled"
             app:summaryOn="@string/notifications_are_enabled"
-            app:title="@string/notification" />
+            app:title="@string/notification"
+            android:defaultValue="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/contacts">

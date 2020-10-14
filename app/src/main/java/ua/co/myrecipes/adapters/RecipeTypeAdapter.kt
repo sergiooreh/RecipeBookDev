@@ -6,11 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_recipetype.view.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.util.RecipeType
+import javax.inject.Inject
 
-class RecipeTypeAdapter : RecyclerView.Adapter<RecipeTypeAdapter.MyViewHolder>()  {
+class RecipeTypeAdapter @Inject constructor(
+    private val glide: RequestManager
+) : RecyclerView.Adapter<RecipeTypeAdapter.MyViewHolder>()  {
+
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
@@ -21,8 +26,8 @@ class RecipeTypeAdapter : RecyclerView.Adapter<RecipeTypeAdapter.MyViewHolder>()
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val recipeType = differ.currentList[position]
         holder.itemView.apply {
-            recipeType_tv.text = recipeType.toString()
-            recipeType_imv.setImageResource(recipeType.img)
+            recipeType_tv.text = resources.getStringArray(R.array.recipeTypes)[position]
+            glide.load(recipeType.img).into(recipeType_imv)
             setOnClickListener {
                 onItemClickListener?.let { it(recipeType) }
             }

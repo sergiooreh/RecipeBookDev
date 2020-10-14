@@ -13,7 +13,7 @@
     <string name="recipes">Рецепты</string>
     <string name="liked_recipes">Понравившиеся</string>
     <string name="ingredients">Ингредиенты:</string>
-    <string name="directions">Пошаговое приготовление:</string>
+    <string name="directions">Приготовление:</string>
     <string name="category">Категория:</string>
     <string name="img">Фото</string>
     <string name="recipe_name">Название рецепта</string>
@@ -61,4 +61,13 @@
     <string name="main">Главное</string>
     <string name="set_time">(не выбрано)</string>
     <string name="set_image">(не выбрано)</string>
+    <string name="hour">ч</string>
+    <string name="min">м</string>
+    <string name="cookies">ПЕЧЕНЬЕ</string>
+    <string name="traditional">ТРАДИЦИОННЫЙ</string>
+    <string name="sandwich">СЭНДВИЧ</string>
+    <string name="pizza">ПИЦЦА</string>
+    <string name="cocktails">КОКТЕЙЛИ</string>
+    <string name="desserts">ДЕСЕРТЫ</string>
+    <string name="salads">САЛАТЫ</string>
 </resources>

@@ -17,7 +17,7 @@ class UserViewModel @ViewModelInject constructor(
 ): ViewModel() {
     suspend fun registerUser(email: String, password: String): AuthResult = userRepository.registerUser(email, password)
 
-    suspend fun signInUser(email: String, password: String): AuthResult = userRepository.signInUser(email, password)
+    suspend fun signInUser(email: String, password: String, token: String): AuthResult = userRepository.signInUser(email, password, token)
 
     fun getUserEmail() = userRepository.getUserEmail()
 
@@ -47,6 +47,12 @@ class UserViewModel @ViewModelInject constructor(
     fun updateAbout(about: String){
         viewModelScope.launch {
             userRepository.updateAbout(about)
+        }
+    }
+
+    fun updateToken(token:String){
+        viewModelScope.launch {
+            userRepository.updateToken(token)
         }
     }
 }

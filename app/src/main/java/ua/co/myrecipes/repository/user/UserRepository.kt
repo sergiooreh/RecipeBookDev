@@ -8,7 +8,10 @@ import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.Constants.COUNT_F
@@ -34,16 +37,23 @@ class UserRepository @Inject constructor(
         }.await()
     }
 
-    override suspend fun signInUser(email: String, password: String): AuthResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+    override suspend fun signInUser(email: String, password: String, token: String): AuthResult {
+        return firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                updateToken(token)
+            }
+        }.await()
+    }
 
     override fun getUserEmail() = firebaseAuth.currentUser?.email ?: ""
 
-    override suspend fun getUserImg() = (collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.get("img") as String)
+    override suspend fun getUserImg() = (collectionReference.whereEqualTo("email",getUserEmail()).get().await()
+        .first()?.get("img") as String)
 
     override suspend fun getUserToken(nickName: String): String =
         collectionReference.whereEqualTo("nickname",nickName).get().await().first()?.get("token", String::class.java)!!
 
-    suspend fun updateToken(token: String){
+    override suspend fun updateToken(token: String){
         collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("token",token)
     }
 

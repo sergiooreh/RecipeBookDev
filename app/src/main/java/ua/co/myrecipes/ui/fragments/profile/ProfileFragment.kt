@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.recreate
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -20,17 +19,15 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.drawer_header.view.*
-import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.Constants
-import ua.co.myrecipes.viewmodels.UserViewModel
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.Permissions
+import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint

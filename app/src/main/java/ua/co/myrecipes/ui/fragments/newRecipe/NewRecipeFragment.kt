@@ -61,8 +61,8 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         prep_time_btn.setOnClickListener {
             val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
                 { _, h, m ->
-                    time = if (h==0) "$m min" else
-                        if (m==0) "$h Hr" else "$h Hr $m min"
+                    time = if (h==0) "$m ${getString(R.string.hour)}" else
+                        if (m==0) "$h ${getString(R.string.hour)}" else "$h ${getString(R.string.hour)}  $m ${getString(R.string.min)}"
                     new_time_tv.text = time
                 }, 0, 0, true
             )
