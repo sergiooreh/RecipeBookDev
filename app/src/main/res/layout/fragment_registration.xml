@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.profile.RegistrationFragment">
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilConfirmPassword"
         android:layout_width="wrap_content"
@@ -15,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilPassword">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/confirm_password_edt"
             android:layout_width="wrap_content"
@@ -23,7 +21,6 @@
             android:ems="10"
             android:hint="@string/confirm_password"
             android:inputType="textPassword" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -34,7 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilEmail">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_edt"
             android:layout_width="wrap_content"
@@ -42,7 +38,6 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -54,7 +49,6 @@
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_edt"
             android:layout_width="match_parent"
@@ -62,7 +56,6 @@
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

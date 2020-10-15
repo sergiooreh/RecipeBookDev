@@ -8,7 +8,7 @@
     <string name="create_account">Создать Аккаунт</string>
     <string name="time_">Время:</string>
     <string name="author">Автор:</string>
-    <string name="no_information">Нет информации...</string>
+    <string name="no_information">Нет информации…</string>
     <string name="about_me">Про меня:</string>
     <string name="recipes">Рецепты</string>
     <string name="liked_recipes">Понравившиеся</string>
@@ -18,7 +18,7 @@
     <string name="img">Фото</string>
     <string name="recipe_name">Название рецепта</string>
     <string name="time">Время</string>
-    <string name="Welcome">Добро пожаловать,</string>
+    <string name="Welcome">Рады видеть,</string>
     <string name="guest">гость</string>
     <string name="Log_out">Выйти</string>
     <string name="Name">Название</string>
@@ -70,4 +70,18 @@
     <string name="cocktails">КОКТЕЙЛИ</string>
     <string name="desserts">ДЕСЕРТЫ</string>
     <string name="salads">САЛАТЫ</string>
+    <string name="disconnected">Вы сейчас не в сети</string>
+    <string name="connected" translatable="false">Соединение восстановлено</string>
+    <string name="unit">ед. изм.</string>
+    <string name="the_image_of_your_recipe">"Изображение вашего рецепта "</string>
+    <string name="next_step_of_creation_recipe">"Следующий шаг создания рецепта "</string>
+    <string name="no_network_connection">Отсутствует подключение к интернету</string>
+    <string name="no_internet_connection_connect_to_the_internet_and_try_again">"Отсутствует подключение к интернету. Подключитесь к интернету и попробуйте еще раз "</string>
+    <string name="click_to_choose_profile_s_image">нажмите, чтобы выбрать изображение профиля</string>
+    <string name="like_button">кнопка \"нравится\"</string>
+    <string name="delete_direction">удалить шаг</string>
+    <string name="delete_ingredient">удалить ингредиент</string>
+    <string name="increment_amount_of_ingredient">Увеличить количество ингредиента</string>
+    <string name="decrement_amount_of_ingredient">Уменьшить количество ингредиента</string>
+    <string name="the_image_of_recipe">изображение рецепта</string>
 </resources>

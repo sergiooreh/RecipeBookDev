@@ -62,7 +62,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryD"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,11 +100,11 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_corners"
         android:src="@drawable/follow"
-        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toEndOf="@+id/tilWeight"
-        app:layout_constraintTop_toBottomOf="@+id/tilName" />
+        app:layout_constraintTop_toBottomOf="@+id/tilName"
+        android:contentDescription="@string/create_account"/>
 
     <Button
         android:id="@+id/logIn_btn"

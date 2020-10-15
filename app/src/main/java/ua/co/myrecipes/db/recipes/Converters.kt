@@ -54,7 +54,7 @@ class Converters {
         data.substringBefore(',').onEach {
             val ingredient = Ingredient().apply {
                 name = data.substringBefore('-')
-                amount = data.substringAfter('-').toInt()
+                amount = data.substringAfter('-')
                 unit = data.substringAfter('-')
             }
             list.add(ingredient)

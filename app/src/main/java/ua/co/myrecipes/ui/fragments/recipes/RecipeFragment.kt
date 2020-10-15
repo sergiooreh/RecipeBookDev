@@ -119,8 +119,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     }
 
     private fun setupRecycleView(ingr: List<Ingredient>, direct: List<String>) {
-        ingredientsAdapter = IngredientsAdapter(ingr,false)
-        directionsAdapter = DirectionsAdapter(direct, false)
+        ingredientsAdapter = IngredientsAdapter(ingr.toMutableList(),false)
+        directionsAdapter = DirectionsAdapter(direct.toMutableList(), false)
         directions_rv.apply {
             adapter = directionsAdapter
             layoutManager = LinearLayoutManager(activity)

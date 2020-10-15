@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
@@ -27,7 +28,8 @@
                 android:layout_height="165dp"
                 android:adjustViewBounds="false"
                 android:cropToPadding="true"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:contentDescription="@string/the_image_of_recipe"/>
 
             <TextView
                 android:id="@+id/recipeName_tv"
@@ -35,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                android:text="Soup"
+                tools:text="Soup"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -46,7 +48,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="2dp"
-                android:text="Serhio"
+                tools:text="George"
                 android:textSize="18sp" />
 
             <TextView
@@ -55,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="20 min"
+                tools:text="20 min"
                 android:textSize="14sp" />
         </LinearLayout>
 

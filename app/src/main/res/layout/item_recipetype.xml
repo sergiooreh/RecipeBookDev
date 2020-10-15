@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="top">
 
     <ImageView
@@ -13,7 +14,8 @@
         android:cropToPadding="false"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null"/>
 
     <TextView
         android:id="@+id/recipeType_tv"
@@ -24,7 +26,7 @@
         android:shadowDx="1.5"
         android:shadowDy="1.5"
         android:shadowRadius="2"
-        android:text="Desserts"
+        tools:text="Desserts"
         android:textColor="#F8F1F1"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -32,6 +34,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

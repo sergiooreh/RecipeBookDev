@@ -47,7 +47,7 @@
     <string name="please_enter_the_direction">Please, enter the direction</string>
     <string name="please_enter_the_ingredient">Please, enter the ingredient</string>
 
-    <string name="unit" translatable="false">Unit</string>
+    <string name="unit">Unit</string>
     <string name="open" translatable="false">Open</string>
     <string name="close" translatable="false">Close</string>
     <string name="ok" translatable="false">OK</string>
@@ -69,6 +69,8 @@
     <string name="set_image">(set image)</string>
     <string name="hour">Hr</string>
     <string name="min">min</string>
+    <string name="disconnected">You are currently offline</string>
+    <string name="connected">The connection is restored</string>
 
     <string name="cookies">COOKIES</string>
     <string name="traditional">TRADITIONAL</string>
@@ -77,6 +79,18 @@
     <string name="cocktails">COCKTAILS</string>
     <string name="desserts">DESSERTS</string>
     <string name="salads">SALADS</string>
+
+    <string name="the_image_of_your_recipe">The image of your recipe</string>
+    <string name="next_step_of_creation_recipe">Next step of creation recipe</string>
+    <string name="no_network_connection">No network connection</string>
+    <string name="no_internet_connection_connect_to_the_internet_and_try_again">No internet connection. Connect to the internet and try again</string>
+    <string name="click_to_choose_profile_s_image">click to choose profile image</string>
+    <string name="like_button">like button</string>
+    <string name="delete_direction">delete direction</string>
+    <string name="delete_ingredient">delete ingredient</string>
+    <string name="increment_amount_of_ingredient">Increment amount of ingredient</string>
+    <string name="decrement_amount_of_ingredient">decrement amount of ingredient</string>
+    <string name="the_image_of_recipe">the image of recipe</string>
 
     <string-array name="recipeTypes">
         <item>@string/cookies</item>

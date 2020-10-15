@@ -9,7 +9,7 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
 
 class IngredientsAdapter(
-    var items: List<Ingredient>,
+    var items: MutableList<Ingredient>,
     private val isForAddRecipe: Boolean = true
 ): RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>() {
 
@@ -25,8 +25,16 @@ class IngredientsAdapter(
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val currentIngredientItem = items[position]
 
+        if (currentIngredientItem.amount.isNotBlank()){
+            holder.itemView.tvAmount.text = currentIngredientItem.amount
+        } else {
+            holder.itemView.tvAmount.text = ""
+
+            holder.itemView.ivPlus.visibility = View.GONE
+            holder.itemView.ivMinus.visibility = View.GONE
+        }
+
         holder.itemView.tvName.text = currentIngredientItem.name
-        holder.itemView.tvAmount.text = "${currentIngredientItem.amount}"
         holder.itemView.tvUnit.text = currentIngredientItem.unit
 
         if (!isForAddRecipe){
@@ -36,18 +44,19 @@ class IngredientsAdapter(
         }
 
         holder.itemView.ivDelete.setOnClickListener {
-            items.toMutableList().remove(currentIngredientItem)
+            items.remove(currentIngredientItem)
             notifyItemRemoved(position)
+            notifyDataSetChanged()
         }
 
         holder.itemView.ivPlus.setOnClickListener {
-            currentIngredientItem.amount += 1
+            currentIngredientItem.amount = currentIngredientItem.amount.toInt().plus(1).toString()
             notifyDataSetChanged()
         }
 
         holder.itemView.ivMinus.setOnClickListener {
-            if (currentIngredientItem.amount > 0){
-                currentIngredientItem.amount -= 1
+            if (currentIngredientItem.amount.toInt() > 1){
+                currentIngredientItem.amount = currentIngredientItem.amount.toInt().minus(1).toString()
                 notifyDataSetChanged()
             }
         }

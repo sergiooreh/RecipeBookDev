@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.dialog_add_direction_item.*
 import kotlinx.android.synthetic.main.dialog_add_ingridient_item.tvCancel
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.dialogs.AddDialogListenerDir
+import java.util.*
 
 class AddDirectionsDialog(
     context: Context,
@@ -20,7 +21,7 @@ class AddDirectionsDialog(
 
         this.setTitle(R.string.new_direction)
         add_ingr_tv.setOnClickListener {
-            val direction = direction_edt.text.toString()
+            val direction = direction_edt.text.toString().capitalize(Locale.ROOT)
 
             if (direction.isEmpty()){
                 Toast.makeText(context,R.string.please_enter_the_direction, Toast.LENGTH_SHORT).show()

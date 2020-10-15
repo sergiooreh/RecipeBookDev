@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.item_direction.view.*
 import ua.co.myrecipes.R
 
 class DirectionsAdapter(
-    var items: List<String>,
+    var items: MutableList<String>,
     private val isForNewRecipe: Boolean = true
 ): RecyclerView.Adapter<DirectionsAdapter.DirectViewHolder>() {
 
@@ -24,15 +24,15 @@ class DirectionsAdapter(
     override fun onBindViewHolder(holder: DirectViewHolder, position: Int) {
         val currentDirectItem = items[position]
 
-        holder.itemView.direction_item_tv.text = (position + 1).toString()
+        holder.itemView.direction_item_tv.text = "${(position + 1)}."
         holder.itemView.direction_name_tv.text = currentDirectItem
 
         if (!isForNewRecipe){
-            holder.itemView.delete_dir_imv.visibility = View.GONE
+            holder.itemView.delete_dir_imv.visibility = View.INVISIBLE
         }
 
         holder.itemView.delete_dir_imv.setOnClickListener {
-            items.toMutableList().remove(currentDirectItem)
+            items.remove(currentDirectItem)
             notifyItemRemoved(position)
             notifyDataSetChanged()
         }

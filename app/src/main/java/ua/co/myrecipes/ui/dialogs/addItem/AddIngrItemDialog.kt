@@ -24,23 +24,14 @@ class AddIngrItemDialog(
         setContentView(R.layout.dialog_add_ingridient_item)
         this.setTitle(R.string.new_ingredient)
 
-        val types = arrayOf("","slice","tsp","cup","spoon","grams","ml")                                                    ////
-        unit_spinner.apply {
-            adapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, types)
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                    (parent.getChildAt(0) as TextView).setTextColor(Color.GRAY)
-                    (parent.getChildAt(0) as TextView).textSize = 18f
-                }
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-        }
-
         tvAdd.setOnClickListener {
             val ingredient = Ingredient().apply {
-                name = etName.text.toString()
-                unit = unit_spinner.selectedItem.toString()
-                amount = etAmount.text.toString().toInt()
+                name = etName.text.toString().capitalize()
+                amount = if (etAmount.text.toString().isNotBlank()){
+                    etAmount.text.toString()
+                } else
+                    ""
+                unit = etUnit.text.toString()
             }
 
             if (ingredient.name.isEmpty()){

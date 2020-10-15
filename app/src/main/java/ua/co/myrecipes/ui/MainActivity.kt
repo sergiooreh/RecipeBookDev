@@ -3,6 +3,7 @@ package ua.co.myrecipes.ui
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,14 +18,19 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.RequestManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
+import ua.co.myrecipes.util.ConnectionType
+import ua.co.myrecipes.util.NetworkMonitorUtil
 import ua.co.myrecipes.viewmodels.UserViewModel
 import java.util.*
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,9 +38,12 @@ class MainActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
+    private val networkMonitor = NetworkMonitorUtil(this)
 
     @Inject
     lateinit var glide: RequestManager
+    private var wasDisconnected = false
+    private var backPressedTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setting()
@@ -87,11 +96,80 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.regFragment, savedInstanceState, navOptions)
             recreate()
         }
+
+        networkMonitor.result = { isAvailable, type ->
+            runOnUiThread {
+                when (isAvailable) {
+                    true -> {
+                        when (type) {
+                            ConnectionType.Wifi -> {
+                                if (wasDisconnected) {
+                                    Snackbar.make(
+                                        findViewById(R.id.drawerLayout),
+                                        getString(R.string.connected),
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                    wasDisconnected = false
+                                }
+                                flFragment.internetLayout.visibility = View.INVISIBLE
+                                NavHostFragment.view?.visibility = View.VISIBLE
+                            }
+                            ConnectionType.Cellular -> {
+                                if (wasDisconnected) {
+                                    Snackbar.make(
+                                        findViewById(R.id.drawerLayout),
+                                        getString(R.string.connected),
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                    wasDisconnected = false
+                                }
+                                flFragment.internetLayout.visibility = View.INVISIBLE
+                                NavHostFragment.view?.visibility = View.VISIBLE
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+                    false -> {
+                        Snackbar.make(
+                            findViewById(R.id.drawerLayout),
+                            getString(R.string.disconnected),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        flFragment.internetLayout.visibility = View.VISIBLE
+                        NavHostFragment.view?.visibility = View.INVISIBLE
+                        wasDisconnected = true
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkMonitor.register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkMonitor.unregister()
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
-            drawerLayout.closeDrawer(GravityCompat.START) else super.onBackPressed()
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START)
+            return
+        }
+
+        if (navController.currentDestination?.id == R.id.homeFragment ||
+            navController.currentDestination?.id == R.id.newRecipeFragment){
+            if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                finish()
+            } else {
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            }
+            backPressedTime = System.currentTimeMillis()
+        } else super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

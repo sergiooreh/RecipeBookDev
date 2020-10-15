@@ -71,7 +71,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         }
 
         type_spinner.adapter =
-            ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line, RecipeType.values())
+            ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.recipeTypes))
 
         to_ingredients_fab.setOnClickListener {
             if (!validateInput(recipe_name_et.text.toString(), recipe_name_til)){
@@ -92,7 +92,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                 name = recipe_name_et.text.toString().trim()
                 author = userViewModel.getUserEmail().substringBefore("@")
                 durationPrepare = time
-                type = type_spinner.selectedItem as RecipeType
+                type = RecipeType.values()[type_spinner.selectedItemPosition]
                 img = imgUri.toString()
                 imgBitmap = (recipe_img.drawable as BitmapDrawable).bitmap
             }

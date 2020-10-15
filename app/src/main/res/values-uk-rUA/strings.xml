@@ -9,7 +9,7 @@
     <string name="Name">Назва</string>
     <string name="Log_out">Вийти</string>
     <string name="guest">гість</string>
-    <string name="Welcome">Ласкаво просимо,</string>
+    <string name="Welcome">Раді бачити,</string>
     <string name="time">Час</string>
     <string name="recipe_name">Назва рецепту</string>
     <string name="img">Фото</string>
@@ -70,4 +70,18 @@
     <string name="cocktails">КОКТЕЙЛИ</string>
     <string name="desserts">ДЕСЕРТИ</string>
     <string name="salads">САЛАТИ</string>
+    <string name="disconnected">Ви в режимі офлайн</string>
+    <string name="connected" translatable="false">З’єднання відновлено</string>
+    <string name="unit">од. вим.</string>
+    <string name="the_image_of_your_recipe">"Зображення вашого рецепта "</string>
+    <string name="next_step_of_creation_recipe">Наступний крок створення рецепту</string>
+    <string name="no_network_connection">Відсутнє підключення до інтернету</string>
+    <string name="no_internet_connection_connect_to_the_internet_and_try_again">Відсутнє підключення до інтернету.  Підключіться до інтернету і спробуйте ще раз</string>
+    <string name="click_to_choose_profile_s_image">натисніть, щоб вибрати зображення профілю</string>
+    <string name="like_button">кнопка \"подобається\"</string>
+    <string name="delete_direction">видалити крок</string>
+    <string name="delete_ingredient">видалити інгредієнт</string>
+    <string name="increment_amount_of_ingredient">Збільшити кількість інгредієнта</string>
+    <string name="decrement_amount_of_ingredient">Зменшити кількість інгредієнта</string>
+    <string name="the_image_of_recipe">зображення рецепту</string>
 </resources>
