@@ -2,12 +2,14 @@ package ua.co.myrecipes.viewmodels
 
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
 import ua.co.myrecipes.util.DataState
@@ -70,7 +72,7 @@ class RecipeViewModel @ViewModelInject constructor(
         recipeRepository.removeLikedRecipe(recipe)
     }
 
-    fun isLikedRecipe(recipe: Recipe) = viewModelScope.async {
+    fun isLikedRecipeAsync(recipe: Recipe) = viewModelScope.async {
         recipeRepository.isLikedRecipe(recipe)
     }
 

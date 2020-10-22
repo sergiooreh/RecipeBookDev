@@ -7,17 +7,13 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import ua.co.myrecipes.R
-import ua.co.myrecipes.launchFragmentInHiltContainer
-import ua.co.myrecipes.ui.fragments.recipes.HomeFragment
 import ua.co.myrecipes.util.Constants
 import javax.inject.Inject
 import javax.inject.Named

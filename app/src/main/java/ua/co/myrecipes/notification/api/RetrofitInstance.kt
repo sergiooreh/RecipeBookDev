@@ -14,7 +14,7 @@ class RetrofitInstance {
                 .build()
         }
 
-        val api by lazy {
+        val api: NotificationAPI by lazy {
             retrofit.create(NotificationAPI::class.java)
         }
     }

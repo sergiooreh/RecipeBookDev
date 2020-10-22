@@ -15,7 +15,8 @@
             app:key="theme"
             app:title="@string/color_theme"
             app:summaryOff="Light "
-            app:summaryOn="Dark" />
+            app:summaryOn="Dark"
+            app:defaultValue="true"/>
         <SwitchPreferenceCompat
             app:key="notification"
             app:summaryOff="@string/notifications_are_disabled"

@@ -80,8 +80,8 @@ class MainActivity : AppCompatActivity() {
             navHeader.log_out_btn.visibility = View.GONE
         } else {
             lifecycleScope.launch {
-                if (userViewModel.getUserImg().await() != "") {
-                    glide.load(userViewModel.getUserImg().await()).into(navHeader.drawer_user_img)
+                if (userViewModel.getUserImgAsync().await() != "") {
+                    glide.load(userViewModel.getUserImgAsync().await()).into(navHeader.drawer_user_img)
                 }
             }
             navHeader.nickName_drawer_tv.text = userViewModel.getUserEmail().substringBefore("@")
@@ -210,7 +210,7 @@ class MainActivity : AppCompatActivity() {
             resources.updateConfiguration(resources.configuration, resources.displayMetrics)
         }
 
-        val theme = sharedPreferences.getBoolean("theme", false)
+        val theme = sharedPreferences.getBoolean("theme", true)
         if (theme){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.DarkTheme)

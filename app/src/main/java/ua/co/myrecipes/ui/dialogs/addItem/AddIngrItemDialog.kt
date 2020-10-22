@@ -1,18 +1,14 @@
 package ua.co.myrecipes.ui.dialogs.addItem
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialog
 import kotlinx.android.synthetic.main.dialog_add_ingridient_item.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.ui.dialogs.AddDialogListenerIngr
+import java.util.*
 
 class AddIngrItemDialog(
     context: Context,
@@ -26,7 +22,7 @@ class AddIngrItemDialog(
 
         tvAdd.setOnClickListener {
             val ingredient = Ingredient().apply {
-                name = etName.text.toString().capitalize()
+                name = etName.text.toString().capitalize(Locale.ROOT)
                 amount = if (etAmount.text.toString().isNotBlank()){
                     etAmount.text.toString()
                 } else

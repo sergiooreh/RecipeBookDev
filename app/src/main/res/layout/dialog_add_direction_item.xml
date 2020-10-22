@@ -26,7 +26,8 @@
         android:hint="@string/Direction"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="@string/Direction" />
 
     <TextView
         android:id="@+id/tvCancel"

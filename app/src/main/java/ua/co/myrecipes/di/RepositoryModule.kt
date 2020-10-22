@@ -7,11 +7,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import ua.co.myrecipes.db.recipes.RecipeCacheMapper
-import ua.co.myrecipes.db.recipes.RecipeDao
 import ua.co.myrecipes.repository.recipe.RecipeRepository
-import ua.co.myrecipes.repository.user.UserRepository
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
+import ua.co.myrecipes.repository.user.UserRepository
 import ua.co.myrecipes.repository.user.UserRepositoryInt
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -45,10 +43,8 @@ object RepositoryModule {
         @Recipes collectionReference: CollectionReference,
         @Stat collectionReferenceStat: CollectionReference,
         @Users collectionReferenceUser: CollectionReference,
-        firebaseAuth: FirebaseAuth,
-        recipeCacheMapper: RecipeCacheMapper,
-        recipeDao: RecipeDao,
-    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceStat, collectionReferenceUser, firebaseAuth, recipeCacheMapper, recipeDao)
+        firebaseAuth: FirebaseAuth
+    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceStat, collectionReferenceUser, firebaseAuth)
 
 
     @Singleton

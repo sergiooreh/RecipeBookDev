@@ -1,6 +1,7 @@
 package ua.co.myrecipes.notification.service
 
 import android.app.NotificationChannel
+import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.app.PendingIntent
@@ -20,6 +21,7 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.repository.user.UserRepositoryInt
 import ua.co.myrecipes.ui.MainActivity
 import ua.co.myrecipes.util.Constants
+import ua.co.myrecipes.util.Constants.FCM_GROUP
 import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
 import javax.inject.Inject
 import kotlin.random.Random
@@ -73,7 +75,7 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
     /*Starting in Android 8.0 (API level 26), all notifications must be assigned to a channel.
     For each channel, you can set the visual and auditory behavior that is applied to all notifications in that channel. */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(notificationManager: NotificationManager){
+        private fun createNotificationChannel(notificationManager: NotificationManager){
         val channelName = "channelName"
         val channel = NotificationChannel(CHANNEL_ID,channelName,IMPORTANCE_LOW).apply {
             description = "My channel description"

@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">RecipeBookApp</string>
     <string name="app_version">Версія додатку</string>
-    <string name="ADD">ДОДАТИ</string>
+    <string name="ADD">Додати</string>
     <string name="Direction">Крок</string>
-    <string name="CANCEL">ВІДМІНА</string>
+    <string name="CANCEL">Відміна</string>
     <string name="Amount">Кількість</string>
     <string name="Name">Назва</string>
     <string name="Log_out">Вийти</string>
@@ -20,7 +20,7 @@
     <string name="recipes">Рецепти</string>
     <string name="about_me">Про мене:</string>
     <string name="about_you">Про Вас</string>
-    <string name="no_information">Немає інформації...</string>
+    <string name="no_information">Немає інформації…</string>
     <string name="author">Автор:</string>
     <string name="time_">Час:</string>
     <string name="create_account">Створити акаунт</string>
@@ -71,7 +71,7 @@
     <string name="desserts">ДЕСЕРТИ</string>
     <string name="salads">САЛАТИ</string>
     <string name="disconnected">Ви в режимі офлайн</string>
-    <string name="connected" translatable="false">З’єднання відновлено</string>
+    <string name="connected">З’єднання відновлено</string>
     <string name="unit">од. вим.</string>
     <string name="the_image_of_your_recipe">"Зображення вашого рецепта "</string>
     <string name="next_step_of_creation_recipe">Наступний крок створення рецепту</string>

@@ -21,7 +21,6 @@
         android:id="@+id/recipeType_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/allerta_stencil"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
         android:shadowDy="1.5"

@@ -9,8 +9,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import ua.co.myrecipes.db.recipes.RecipeCacheMapper
-import ua.co.myrecipes.db.recipes.RecipeDao
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.util.Constants.COUNT_F
 import ua.co.myrecipes.util.Constants.RECIPE_F
@@ -23,9 +21,7 @@ class RecipeRepository @Inject constructor(
     private val recipeRef: CollectionReference,
     private val statRef: CollectionReference,
     private val userRef: CollectionReference,
-    private val firebaseAuth: FirebaseAuth,
-    private val recipeCacheMapper: RecipeCacheMapper,
-    private val recipeDao: RecipeDao
+    private val firebaseAuth: FirebaseAuth
 ): RecipeRepositoryInt{
 
     override fun loadRecipesByType(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
@@ -142,7 +138,7 @@ class RecipeRepository @Inject constructor(
 
     private fun compressBitmap(bitmap: Bitmap):ByteArray{
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
         return stream.toByteArray()
     }
 }

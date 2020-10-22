@@ -35,6 +35,7 @@ class Recipe() : Parcelable {
 
         if (id != other.id) return false
         if (name != other.name) return false
+        if (author != other.author) return false
         if (type != other.type) return false
         if (durationPrepare != other.durationPrepare) return false
         if (ingredients != other.ingredients) return false
@@ -47,6 +48,7 @@ class Recipe() : Parcelable {
     override fun hashCode(): Int {
         var result = id
         result = 31 * result + name.hashCode()
+        result = 31 * result + author.hashCode()
         result = 31 * result + type.hashCode()
         result = 31 * result + durationPrepare.hashCode()
         result = 31 * result + ingredients.hashCode()
@@ -62,6 +64,4 @@ class Recipe() : Parcelable {
             override fun newArray(size: Int): Array<Recipe?> = arrayOfNulls(size)
         }
     }
-
-
 }

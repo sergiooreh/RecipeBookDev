@@ -7,16 +7,16 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipes.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipesAdapter
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
@@ -33,9 +33,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
 
         setupRecycleView()
 
-        val recipesAuthor = arguments?.getString("recipeAuthor") ?: ""
-
-        when(recipesAuthor){
+        when(val recipesAuthor = arguments?.getString("recipeAuthor") ?: ""){
             "" -> {
                 val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
                 recipeViewModel.loadRecipes(type)
@@ -97,8 +95,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes){
         recipesAdapter = RecipesAdapter(requestManager)
         recipes_rv.apply {
             adapter = recipesAdapter
-            layoutManager = GridLayoutManager(requireContext(),2)
-            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
         }
     }
 }

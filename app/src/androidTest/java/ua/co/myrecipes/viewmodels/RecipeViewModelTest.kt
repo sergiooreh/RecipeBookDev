@@ -2,7 +2,6 @@ package ua.co.myrecipes.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import ua.co.myrecipes.repository.recipe.FakeRecipeRepositoryTest

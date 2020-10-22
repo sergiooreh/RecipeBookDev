@@ -87,7 +87,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             like_btn.visibility = View.GONE
         } else{
             lifecycleScope.launch {
-                isLiked = recipeViewModel.isLikedRecipe(recipe).await()
+                isLiked = recipeViewModel.isLikedRecipeAsync(recipe).await()
                 if (isLiked) like_btn.setColorFilter((Color.RED))
             }
             like_btn.setOnClickListener {
@@ -104,7 +104,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)         //subscribe
                         PushNotification(
                             PushNotificationData("RecipeBookApp", "${userViewModel.getUserEmail().substringBefore('@')} liked your recipe"),
-                            userViewModel.getUserToken(recipe.author).await()
+                            userViewModel.getUserTokenAsync(recipe.author).await()
                         ).also {
                             sendNotification(it)
                         }
@@ -137,10 +137,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {
-            val response = RetrofitInstance.api.postNotification(notification)
-            if (response.isSuccessful) {
-
-            }
+            RetrofitInstance.api.postNotification(notification)
         } catch (e: Exception){
 
         }

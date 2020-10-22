@@ -2,9 +2,9 @@
     <string name="app_name">RecipeBookApp</string>
     <string name="app_version">App version</string>
 
-    <string name="ADD">ADD</string>
+    <string name="ADD">Add</string>
     <string name="Direction">Direction</string>
-    <string name="CANCEL">CANCEL</string>
+    <string name="CANCEL">Cancel</string>
     <string name="Amount">Amount</string>
     <string name="Name">Name</string>
     <string name="Log_out">Log out</string>
@@ -20,7 +20,7 @@
     <string name="recipes">Recipes</string>
     <string name="about_me">About Me:</string>
     <string name="about_you">About You</string>
-    <string name="no_information">No information...</string>
+    <string name="no_information">No information…</string>
     <string name="author">Author:</string>
     <string name="time_">Time:</string>
     <string name="create_account">Create Account</string>

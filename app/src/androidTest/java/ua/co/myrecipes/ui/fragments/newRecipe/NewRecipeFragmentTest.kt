@@ -1,14 +1,12 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.app.Activity.RESULT_OK
-import android.app.Dialog
 import android.app.Instrumentation.ActivityResult
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.fragment.app.DialogFragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
@@ -30,7 +28,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 import ua.co.myrecipes.R
 import ua.co.myrecipes.launchFragmentInHiltContainer
 
@@ -54,8 +51,6 @@ class NewRecipeFragmentTest{
             Navigation.setViewNavController(requireView(),navController)            //set mock NavController to fragment
         }
         onView(withId(R.id.recipe_name_et)).perform(typeText("Potatoes"))
-
-
     }
 
     @Test

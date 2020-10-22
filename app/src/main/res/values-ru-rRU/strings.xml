@@ -23,9 +23,9 @@
     <string name="Log_out">Выйти</string>
     <string name="Name">Название</string>
     <string name="Amount">Количество</string>
-    <string name="CANCEL">ОТМЕНА</string>
+    <string name="CANCEL">Отмена</string>
     <string name="Direction">Шаг</string>
-    <string name="ADD">ДОБАВИТЬ</string>
+    <string name="ADD">Добавить</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="welcome_nplease_log_in_to_have_profile">Добро пожаловать!\nВойдите или создайте аккаунт</string>
     <string name="recipe_added">Рецепт добавлен</string>
@@ -71,7 +71,7 @@
     <string name="desserts">ДЕСЕРТЫ</string>
     <string name="salads">САЛАТЫ</string>
     <string name="disconnected">Вы сейчас не в сети</string>
-    <string name="connected" translatable="false">Соединение восстановлено</string>
+    <string name="connected">Соединение восстановлено</string>
     <string name="unit">ед. изм.</string>
     <string name="the_image_of_your_recipe">"Изображение вашего рецепта "</string>
     <string name="next_step_of_creation_recipe">"Следующий шаг создания рецепта "</string>

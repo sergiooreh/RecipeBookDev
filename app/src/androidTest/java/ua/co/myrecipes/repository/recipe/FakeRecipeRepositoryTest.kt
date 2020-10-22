@@ -2,11 +2,9 @@ package ua.co.myrecipes.repository.recipe
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.junit.Assert.*
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
-import java.lang.Exception
 
 class FakeRecipeRepositoryTest: RecipeRepositoryInt{
     private val recipeList = mutableListOf<Recipe>()

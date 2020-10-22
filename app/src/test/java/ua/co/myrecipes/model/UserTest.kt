@@ -21,6 +21,6 @@ class UserTest{
 
     @Test
     fun `all lists are empty when user created`(){
-        assertThat(user.following.size + user.followers.size + user.recipe.size + user.likedRecipes.size).isEqualTo(0)
+        assertThat(user.recipe.size + user.likedRecipes.size).isEqualTo(0)
     }
 }

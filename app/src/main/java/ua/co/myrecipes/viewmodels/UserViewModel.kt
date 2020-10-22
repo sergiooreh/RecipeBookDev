@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.model.User
 import ua.co.myrecipes.repository.user.UserRepositoryInt
 
 class UserViewModel @ViewModelInject constructor(
@@ -21,11 +19,11 @@ class UserViewModel @ViewModelInject constructor(
 
     fun getUserEmail() = userRepository.getUserEmail()
 
-    fun getUserImg() = viewModelScope.async {
+    fun getUserImgAsync() = viewModelScope.async {
         userRepository.getUserImg()
     }
 
-    fun getUserToken(nickName: String) = viewModelScope.async {
+    fun getUserTokenAsync(nickName: String) = viewModelScope.async {
             userRepository.getUserToken(nickName)
         }
 
@@ -47,12 +45,6 @@ class UserViewModel @ViewModelInject constructor(
     fun updateAbout(about: String){
         viewModelScope.launch {
             userRepository.updateAbout(about)
-        }
-    }
-
-    fun updateToken(token:String){
-        viewModelScope.launch {
-            userRepository.updateToken(token)
         }
     }
 }

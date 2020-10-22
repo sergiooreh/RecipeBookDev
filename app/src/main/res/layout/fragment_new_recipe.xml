@@ -34,7 +34,9 @@
         android:layout_marginTop="16dp"
         app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:counterMaxLength="30"
+        app:counterEnabled="true">
 
         <AutoCompleteTextView
             android:id="@+id/recipe_name_et"
@@ -44,6 +46,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/recipe_name"
+            android:maxLength="30"
             android:inputType="textPersonName"
             android:textAlignment="textStart"
             app:layout_constraintStart_toStartOf="parent"
