@@ -35,8 +35,7 @@
     <string name="add_new_recipe">Новый рецепт</string>
     <string name="the_field_cant_be_empty">Поле не может быть пустым</string>
     <string name="you_have_to_accept_permission_to_load_image">Вы должны принять разрешение чтобы загрузить изображение</string>
-    <string name="you_dont_have_your_own_recipes">У вас нету рецептов</string>
-    <string name="you_dont_have_liked_recipes">У вас нету понравившиеся рецепты</string>
+    <string name="the_list_of_recipes_is_empty">Список рецептов  пуст</string>
     <string name="add_ingredients">Добавьте ингредиенты</string>
     <string name="your_passwords_do_not_match">Пароли не совпадают</string>
     <string name="new_direction">Новый шаг</string>
@@ -84,4 +83,5 @@
     <string name="increment_amount_of_ingredient">Увеличить количество ингредиента</string>
     <string name="decrement_amount_of_ingredient">Уменьшить количество ингредиента</string>
     <string name="the_image_of_recipe">изображение рецепта</string>
+    <string name="recipes_of_particular_type">Рецепты определенной категории</string>
 </resources>

@@ -53,6 +53,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corners"
         android:text="@string/ADD"
+        android:textColor="?attr/orangeButtonItemColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

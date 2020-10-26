@@ -63,4 +63,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = resources.getString(R.string.settings)
+    }
 }

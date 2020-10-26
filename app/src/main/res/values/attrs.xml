@@ -3,5 +3,6 @@
     <declare-styleable name="ds">
         <attr name="backgroundcolor" format="color"/>
         <attr name="itemIconcolor" format="color"/>
+        <attr name="orangeButtonItemColor" format="color"/>
     </declare-styleable>
 </resources>

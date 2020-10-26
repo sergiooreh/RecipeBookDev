@@ -14,4 +14,9 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us){
 
         app_version_tv.text = "${getString(R.string.app_version)}  ${BuildConfig.VERSION_NAME}"
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = resources.getString(R.string.about_us)
+    }
 }

@@ -74,9 +74,10 @@
     <TextView
         android:id="@+id/recipeAuthor_tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:gravity="center"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/recipeName_tv"
@@ -122,9 +123,10 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:gravity="center"
         android:text="@string/author"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"

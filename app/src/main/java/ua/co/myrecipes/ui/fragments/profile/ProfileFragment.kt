@@ -64,7 +64,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
 
         userRecipes_lnr.setOnClickListener {
             if (recipes_tv.text=="0"){
-                Toast.makeText(requireContext(),R.string.you_dont_have_your_own_recipes,Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),R.string.the_list_of_recipes_is_empty,Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             findNavController().navigate(R.id.action_profileFragment_to_recipesFragment, bundleOf("recipeAuthor" to userName))
@@ -72,7 +72,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
 
         linearLayoutLiked.setOnClickListener {
             if (liked_tv.text=="0"){
-                Toast.makeText(requireContext(),R.string.you_dont_have_liked_recipes,Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),R.string.the_list_of_recipes_is_empty,Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             findNavController().navigate(R.id.action_profileFragment_to_recipesFragment, bundleOf("recipeAuthor" to "@".plus(userName)))
@@ -85,6 +85,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
                 activity?.title = userName
                 aboutMe_img.visibility = View.GONE
                 log_out_btn2.visibility = View.GONE
+                imageButton.visibility = View.GONE
                 handlingStates(it)
             })
         } else{
@@ -125,7 +126,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EasyPermissions. Pe
             }
             is DataState.Error -> {
                 displayProgressBar(false)
-//                    displayError(dataState.exception.message)
             }
             is DataState.Loading -> {
                 displayProgressBar(true)

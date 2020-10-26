@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:textColor="?attr/orangeButtonItemColor"
         android:background="@drawable/rounded_corners"
         android:text="@string/time"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +62,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:text="@string/img"
+        android:textColor="?attr/orangeButtonItemColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prep_time_btn" />
 

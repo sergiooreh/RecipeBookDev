@@ -17,16 +17,17 @@
         <item name="floatingActionButtonStyle">@style/FloatingButtonL</item>    <!--bottomnav icons-->
         <item name="android:textViewStyle">@style/TextViewL</item>
         <item name="snackbarStyle">@style/snackbarStyle</item>
+        <item name="orangeButtonItemColor">@color/black</item>
     </style>
 
     <style name="snackbarStyle" parent="Widget.Design.Snackbar">
         <item name="android:background">@color/colorLight</item>
     </style>
     <style name="TextViewL" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
     <style name="ToolbarStyleL" parent="Widget.AppCompat.ActionBar">
-        <item name="fontFamily">@font/oswald_light</item>
+        <item name="fontFamily">sans-serif</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:background">@color/colorLight</item>
     </style>
@@ -61,6 +62,7 @@
         <item name="floatingActionButtonStyle">@style/FloatingButtonD</item>
         <item name="android:textViewStyle">@style/TextViewL</item>
         <item name="snackbarStyle">@style/snackbarStyleD</item>
+        <item name="orangeButtonItemColor">@color/black</item>
     </style>
 
     <style name="snackbarStyleD" parent="Widget.Design.Snackbar">

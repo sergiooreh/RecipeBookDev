@@ -58,11 +58,9 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.settings_item -> {
                     navController.navigate(R.id.settingsFragment)
-                    title = getString(R.string.settings)
                 }
                 R.id.about_item -> {
                     navController.navigate(R.id.aboutUsFragment)
-                    title = getString(R.string.about_us)
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START, false)
@@ -99,47 +97,33 @@ class MainActivity : AppCompatActivity() {
 
         networkMonitor.result = { isAvailable, type ->
             runOnUiThread {
-                when (isAvailable) {
-                    true -> {
-                        when (type) {
-                            ConnectionType.Wifi -> {
-                                if (wasDisconnected) {
-                                    Snackbar.make(
-                                        findViewById(R.id.drawerLayout),
-                                        getString(R.string.connected),
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
-                                    wasDisconnected = false
-                                }
-                                flFragment.internetLayout.visibility = View.INVISIBLE
-                                NavHostFragment.view?.visibility = View.VISIBLE
+                if (isAvailable){
+                    when (type) {
+                        ConnectionType.Wifi, ConnectionType.Cellular -> {
+                            if (wasDisconnected) {
+                                Snackbar.make(
+                                    findViewById(R.id.drawerLayout),
+                                    getString(R.string.connected),
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                                wasDisconnected = false
                             }
-                            ConnectionType.Cellular -> {
-                                if (wasDisconnected) {
-                                    Snackbar.make(
-                                        findViewById(R.id.drawerLayout),
-                                        getString(R.string.connected),
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
-                                    wasDisconnected = false
-                                }
-                                flFragment.internetLayout.visibility = View.INVISIBLE
-                                NavHostFragment.view?.visibility = View.VISIBLE
-                            }
-                            else -> {
-                            }
+                            flFragment.internetLayout.visibility = View.INVISIBLE
+                            NavHostFragment.view?.visibility = View.VISIBLE
+                        }
+                        else -> {
                         }
                     }
-                    false -> {
-                        Snackbar.make(
-                            findViewById(R.id.drawerLayout),
-                            getString(R.string.disconnected),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                        flFragment.internetLayout.visibility = View.VISIBLE
-                        NavHostFragment.view?.visibility = View.INVISIBLE
-                        wasDisconnected = true
-                    }
+                }
+                else {
+                    Snackbar.make(
+                        findViewById(R.id.drawerLayout),
+                        getString(R.string.disconnected),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    flFragment.internetLayout.visibility = View.VISIBLE
+                    NavHostFragment.view?.visibility = View.INVISIBLE
+                    wasDisconnected = true
                 }
             }
         }

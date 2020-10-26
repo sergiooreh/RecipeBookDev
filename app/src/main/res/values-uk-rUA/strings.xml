@@ -25,7 +25,7 @@
     <string name="time_">Час:</string>
     <string name="create_account">Створити акаунт</string>
     <string name="password">Пароль</string>
-    <string name="confirm_password">підтвердити пароль</string>
+    <string name="confirm_password">Підтвердити пароль</string>
     <string name="create">Створити</string>
     <string name="log_in">Увійти</string>
     <string name="skip">Пропустити</string>
@@ -36,8 +36,7 @@
     <string name="add_new_recipe">Новий рецепт</string>
     <string name="the_field_cant_be_empty">Поле не може бути порожнім</string>
     <string name="you_have_to_accept_permission_to_load_image">Ви повинні прийняти дозвіл щоб завантажити зображення</string>
-    <string name="you_dont_have_your_own_recipes">У вас немає рецептів</string>
-    <string name="you_dont_have_liked_recipes">У вас немає вподобаних рецептів</string>
+    <string name="the_list_of_recipes_is_empty">Список рецептів порожній</string>
     <string name="add_ingredients">Додайте інгредієнти</string>
     <string name="your_passwords_do_not_match">Паролі не співпадають</string>
     <string name="new_direction">Новий крок</string>
@@ -84,4 +83,5 @@
     <string name="increment_amount_of_ingredient">Збільшити кількість інгредієнта</string>
     <string name="decrement_amount_of_ingredient">Зменшити кількість інгредієнта</string>
     <string name="the_image_of_recipe">зображення рецепту</string>
+    <string name="recipes_of_particular_type">Рецепти певної категорії</string>
 </resources>
