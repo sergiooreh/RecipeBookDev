@@ -9,11 +9,11 @@ import ua.co.myrecipes.util.DataState
 class FakeUserRepositoryTest: UserRepositoryInt {
     private val userList = mutableListOf<User>()
     private var shouldReturnError = false
-    override suspend fun registerUser(email: String, password: String): AuthResult {
+    override suspend fun register(email: String, password: String): AuthResult {
         TODO("Not yet implemented")
     }
 
-    override suspend fun signInUser(email: String, password: String, token: String): AuthResult {
+    override suspend fun login(email: String, password: String, token: String): AuthResult {
         TODO("Not yet implemented")
     }
 
@@ -33,7 +33,7 @@ class FakeUserRepositoryTest: UserRepositoryInt {
         TODO("Not yet implemented")
     }
 
-    override fun getUser(userName: String): Flow<DataState<User>> {
+    override fun getUserByName(userName: String): Flow<DataState<User>> {
         TODO("Not yet implemented")
     }
 

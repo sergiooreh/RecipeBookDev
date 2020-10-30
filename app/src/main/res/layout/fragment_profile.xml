@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/log_out_btn2"
+        android:id="@+id/profile_log_out_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

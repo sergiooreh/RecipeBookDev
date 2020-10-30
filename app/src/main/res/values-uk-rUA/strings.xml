@@ -9,7 +9,7 @@
     <string name="Name">Назва</string>
     <string name="Log_out">Вийти</string>
     <string name="guest">гість</string>
-    <string name="Welcome">Раді бачити,</string>
+    <string name="Welcome">Раді бачити</string>
     <string name="time">Час</string>
     <string name="recipe_name">Назва рецепту</string>
     <string name="img">Фото</string>
@@ -27,7 +27,7 @@
     <string name="password">Пароль</string>
     <string name="confirm_password">Підтвердити пароль</string>
     <string name="create">Створити</string>
-    <string name="log_in">Увійти</string>
+    <string name="login">Увійти</string>
     <string name="skip">Пропустити</string>
     <string name="recipe_added">Рецепт додано</string>
     <string name="add_directions">Додайте кроки</string>
@@ -57,7 +57,7 @@
     <string name="click_here_to_send_an_email_to_us">Напишіть нам на пошту</string>
     <string name="App_version">Версія додатку</string>
     <string name="main">Головне</string>
-    <string name="welcome_nplease_log_in_to_have_profile">Ласкаво просимо!\nУвійдіть або створіть новий акаунт</string>
+    <string name="welcome_nplease_log_in">Ласкаво просимо!\nУвійдіть або створіть новий акаунт</string>
     <string name="set_time">(не обрано)</string>
     <string name="set_image">(не обрано)</string>
     <string name="hour">г</string>

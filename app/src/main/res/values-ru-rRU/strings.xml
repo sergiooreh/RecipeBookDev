@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">RecipeBookApp</string>
     <string name="skip">Пропустить</string>
-    <string name="log_in">Войти</string>
+    <string name="login">Войти</string>
     <string name="create">Создать</string>
     <string name="password">Пароль</string>
     <string name="create_account">Создать Аккаунт</string>
@@ -18,7 +18,7 @@
     <string name="img">Фото</string>
     <string name="recipe_name">Название рецепта</string>
     <string name="time">Время</string>
-    <string name="Welcome">Рады видеть,</string>
+    <string name="Welcome">Рады видеть</string>
     <string name="guest">гость</string>
     <string name="Log_out">Выйти</string>
     <string name="Name">Название</string>
@@ -27,7 +27,7 @@
     <string name="Direction">Шаг</string>
     <string name="ADD">Добавить</string>
     <string name="confirm_password">Подтвердите пароль</string>
-    <string name="welcome_nplease_log_in_to_have_profile">Добро пожаловать!\nВойдите или создайте аккаунт</string>
+    <string name="welcome_nplease_log_in">Добро пожаловать!\nВойдите или создайте аккаунт</string>
     <string name="recipe_added">Рецепт добавлен</string>
     <string name="add_directions">Добавьте шаги</string>
     <string name="choose_time">Выберите время</string>

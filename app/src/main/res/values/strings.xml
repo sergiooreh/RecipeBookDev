@@ -9,7 +9,7 @@
     <string name="Name">Name</string>
     <string name="Log_out">Log out</string>
     <string name="guest">guest</string>
-    <string name="Welcome">Welcome,</string>
+    <string name="Welcome">Welcome</string>
     <string name="time">Time</string>
     <string name="recipe_name">Recipe name</string>
     <string name="img">Img</string>
@@ -28,8 +28,8 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="create">Create</string>
-    <string name="welcome_nplease_log_in_to_have_profile">Welcome!\nPlease log in or create account</string>
-    <string name="log_in">Log In</string>
+    <string name="welcome_nplease_log_in">Welcome!\nLogin into your account</string>
+    <string name="login">Login</string>
     <string name="skip">Skip</string>
     <string name="recipe_added">Recipe added</string>
     <string name="add_directions">Add directions</string>
@@ -91,6 +91,8 @@
     <string name="decrement_amount_of_ingredient">decrement amount of ingredient</string>
     <string name="the_image_of_recipe">the image of recipe</string>
     <string name="recipes_of_particular_type">Recipes of a specific category</string>
+    <string name="Dont_have_an_account_Swipe_up_to_register">Don\'t have an account?\nSwipe up to register!</string>
+    <string name="Already_have_an_account_Swipe_down_to_login">Already have an account?\nSwipe down to login!</string>
 
     <string-array name="recipeTypes">
         <item>@string/cookies</item>

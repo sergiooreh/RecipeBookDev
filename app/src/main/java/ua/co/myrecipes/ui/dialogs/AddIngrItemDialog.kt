@@ -1,4 +1,4 @@
-package ua.co.myrecipes.ui.dialogs.addItem
+package ua.co.myrecipes.ui.dialogs
 
 import android.content.Context
 import android.os.Bundle
@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatDialog
 import kotlinx.android.synthetic.main.dialog_add_ingridient_item.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
-import ua.co.myrecipes.ui.dialogs.AddDialogListenerIngr
 import java.util.*
 
 class AddIngrItemDialog(

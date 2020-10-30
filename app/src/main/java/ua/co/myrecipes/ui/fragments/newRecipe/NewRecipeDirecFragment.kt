@@ -2,12 +2,8 @@ package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
@@ -15,10 +11,11 @@ import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.ui.dialogs.AddDialogListenerDir
-import ua.co.myrecipes.ui.dialogs.addDirections.AddDirectionsDialog
+import ua.co.myrecipes.ui.dialogs.AddDirectionsDialog
+import ua.co.myrecipes.ui.fragments.BaseFragment
 
 @AndroidEntryPoint
-class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
+class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) {
     val directList = arrayListOf<String>()
     private lateinit var directionsAdapter: DirectionsAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -26,7 +23,8 @@ class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecycleView()
+        directionsAdapter = DirectionsAdapter()
+        setupRecycleView(directions_rv, directionsAdapter, 0)
         directionsAdapter.items = directList
 
         add_ingr_btn.setOnClickListener {
@@ -43,24 +41,15 @@ class NewRecipeDirecFragment : Fragment(R.layout.fragment_new_recipe_direc) {
 
         finish_add_recipe_btn.setOnClickListener {
             if (directList.isEmpty()){
-                Snackbar.make(it,R.string.add_directions, Snackbar.LENGTH_SHORT).show()
+                showSnackBar(R.string.add_directions)
                 return@setOnClickListener
             }
-            if (recipe != null) {
+            recipe?.let { recipe ->
                 finish_add_recipe_btn.isClickable = false
                 recipeViewModel.insertRecipe(recipe)
-                Snackbar.make(it, R.string.recipe_added, Snackbar.LENGTH_LONG).show()
+                showSnackBar(R.string.recipe_added)
                 findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
             }
-        }
-    }
-
-    private fun setupRecycleView() {
-        directionsAdapter = DirectionsAdapter(directList)
-        directions_rv.apply {
-            adapter = directionsAdapter
-            layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 }

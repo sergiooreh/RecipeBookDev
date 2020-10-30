@@ -1,4 +1,4 @@
-package ua.co.myrecipes.ui.dialogs.addDirections
+package ua.co.myrecipes.ui.dialogs
 
 import android.content.Context
 import android.os.Bundle
@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatDialog
 import kotlinx.android.synthetic.main.dialog_add_direction_item.*
 import kotlinx.android.synthetic.main.dialog_add_ingridient_item.tvCancel
 import ua.co.myrecipes.R
-import ua.co.myrecipes.ui.dialogs.AddDialogListenerDir
 import java.util.*
 
 class AddDirectionsDialog(

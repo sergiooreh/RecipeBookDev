@@ -14,4 +14,11 @@
     <color name="lightBlack">#000a12</color>
     <color name="colorLight">#eeeeee</color>
     <color name="colorFloatingBtn">#718792</color>
+
+    <color name="cardL">#fafafa</color>
+    <color name="cardD">#000a1a</color>
+
+    <color name="mediumDarkBackground">#303030</color>
+    <color name="darkBackground">#202020</color>
+    <color name="lightBackground">#404040</color>
 </resources>

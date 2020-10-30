@@ -1,28 +1,18 @@
 package ua.co.myrecipes.adapters
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.AsyncListDiffer
 import kotlinx.android.synthetic.main.item_ingredient.view.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
 
 class IngredientsAdapter(
-    var items: MutableList<Ingredient>,
     private val isForAddRecipe: Boolean = true
-): RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>() {
+): BaseAdapter<Ingredient>(R.layout.item_ingredient) {
 
-    class IngredientViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    override val differ = AsyncListDiffer(this, diffCallback)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_ingredient, parent, false)
-        return IngredientViewHolder(view)
-    }
-
-    override fun getItemCount() = items.size
-
-    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val currentIngredientItem = items[position]
 
         if (currentIngredientItem.amount.isNotBlank()){

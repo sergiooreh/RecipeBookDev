@@ -21,46 +21,46 @@ class RecipeViewModel @ViewModelInject constructor(
 ): AndroidViewModel(app) {
 
     private var _recipes: MutableLiveData<DataState<List<Recipe>>> = MutableLiveData()
-    val recipes: LiveData<DataState<List<Recipe>>>
-        get() = _recipes
+    val recipes: LiveData<DataState<List<Recipe>>> = _recipes
 
     private var _recipe: MutableLiveData<DataState<Recipe>> = MutableLiveData()
-    val recipe: LiveData<DataState<Recipe>>
-        get() = _recipe
+    val recipe: LiveData<DataState<Recipe>> = _recipe
 
-    fun loadRecipes(recipeType: RecipeType){
-        recipeRepository.loadRecipesByType(recipeType)
+    fun loadRecipesByType(recipeType: RecipeType){
+        recipeRepository.getRecipesByType(recipeType)
             .onEach { _recipes.value = it }
             .launchIn(viewModelScope)
     }
 
-    fun loadRecipesCurrentUser(){
-        recipeRepository.loadRecipesCurrentUser()
+    fun loadCurrentUserRecipes(){
+        recipeRepository.getCurrentUserRecipes()
             .onEach { _recipes.value = it }
             .launchIn(viewModelScope)
     }
 
-    fun loadLikedRecipes(){
-        recipeRepository.loadMyLikedRecipes()
+    fun loadMyLikedRecipes(){
+        recipeRepository.getMyLikedRecipes()
             .onEach { _recipes.value = it }
             .launchIn(viewModelScope)
     }
 
-    fun loadRecipesUser(userName: String){
-        recipeRepository.loadRecipesUser(userName)
+    fun loadRecipesByUserName(userName: String){
+        recipeRepository.getRecipesByUserName(userName)
             .onEach { _recipes.value = it }
             .launchIn(viewModelScope)
     }
 
+
+    //TODO : flow?
     fun loadRecipe(recipe: Recipe){
-       recipeRepository.loadRecipe(recipe)
+       recipeRepository.getRecipe(recipe)
            .onEach { _recipe.value = it }
            .launchIn(viewModelScope)
     }
 
     fun insertRecipe(recipe: Recipe){
         viewModelScope.launch {
-            recipeRepository.addRecipe(recipe)
+            recipeRepository.insertRecipe(recipe)
         }
     }
 
@@ -72,6 +72,7 @@ class RecipeViewModel @ViewModelInject constructor(
         recipeRepository.removeLikedRecipe(recipe)
     }
 
+    /*TODO: waiting Philip answer*/
     fun isLikedRecipeAsync(recipe: Recipe) = viewModelScope.async {
         recipeRepository.isLikedRecipe(recipe)
     }

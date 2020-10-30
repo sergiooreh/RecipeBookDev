@@ -1,27 +1,17 @@
 package ua.co.myrecipes.adapters
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.AsyncListDiffer
 import kotlinx.android.synthetic.main.item_direction.view.*
 import ua.co.myrecipes.R
 
 class DirectionsAdapter(
-    var items: MutableList<String>,
     private val isForNewRecipe: Boolean = true
-): RecyclerView.Adapter<DirectionsAdapter.DirectViewHolder>() {
+): BaseAdapter<String>(R.layout.item_direction) {
 
-    class DirectViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    override val differ = AsyncListDiffer(this, diffCallback)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_direction, parent, false)
-        return DirectViewHolder(view)
-    }
-
-    override fun getItemCount() = items.size
-
-    override fun onBindViewHolder(holder: DirectViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val currentDirectItem = items[position]
 
         holder.itemView.direction_item_tv.text = "${(position + 1)}."

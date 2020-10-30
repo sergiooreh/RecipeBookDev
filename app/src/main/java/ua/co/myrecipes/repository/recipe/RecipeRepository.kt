@@ -1,6 +1,8 @@
 package ua.co.myrecipes.repository.recipe
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,7 +26,7 @@ class RecipeRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ): RecipeRepositoryInt{
 
-    override fun loadRecipesByType(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
+    override fun getRecipesByType(recipeType: RecipeType) = flow<DataState<List<Recipe>>> {
         emit(DataState.Loading)
         try {
             val recipes = recipeRef.document(recipeType.name).collection(RECIPE_F).get().await().toObjects(Recipe::class.java)
@@ -34,49 +36,49 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    override fun loadRecipesCurrentUser() = flow {
+    override fun getCurrentUserRecipes() = flow {
         emit(DataState.Loading)
         try {
-            val ids = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<*, *>)
-            val list = ids.map {
+            val userRecipesIDs = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<*, *>)
+            val userRecipes = userRecipesIDs.map {
                 recipeRef.document(it.value.toString()).collection(RECIPE_F)
                     .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
-            emit(DataState.Success(list))
+            emit(DataState.Success(userRecipes))
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
     }
 
-    override fun loadMyLikedRecipes() = flow {
+    override fun getMyLikedRecipes() = flow {
         emit(DataState.Loading)
         try {
-            val ids = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<*, *>)
-            val list = ids.map {
+            val likedRecipesIDs = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<*, *>)
+            val likedRecipes = likedRecipesIDs.map {
                 recipeRef.document(it.value.toString()).collection(RECIPE_F)
                     .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
-            emit(DataState.Success(list))
+            emit(DataState.Success(likedRecipes))
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
     }
 
-    override fun loadRecipesUser(userName: String) = flow {
+    override fun getRecipesByUserName(userName: String) = flow {
         emit(DataState.Loading)
         try {
-            val ids = (userRef.whereEqualTo("nickname",userName).get().await().first().get("recipe") as HashMap<*, *>)
-            val list = ids.map {
+            val userRecipesIDs = (userRef.whereEqualTo("nickname",userName).get().await().first().get("recipe") as HashMap<*, *>)
+            val userRecipes = userRecipesIDs.map {
                 recipeRef.document(it.value.toString()).collection(RECIPE_F)
                     .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
-            emit(DataState.Success(list))
+            emit(DataState.Success(userRecipes))
         } catch (e: Exception){
             emit(DataState.Error(e))
         }
     }
-
-    override fun loadRecipe(recipe: Recipe) =  flow {
+    //? TODO: MAYBE to LiveData
+    override fun getRecipe(recipe: Recipe) =  flow {
         emit(DataState.Loading)
         try {
             val recipeItem = recipeRef.document(recipe.type.name).collection(RECIPE_F)
@@ -87,15 +89,15 @@ class RecipeRepository @Inject constructor(
         }
     }
 
-    override suspend fun addRecipe(recipe: Recipe) {
+    override suspend fun insertRecipe(recipe: Recipe) {
         val byteArray = compressBitmap(recipe.imgBitmap!!)
-        recipe.img.let {                                                                                                    //!!!!
+        recipe.imgUrl.let {                                                                                                    //!!!!
             val snapshot = Firebase.storage.reference.child("images/${recipe.name}").putBytes(byteArray).await()
             val url = snapshot.storage.downloadUrl
             while (!url.isSuccessful);
-            recipe.img = url.result.toString()
+            recipe.imgUrl = url.result.toString()
         }
-        recipe.id = increaseCount()!!
+        recipe.id = incrementID()!!
 
         FirebaseFirestore.getInstance().runTransaction { transaction ->
             val userRecipes = transaction.get(userRef.document(firebaseAuth.currentUser?.email!!)).get("recipe")!! as HashMap<String,String>
@@ -126,14 +128,14 @@ class RecipeRepository @Inject constructor(
         return userRecipes.keys.contains(recipe.id.toString())
     }
 
-    private suspend fun increaseCount(): Int?{
-        var incrementId: Int? = 0
+    private suspend fun incrementID(): Int?{
+        var incrementedId: Int? = 0
         statRef.firestore.runTransaction { transaction ->
-            incrementId = transaction.get(statRef.document(RECIPE_F)).getField<Int>(COUNT_F)?.plus(1)
-            transaction.update(statRef.document(RECIPE_F), COUNT_F, incrementId)
+            incrementedId = transaction.get(statRef.document(RECIPE_F)).getField<Int>(COUNT_F)?.plus(1)
+            transaction.update(statRef.document(RECIPE_F), COUNT_F, incrementedId)
             null
         }.await()
-        return incrementId
+        return incrementedId
     }
 
     private fun compressBitmap(bitmap: Bitmap):ByteArray{

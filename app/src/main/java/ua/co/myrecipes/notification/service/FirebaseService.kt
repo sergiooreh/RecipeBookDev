@@ -21,7 +21,6 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.repository.user.UserRepositoryInt
 import ua.co.myrecipes.ui.MainActivity
 import ua.co.myrecipes.util.Constants
-import ua.co.myrecipes.util.Constants.FCM_GROUP
 import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
 import javax.inject.Inject
 import kotlin.random.Random

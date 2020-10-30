@@ -25,6 +25,7 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Recipe
+import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Constants.REQUEST_CODE
 import ua.co.myrecipes.util.Permissions
@@ -32,7 +33,7 @@ import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
-class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions. PermissionCallbacks {
+class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
     private val userViewModel: UserViewModel by viewModels()
     private var imgUri: Uri? = null
     private var time = ""
@@ -41,13 +42,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         super.onViewCreated(view, savedInstanceState)
 
         if (userViewModel.getUserEmail().isBlank()){
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.homeFragment, false)
-                .build()
-            findNavController().navigate(
-                R.id.action_newRecipeFragment_to_regFragment,
-                savedInstanceState,
-                navOptions)
+            findNavController().navigate(R.id.action_newRecipeFragment_to_regFragment, bundleOf("redirectToRegister" to true))
         }
 
         add_recipe_img.setOnClickListener {
@@ -59,18 +54,7 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
         }
 
         prep_time_btn.setOnClickListener {
-            val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
-                { _, h, m ->
-                    time = when {
-                        h==0 -> "$m ${getString(R.string.min)}"
-                        m==0 -> "$h ${getString(R.string.hour)}"
-                        else -> "$h ${getString(R.string.hour)}  $m ${getString(R.string.min)}"
-                    }
-                    new_time_tv.text = time
-                }, 0, 0, true
-            )
-            timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            timePickerDialog.show()
+            choosingTime()
         }
 
         type_spinner.adapter =
@@ -82,12 +66,12 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
             }
 
             if (new_time_tv.text.isBlank()){
-                Snackbar.make(it, R.string.choose_time, Snackbar.LENGTH_SHORT).show()
+                showSnackBar(R.string.choose_time)
                 return@setOnClickListener
             }
 
             if (recipe_img.drawable == null){
-                Snackbar.make(it, R.string.insert_image, Snackbar.LENGTH_SHORT).show()
+                showSnackBar(R.string.insert_image)
                 return@setOnClickListener
             }
 
@@ -96,10 +80,9 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                 author = userViewModel.getUserEmail().substringBefore("@")
                 durationPrepare = time
                 type = RecipeType.values()[type_spinner.selectedItemPosition]
-                img = imgUri.toString()
+                imgUrl = imgUri.toString()
                 imgBitmap = (recipe_img.drawable as BitmapDrawable).bitmap
             }
-
             findNavController().navigate(R.id.action_newRecipeFragment_to_newRecipeIngrFragment, bundleOf("recipe" to recipe))
         }
     }
@@ -107,6 +90,21 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.add_new_recipe)
+    }
+
+    private fun choosingTime(){
+        val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
+            { _, h, m ->
+                time = when {
+                    h==0 -> "$m ${getString(R.string.min)}"
+                    m==0 -> "$h ${getString(R.string.hour)}"
+                    else -> "$h ${getString(R.string.hour)}  $m ${getString(R.string.min)}"
+                }
+                new_time_tv.text = time
+            }, 0, 0, true
+        )
+        timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        timePickerDialog.show()
     }
 
     private fun validateInput(string: String, textInputLayout: TextInputLayout)=
@@ -117,14 +115,6 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
             textInputLayout.error = null
             true
         }
-
-    private fun openGalleryForImage() {
-        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-            type = "image/*"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            startActivityForResult(this, REQUEST_CODE)
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -137,43 +127,10 @@ class NewRecipeFragment : Fragment(R.layout.fragment_new_recipe),EasyPermissions
                     result.uri?.let {
                         imgUri = it
                         recipe_img.setImageURI(it)
-                        setImage_tv.hint = ""
+                        setImage_tv.hint = ""                           //clear textView
                     }
                 }
             }
         }
     }
-
-    private fun launchImageCrop(uri: Uri) {
-        CropImage.activity(uri)
-            .setAspectRatio(500,500)
-            .setFixAspectRatio(true)
-            .start(requireContext(), this)
-    }
-
-    private fun requestPermissions(){
-        if (Permissions.hasStoragePermissions(requireContext())){ return }
-        EasyPermissions.requestPermissions(
-            this,
-            getString(R.string.you_have_to_accept_permission_to_load_image),
-            Constants.REQUEST_CODE_EXTERNAL_STORAGE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE)
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) { openGalleryForImage() }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this,perms)){
-            AppSettingsDialog.Builder(this).build().show()
-        } else{
-            requestPermissions()
-            return
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
 }

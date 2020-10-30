@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var backPressedTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setting()
+        preferencesSetting()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -72,14 +72,13 @@ class MainActivity : AppCompatActivity() {
         setupNav()
 
         val navHeader = navView.getHeaderView(0)
-
         if (userViewModel.getUserEmail() == "") {
             navHeader.nickName_drawer_tv.text = getString(R.string.guest)
             navHeader.log_out_btn.visibility = View.GONE
         } else {
             lifecycleScope.launch {
-                if (userViewModel.getUserImgAsync().await() != "") {
-                    glide.load(userViewModel.getUserImgAsync().await()).into(navHeader.drawer_user_img)
+                if (userViewModel.getUserImgAsync() != "") {
+                    glide.load(userViewModel.getUserImgAsync()).into(navHeader.drawer_user_img)
                 }
             }
             navHeader.nickName_drawer_tv.text = userViewModel.getUserEmail().substringBefore("@")
@@ -170,22 +169,21 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.homeFragment, R.id.newRecipeFragment, R.id.profileFragment, R.id.regFragment -> {
                     toggle.isDrawerIndicatorEnabled = true
-                    toggle.syncState()
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     bottomNavigationView.visibility = View.VISIBLE
                 }
                 else -> {
                     toggle.isDrawerIndicatorEnabled = false
-                    toggle.syncState()
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                     bottomNavigationView.visibility = View.GONE
                     title = getString(R.string.app_name)
                 }
             }
+            toggle.syncState()
         }
     }
 
-    private fun setting() {
+    private fun preferencesSetting() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         val lang = sharedPreferences.getString("language", "")

@@ -4,14 +4,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe.*
 import kotlinx.coroutines.CoroutineScope
@@ -20,11 +16,11 @@ import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.adapters.IngredientsAdapter
-import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.notification.PushNotification
 import ua.co.myrecipes.notification.PushNotificationData
 import ua.co.myrecipes.notification.api.RetrofitInstance
+import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.viewmodels.UserViewModel
@@ -33,7 +29,7 @@ import javax.inject.Inject
 const val TOPIC = "/topics/myTopic"
 
 @AndroidEntryPoint
-class RecipeFragment : Fragment(R.layout.fragment_recipe) {
+class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
 
@@ -64,19 +60,24 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                         recipeName_tv.text = name
                         recipeAuthor_tv.text = author
                         recipeTime_tv.text = durationPrepare
-                        glide.load(img).into(recipeImg_img)
+                        glide.load(imgUrl).into(recipeImg_img)
 
                         handleLikeBtn(this)
-                        setupRecycleView(ingredients,directions)
+                        ingredientsAdapter = IngredientsAdapter(false)
+                        directionsAdapter = DirectionsAdapter(false)
+                        ingredientsAdapter.items = ingredients.toMutableList()
+                        directionsAdapter.items = directions.toMutableList()
+                        setupRecycleView(directions_rv,directionsAdapter,1)
+                        setupRecycleView(ingredients_rv,ingredientsAdapter,1)
                     }
-                    displayProgressBar(false)
+                    displayProgressBar(progress_bar_recipe)
                 }
                 is DataState.Error -> {
-                    displayProgressBar(false)
-//                    displayError(dataState.exception.message)
+                    displayProgressBar(progress_bar_recipe)
+                    showToast(text = it.exception.message ?: "An unknown error")
                 }
                 is DataState.Loading -> {
-                    displayProgressBar(true)
+                    displayProgressBar(progress_bar_recipe, isDisplayed = true)
                 }
             }
         })
@@ -101,7 +102,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                     isLiked = true
 
                     lifecycleScope.launch {
-                        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)         //subscribe
+                        //FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)         //subscribe
                         PushNotification(
                             PushNotificationData("RecipeBookApp", "${userViewModel.getUserEmail().substringBefore('@')} liked your recipe"),
                             userViewModel.getUserTokenAsync(recipe.author).await()
@@ -114,32 +115,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         }
     }
 
-    private fun displayProgressBar(isDisplayed: Boolean){
-        progress_bar_recipe.visibility = if(isDisplayed) View.VISIBLE else View.GONE
-    }
-
-    private fun setupRecycleView(ingr: List<Ingredient>, direct: List<String>) {
-        ingredientsAdapter = IngredientsAdapter(ingr.toMutableList(),false)
-        directionsAdapter = DirectionsAdapter(direct.toMutableList(), false)
-        directions_rv.apply {
-            adapter = directionsAdapter
-            layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
-            overScrollMode = View.OVER_SCROLL_NEVER
-        }
-        ingredients_rv.apply {
-            adapter = ingredientsAdapter
-            layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
-            overScrollMode = View.OVER_SCROLL_NEVER
-        }
-    }
-
     private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            RetrofitInstance.api.postNotification(notification)
-        } catch (e: Exception){
-
-        }
+        try { RetrofitInstance.api.postNotification(notification) }
+        catch (e: Exception){ showToast(text = e.message ?: "An unknown error")} //TODO
     }
 }

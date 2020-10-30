@@ -14,7 +14,7 @@ class Recipe() : Parcelable {
     var durationPrepare = ""
     var ingredients = listOf<Ingredient>()
     var directions = listOf<String>()
-    lateinit var img: String
+    var imgUrl = ""
 
     @get:Exclude
     var imgBitmap: Bitmap? = null
@@ -40,7 +40,7 @@ class Recipe() : Parcelable {
         if (durationPrepare != other.durationPrepare) return false
         if (ingredients != other.ingredients) return false
         if (directions != other.directions) return false
-        if (img != other.img) return false
+        if (imgUrl != other.imgUrl) return false
 
         return true
     }
@@ -53,7 +53,7 @@ class Recipe() : Parcelable {
         result = 31 * result + durationPrepare.hashCode()
         result = 31 * result + ingredients.hashCode()
         result = 31 * result + directions.hashCode()
-        result = 31 * result + img.hashCode()
+        result = 31 * result + imgUrl.hashCode()
         return result
     }
 

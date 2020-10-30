@@ -15,20 +15,22 @@ import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
+    override fun onResume() {
+        super.onResume()
+        activity?.title = resources.getString(R.string.settings)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
         val language: ListPreference? = findPreference("language")
-        language?.setOnPreferenceChangeListener { _, newValue ->
-            resources.configuration.setLocale(Locale(newValue as String))
-            resources.updateConfiguration(resources.configuration,resources.displayMetrics)
+        language?.setOnPreferenceChangeListener { _, _ ->
             activity?.recreate()
             true
         }
 
         val theme: SwitchPreferenceCompat? = findPreference("theme")
-        theme?.isChecked
         theme?.setOnPreferenceChangeListener { _, _ ->
             activity?.recreate()
             true
@@ -62,10 +64,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 } }
             true
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.title = resources.getString(R.string.settings)
     }
 }
