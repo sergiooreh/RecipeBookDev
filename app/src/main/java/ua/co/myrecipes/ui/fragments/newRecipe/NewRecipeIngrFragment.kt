@@ -21,7 +21,7 @@ class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ingredientsAdapter = IngredientsAdapter()
+        ingredientsAdapter = IngredientsAdapter(ingredients = ingrList)
         ingredientsAdapter.items = ingrList
         setupRecycleView(ingredients_rv,ingredientsAdapter, 0)
 

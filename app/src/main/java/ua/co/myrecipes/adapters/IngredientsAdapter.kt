@@ -7,13 +7,14 @@ import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Ingredient
 
 class IngredientsAdapter(
-    private val isForAddRecipe: Boolean = true
+    private val isForAddRecipe: Boolean = true,
+    var ingredients: MutableList<Ingredient>
 ): BaseAdapter<Ingredient>(R.layout.item_ingredient) {
 
     override val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val currentIngredientItem = items[position]
+        val currentIngredientItem = ingredients[position]
 
         if (currentIngredientItem.amount.isNotBlank()){
             holder.itemView.tvAmount.text = currentIngredientItem.amount
@@ -34,7 +35,7 @@ class IngredientsAdapter(
         }
 
         holder.itemView.ivDelete.setOnClickListener {
-            items.remove(currentIngredientItem)
+            ingredients.remove(currentIngredientItem)
             notifyItemRemoved(position)
             notifyDataSetChanged()
         }

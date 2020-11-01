@@ -37,7 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         val feedback: Preference? = findPreference("feedback")
-        feedback?.intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:serhioorehh@gmail.com"))
+        feedback?.intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:sergiooreh@ukr.net"))
         feedback?.setOnPreferenceClickListener {
             it?.intent?.apply {
                 this.putExtra(

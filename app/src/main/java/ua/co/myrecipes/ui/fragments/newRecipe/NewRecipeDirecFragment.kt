@@ -23,9 +23,9 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        directionsAdapter = DirectionsAdapter()
-        setupRecycleView(directions_rv, directionsAdapter, 0)
+        directionsAdapter = DirectionsAdapter(directions = directList)
         directionsAdapter.items = directList
+        setupRecycleView(directions_rv, directionsAdapter, 0)
 
         add_ingr_btn.setOnClickListener {
             AddDirectionsDialog(requireContext(),

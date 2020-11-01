@@ -63,8 +63,9 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
                         glide.load(imgUrl).into(recipeImg_img)
 
                         handleLikeBtn(this)
-                        ingredientsAdapter = IngredientsAdapter(false)
-                        directionsAdapter = DirectionsAdapter(false)
+
+                        ingredientsAdapter = IngredientsAdapter(false, ingredients.toMutableList())
+                        directionsAdapter = DirectionsAdapter(false, directions.toMutableList())
                         ingredientsAdapter.items = ingredients.toMutableList()
                         directionsAdapter.items = directions.toMutableList()
                         setupRecycleView(directions_rv,directionsAdapter,1)

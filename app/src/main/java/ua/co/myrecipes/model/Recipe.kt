@@ -5,9 +5,10 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
 import ua.co.myrecipes.util.RecipeType
+import java.util.*
 
 class Recipe() : Parcelable {
-    var id: Int = 0
+    var id = UUID.randomUUID().toString()
     var name = ""
     var author = ""
     lateinit var type: RecipeType
@@ -26,7 +27,6 @@ class Recipe() : Parcelable {
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -46,7 +46,7 @@ class Recipe() : Parcelable {
     }
 
     override fun hashCode(): Int {
-        var result = id
+        var result = id.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + author.hashCode()
         result = 31 * result + type.hashCode()
@@ -56,6 +56,7 @@ class Recipe() : Parcelable {
         result = 31 * result + imgUrl.hashCode()
         return result
     }
+
 
     companion object {
         @JvmField

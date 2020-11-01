@@ -28,11 +28,6 @@ object RepositoryModule {
     @Provides
     fun provideCollectionUsers(): CollectionReference = FirebaseFirestore.getInstance().collection("Users")
 
-    @Stat
-    @Singleton
-    @Provides
-    fun provideCollectionStat(): CollectionReference = FirebaseFirestore.getInstance().collection("Statistics")
-
     @Singleton
     @Provides
     fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance()
@@ -41,19 +36,17 @@ object RepositoryModule {
     @Provides
     fun provideRecipeRepository(
         @Recipes collectionReference: CollectionReference,
-        @Stat collectionReferenceStat: CollectionReference,
         @Users collectionReferenceUser: CollectionReference,
         firebaseAuth: FirebaseAuth
-    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceStat, collectionReferenceUser, firebaseAuth)
+    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser, firebaseAuth)
 
 
     @Singleton
     @Provides
     fun provideUserRepository(
         @Users collectionReference: CollectionReference,
-        @Stat collectionReferenceStat: CollectionReference,
         firebaseAuth: FirebaseAuth
-    ): UserRepositoryInt = UserRepository(collectionReference, collectionReferenceStat, firebaseAuth)
+    ): UserRepositoryInt = UserRepository(collectionReference, firebaseAuth)
 
 
 

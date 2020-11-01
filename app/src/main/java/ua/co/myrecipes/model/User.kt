@@ -1,7 +1,9 @@
 package ua.co.myrecipes.model
 
+import java.util.*
+
 class User() {
-    var id = 0
+    var id = UUID.randomUUID().toString()
     lateinit var email: String
     private lateinit var password: String
     var token = ""

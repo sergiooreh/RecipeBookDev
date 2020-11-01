@@ -23,22 +23,21 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     private val collectionReference: CollectionReference,
-    private val statReference: CollectionReference,
     private val firebaseAuth: FirebaseAuth
 ): UserRepositoryInt {
 
     override suspend fun register(email: String, password: String) = withContext(Dispatchers.IO) {
         try {
             val user = User(email, password)
-            user.id = increaseCount()!!
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
                 user.token = it.token
             }.await()
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
                     collectionReference.document(email).set(user)
+                    firebaseAuth.currentUser?.sendEmailVerification()
                 }.await()
-            Resource.success("Successfully")
+            Resource.error("The activation code was sent to your email. Activate it and login", null)
         } catch (e: Exception){
             Resource.error(e.message ?: "", null)
         }
@@ -51,7 +50,11 @@ class UserRepository @Inject constructor(
                     updateToken(token)
                 }
             }.await()
-            Resource.success("Successfully")
+            if (firebaseAuth.currentUser?.isEmailVerified == false) {
+                Resource.error("Email is not activated. Please, activate your email", null)
+            } else {
+                Resource.success("Successfully")
+            }
         } catch (e: Exception){
             Resource.error(e.message ?: "unkwno error", null)
         }
@@ -105,16 +108,6 @@ class UserRepository @Inject constructor(
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream)
             return stream.toByteArray()
-        }
-
-        private suspend fun increaseCount(): Int?{
-            var incrementedId: Int? = 0
-            statReference.firestore.runTransaction { transaction ->
-                incrementedId = transaction.get(statReference.document(USER_F)).getField<Int>(COUNT_F)?.plus(1)
-                transaction.update(statReference.document(USER_F), COUNT_F, incrementedId)
-                null
-            }.await()
-            return incrementedId
         }
 
         private suspend fun updateToken(token: String){
