@@ -13,8 +13,9 @@ class Recipe() : Parcelable {
     var author = ""
     lateinit var type: RecipeType
     var durationPrepare = ""
-    var ingredients = listOf<Ingredient>()
-    var directions = listOf<String>()
+    var ingredients = mutableListOf<Ingredient>()
+    var directions = mutableListOf<String>()
+    var userLiked = mutableListOf<String>()
     var imgUrl = ""
 
     @get:Exclude

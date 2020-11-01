@@ -3,11 +3,10 @@ package ua.co.myrecipes.ui.fragments.profile
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_auth.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.fragments.BaseFragment
@@ -34,20 +33,23 @@ class AuthorizationFragment: BaseFragment(R.layout.fragment_auth) {
             login()
         }
     }
-    //TODO : SnackBars
+
     private fun subscribeToObservers() {
         userViewModel.authStatus.observe(viewLifecycleOwner, { result ->
             result?.let {
-                when(result.status){
-                    Status.SUCCESS-> {
-                        Snackbar.make(requireActivity().drawerLayout,"Successfully logged in", Snackbar.LENGTH_LONG).show()
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        showSnackBar(text = "Successfully logged in")                               //TODO
                         findNavController().navigate(R.id.action_regFragment_to_homeFragment)
                         activity?.recreate()
                     }
                     Status.ERROR -> {
-                        Snackbar.make(requireActivity().drawerLayout,result.message ?: "An unknown error occurred", Snackbar.LENGTH_LONG).show()
+                        if (result.message == "An activation link has been sent to your E-Mail. Please click it to activate your account"){
+                            requireView().findViewById<MotionLayout>(R.id.motionLayout).transitionToStart()
+                        }
+                        showSnackBar(text = result.message ?: getString(R.string.an_unknown_error_occurred))
                     }
-                    Status.LOADING ->{
+                    Status.LOADING -> {
                     }
                 }
             }
@@ -57,7 +59,7 @@ class AuthorizationFragment: BaseFragment(R.layout.fragment_auth) {
     private fun login(){
         val email = etLoginEmail.text.toString().trim()
         val password = etLoginPassword.text.toString().trim()
-        val token = sharedPreferences.getString(KEY_FIRST_NEW_TOKEN,"") ?: ""
+        val token = sharedPreferences.getString(KEY_FIRST_NEW_TOKEN, "") ?: ""
         userViewModel.login(email, password, token)
     }
 

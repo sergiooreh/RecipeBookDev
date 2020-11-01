@@ -14,8 +14,8 @@
     <string name="recipe_name">Назва рецепту</string>
     <string name="img">Фото</string>
     <string name="category">Категорія:</string>
-    <string name="directions">Приготування:</string>
-    <string name="ingredients">Інгредієнти:</string>
+    <string name="directions">Приготування</string>
+    <string name="ingredients">Інгредієнти</string>
     <string name="liked_recipes">Вподобані</string>
     <string name="recipes">Рецепти</string>
     <string name="about_me">Про мене:</string>
@@ -38,7 +38,6 @@
     <string name="you_have_to_accept_permission_to_load_image">Ви повинні прийняти дозвіл щоб завантажити зображення</string>
     <string name="the_list_of_recipes_is_empty">Список рецептів порожній</string>
     <string name="add_ingredients">Додайте інгредієнти</string>
-    <string name="your_passwords_do_not_match">Паролі не співпадають</string>
     <string name="new_direction">Новий крок</string>
     <string name="new_ingredient">Новий інгредієнт</string>
     <string name="please_enter_the_direction">Будь ласка, введіть крок</string>
@@ -84,4 +83,16 @@
     <string name="decrement_amount_of_ingredient">Зменшити кількість інгредієнта</string>
     <string name="the_image_of_recipe">зображення рецепту</string>
     <string name="recipes_of_particular_type">Рецепти певної категорії</string>
+    <string name="EMAIL_IS_NOT_ACTIVATED">Електронна пошта не активована. Будь ласка, активуйте свою електронну адресу</string>
+    <string name="ERROR_USER_NOT_FOUND">Немає запису користувача, що відповідає цьому ідентифікатору. Можливо, користувача видалено.</string>
+    <string name="please_fill_out_all_the_fields">Будь-ласка, заповніть всі поля</string>
+    <string name="ERROR_PASSWORDS_DO_NOT_MATCH">Паролі не збігаються</string>
+    <string name="ERROR_INVALID_EMAIL">Адреса електронної пошти погано відформатована.</string>
+    <string name="ERROR_WRONG_PASSWORD">Пароль недійсний або у користувача немає пароля.</string>
+    <string name="ERROR_USER_DISABLED">Адміністратор вимкнув обліковий запис користувача.</string>
+    <string name="ERROR_EMAIL_ALREADY_IN_USE">Адреса електронної пошти вже використовується іншим обліковим записом.</string>
+    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">"Посилання для активації надіслано на вашу електронну пошту. Натисніть його, щоб активувати "</string>
+    <string name="an_unknown_error_occurred">Сталася невідома помилка</string>
+    <string name="recipe_successfully_deleted">Рецепт успішно видалено</string>
+    <string name="press_back_again_to_exit">Повторно натисніть назад, щоб вийти</string>
 </resources>

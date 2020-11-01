@@ -16,7 +16,6 @@ class DirectionsAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val currentDirectItem = directions[position]
 
-        holder.itemView.direction_item_tv.text = "${(position + 1)}."
         holder.itemView.direction_name_tv.text = currentDirectItem
 
         if (!isForNewRecipe){

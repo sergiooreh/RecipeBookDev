@@ -1,18 +1,15 @@
 package ua.co.myrecipes.repository.recipe
 
 import android.graphics.Bitmap
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.getField
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.util.Constants.COUNT_F
 import ua.co.myrecipes.util.Constants.RECIPE_F
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
@@ -30,21 +27,40 @@ class RecipeRepository @Inject constructor(
         try {
             val recipes = recipeRef.document(recipeType.name).collection(RECIPE_F).get().await().toObjects(Recipe::class.java)
             emit(DataState.Success(recipes))
-        } catch (e: Exception){
+        } catch (e: FirebaseFirestoreException){
             emit(DataState.Error(e))
         }
+    }
+
+    override suspend fun deleteRecipe(recipe: Recipe){
+        val usersLikedIDs = recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id).get().await().get("userLiked") as MutableList<String>
+        usersLikedIDs.onEach {
+            val userLikedRecipes = userRef.document(it).get().await().get("likedRecipes") as HashMap<String, String>
+            userLikedRecipes.remove(recipe.id)
+            userRef.document(it).update("likedRecipes", userLikedRecipes)
+        }
+        FirebaseFirestore.getInstance().runTransaction { transaction ->
+            val userRecipes = transaction.get(userRef.document(firebaseAuth.currentUser?.uid!!)).get("recipe")!! as HashMap<String,String>
+            userRecipes.remove(recipe.id)
+            transaction.update(userRef.document(firebaseAuth.currentUser?.uid!!),"recipe",userRecipes)
+
+            transaction.delete(recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id))
+            null
+        }.addOnSuccessListener {
+            Firebase.storage.reference.child("images/${recipe.name}").delete()
+        }.await()
     }
 
     override fun getCurrentUserRecipes() = flow {
         emit(DataState.Loading)
         try {
-            val userRecipesIDs = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("recipe") as HashMap<*, *>)
+            val userRecipesIDs = (userRef.document(firebaseAuth.currentUser?.uid!!).get().await().get("recipe") as HashMap<*, *>)
             val userRecipes = userRecipesIDs.map {
                 recipeRef.document(it.value.toString()).collection(RECIPE_F)
                     .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
             emit(DataState.Success(userRecipes))
-        } catch (e: Exception){
+        } catch (e: FirebaseFirestoreException){
             emit(DataState.Error(e))
         }
     }
@@ -52,17 +68,17 @@ class RecipeRepository @Inject constructor(
     override fun getMyLikedRecipes() = flow {
         emit(DataState.Loading)
         try {
-            val likedRecipesIDs = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<*, *>)
+            val likedRecipesIDs = (userRef.document(firebaseAuth.currentUser?.uid!!).get().await().get("likedRecipes") as HashMap<*, *>)
             val likedRecipes = likedRecipesIDs.map {
                 recipeRef.document(it.value.toString()).collection(RECIPE_F)
                     .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
             emit(DataState.Success(likedRecipes))
-        } catch (e: Exception){
+        } catch (e: FirebaseFirestoreException){
             emit(DataState.Error(e))
         }
     }
-
+//TODO
     override fun getRecipesByUserName(userName: String) = flow {
         emit(DataState.Loading)
         try {
@@ -72,18 +88,18 @@ class RecipeRepository @Inject constructor(
                     .document(it.key.toString()).get().await().toObject(Recipe::class.java)!!
             }
             emit(DataState.Success(userRecipes))
-        } catch (e: Exception){
+        } catch (e: FirebaseFirestoreException){
             emit(DataState.Error(e))
         }
     }
-    //? TODO: MAYBE to LiveData
+
     override fun getRecipe(recipe: Recipe) =  flow {
         emit(DataState.Loading)
         try {
             val recipeItem = recipeRef.document(recipe.type.name).collection(RECIPE_F)
                 .document(recipe.id).get().await().toObject(Recipe::class.java)!!
             emit(DataState.Success(recipeItem))
-        } catch (e: Exception){
+        } catch (e: FirebaseFirestoreException){
             emit(DataState.Error(e))
         }
     }
@@ -98,9 +114,9 @@ class RecipeRepository @Inject constructor(
         }
 
         FirebaseFirestore.getInstance().runTransaction { transaction ->
-            val userRecipes = transaction.get(userRef.document(firebaseAuth.currentUser?.email!!)).get("recipe")!! as HashMap<String,String>
+            val userRecipes = transaction.get(userRef.document(firebaseAuth.currentUser?.uid!!)).get("recipe")!! as HashMap<String,String>
             userRecipes[recipe.id] = recipe.type.name
-            transaction.update(userRef.document(firebaseAuth.currentUser?.email!!),"recipe",userRecipes)
+            transaction.update(userRef.document(firebaseAuth.currentUser?.uid!!),"recipe",userRecipes)
 
             transaction.set(recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id),recipe)
             null
@@ -110,19 +126,25 @@ class RecipeRepository @Inject constructor(
     }
 
     override suspend fun addLikedRecipe(recipe: Recipe){
-        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<String, String>)
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.uid!!).get().await().get("likedRecipes") as HashMap<String, String>)
         userRecipes[recipe.id] = recipe.type.name
-        userRef.document(firebaseAuth.currentUser?.email!!).update("likedRecipes", userRecipes)
+        userRef.document(firebaseAuth.currentUser?.uid!!).update("likedRecipes", userRecipes)
+        val usersLiked = recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id).get().await().get("userLiked") as MutableList<String>
+        usersLiked.add(firebaseAuth.currentUser?.uid!!)
+        recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id).update("userLiked",usersLiked)
     }
 
     override suspend fun removeLikedRecipe(recipe: Recipe){
-        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<String, String>)
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.uid!!).get().await().get("likedRecipes") as HashMap<String, String>)
         userRecipes.remove(recipe.id)
-        userRef.document(firebaseAuth.currentUser?.email!!).update("likedRecipes", userRecipes)
+        userRef.document(firebaseAuth.currentUser?.uid!!).update("likedRecipes", userRecipes)
+        val usersLiked = recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id).get().await().get("userLiked") as MutableList<String>
+        usersLiked.remove(firebaseAuth.currentUser?.uid!!)
+        recipeRef.document(recipe.type.name).collection(RECIPE_F).document(recipe.id).update("userLiked",usersLiked)
     }
 
     override suspend fun isLikedRecipe(recipe: Recipe): Boolean{
-        val userRecipes = (userRef.document(firebaseAuth.currentUser?.email!!).get().await().get("likedRecipes") as HashMap<String, String>)
+        val userRecipes = (userRef.document(firebaseAuth.currentUser?.uid!!).get().await().get("likedRecipes") as HashMap<String, String>)
         return userRecipes.keys.contains(recipe.id)
     }
 

@@ -50,18 +50,14 @@ class RecipeViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-
-    //TODO : flow?
     fun loadRecipe(recipe: Recipe){
        recipeRepository.getRecipe(recipe)
            .onEach { _recipe.value = it }
            .launchIn(viewModelScope)
     }
 
-    fun insertRecipe(recipe: Recipe){
-        viewModelScope.launch {
-            recipeRepository.insertRecipe(recipe)
-        }
+    fun insertRecipe(recipe: Recipe) = viewModelScope.launch {
+        recipeRepository.insertRecipe(recipe)
     }
 
     fun addLikedRecipe(recipe: Recipe) = viewModelScope.launch {
@@ -77,6 +73,7 @@ class RecipeViewModel @ViewModelInject constructor(
         recipeRepository.isLikedRecipe(recipe)
     }
 
-
-
+    fun deleteRecipe(recipe: Recipe) = viewModelScope.launch {
+        recipeRepository.deleteRecipe(recipe)
+    }
 }

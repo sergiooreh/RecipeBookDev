@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ua.co.myrecipes.R
-import ua.co.myrecipes.util.Constants
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -41,14 +40,7 @@ class MainActivityTest{
 
     @Test
     fun testActivity(){
-        if (isFirstAppOpen){
-            onView(withId(R.id.welcomeReg_layout)).check(matches(isDisplayed()))
-            sharedPref.edit()
-                .putBoolean(Constants.KEY_FIRST_TIME_ENTER, false)
-                .apply()
-        } else{
-            onView(withId(R.id.recipeTypes_layout)).check(matches(isDisplayed()))
-        }
+        onView(withId(R.id.recipeTypes_layout)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -60,6 +52,5 @@ class MainActivityTest{
     @Test
     fun openProfileFragment(){
         onView(withId(R.id.profileFragment)).perform(click())
-        onView(withId(R.id.welcomeReg_layout)).check(matches(isDisplayed()))
     }
 }

@@ -30,7 +30,9 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+    fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance().also{
+        it.useAppLanguage()
+    }
 
     @Singleton
     @Provides
@@ -57,8 +59,4 @@ object RepositoryModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class Users
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class Stat
 }

@@ -1,7 +1,6 @@
 package ua.co.myrecipes.notification.service
 
 import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.app.PendingIntent
@@ -20,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.co.myrecipes.R
 import ua.co.myrecipes.repository.user.UserRepositoryInt
 import ua.co.myrecipes.ui.MainActivity
-import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
 import javax.inject.Inject
 import kotlin.random.Random
@@ -36,16 +34,13 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
 
     override fun onNewToken(newToken: String) {                         //whenever we get a new token
         super.onNewToken(newToken)
-        if(sharedPreferences.getBoolean(Constants.KEY_FIRST_TIME_ENTER,true)){
-            sharedPreferences.edit().putString(KEY_FIRST_NEW_TOKEN,newToken).apply()
-        }
+        sharedPreferences.edit().putString(KEY_FIRST_NEW_TOKEN,newToken).apply()
     }
 
     override fun onMessageReceived(message: RemoteMessage) {        //when this device gets message
         super.onMessageReceived(message)
 
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val getNotifications = sharedPreferences.getBoolean("notification", true)
+        val getNotifications = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification", true)
         if (!getNotifications){
             return
         }

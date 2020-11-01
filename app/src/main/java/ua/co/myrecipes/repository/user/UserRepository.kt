@@ -2,8 +2,8 @@ package ua.co.myrecipes.repository.user
 
 import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -14,11 +14,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.model.User
-import ua.co.myrecipes.util.Constants.COUNT_F
-import ua.co.myrecipes.util.Constants.USER_F
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.Resource
 import java.io.ByteArrayOutputStream
+import java.util.*
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -34,12 +33,13 @@ class UserRepository @Inject constructor(
             }.await()
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    collectionReference.document(email).set(user)
+                    user.id = firebaseAuth.currentUser?.uid ?: UUID.randomUUID().toString()
+                    collectionReference.document(user.id).set(user)
                     firebaseAuth.currentUser?.sendEmailVerification()
                 }.await()
-            Resource.error("The activation code was sent to your email. Activate it and login", null)
-        } catch (e: Exception){
-            Resource.error(e.message ?: "", null)
+            Resource.error("ERROR_ACTIVATION_LINK_SENT_TO_YOU", null)
+        } catch (e: FirebaseAuthException){
+            Resource.error(e.errorCode, null)
         }
     }
 
@@ -51,12 +51,12 @@ class UserRepository @Inject constructor(
                 }
             }.await()
             if (firebaseAuth.currentUser?.isEmailVerified == false) {
-                Resource.error("Email is not activated. Please, activate your email", null)
+                Resource.error("EMAIL_IS_NOT_ACTIVATED", null)
             } else {
-                Resource.success("Successfully")
+                Resource.success(null)
             }
-        } catch (e: Exception){
-            Resource.error(e.message ?: "unkwno error", null)
+        } catch (e: FirebaseAuthException){
+            Resource.error(e.errorCode, null)
         }
     }
 

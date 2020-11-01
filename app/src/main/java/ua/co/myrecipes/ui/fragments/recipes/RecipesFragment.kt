@@ -71,7 +71,7 @@ class RecipesFragment : BaseFragment(R.layout.fragment_recipes){
                 }
                 is DataState.Error -> {
                     displayProgressBar(progress_bar)
-                    showToast(text = it.exception.message ?: "An unknown error")                //TODO
+                    showToast(text = it.exception.message ?: getString(R.string.an_unknown_error_occurred))
                 }
                 is DataState.Loading -> {
                     displayProgressBar(progress_bar, isDisplayed = true)

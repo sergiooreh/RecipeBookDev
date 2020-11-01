@@ -50,6 +50,10 @@ class FakeRecipeRepositoryTest: RecipeRepositoryInt{
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteRecipe(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
+
     fun setShouldReturnError(value: Boolean){
         shouldReturnError = value
     }

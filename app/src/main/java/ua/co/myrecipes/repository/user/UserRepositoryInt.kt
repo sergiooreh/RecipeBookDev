@@ -28,4 +28,5 @@ interface UserRepositoryInt {
     suspend fun updateAbout(about: String)
 
     suspend fun updateImage(imgBitmap: Bitmap)
+
 }

@@ -98,12 +98,12 @@
         android:id="@+id/recipeIngr_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
         android:text="@string/ingredients"
         android:textAlignment="center"
         android:textSize="28sp"
         android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeTime_tv" />
 
@@ -111,12 +111,12 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/directions"
         android:textAlignment="center"
         android:textSize="28sp"
         android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredients_rv" />
 
@@ -147,12 +147,24 @@
         android:id="@+id/like_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/like_button"
         android:src="@drawable/ic_humb_up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeName_tv" />
+        app:layout_constraintTop_toTopOf="@+id/recipeLikes_tv" />
+
+    <TextView
+        android:id="@+id/recipeLikes_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/like_btn"
+        app:layout_constraintTop_toBottomOf="@+id/recipeName_tv"
+        tools:text="1000" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

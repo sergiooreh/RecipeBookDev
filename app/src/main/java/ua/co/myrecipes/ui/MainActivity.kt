@@ -35,7 +35,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val userViewModel: UserViewModel by viewModels()
+    val userViewModel: UserViewModel by viewModels()
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
     private val networkMonitor = NetworkMonitorUtil(this)
@@ -145,11 +145,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (navController.currentDestination?.id == R.id.homeFragment ||
-            navController.currentDestination?.id == R.id.newRecipeFragment){
+            navController.currentDestination?.id == R.id.newRecipeFragment ||
+            navController.currentDestination?.id == R.id.regFragment){
             if (backPressedTime + 2000 > System.currentTimeMillis()) {
                 finish()
             } else {
-                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.press_back_again_to_exit), Toast.LENGTH_SHORT).show()
             }
             backPressedTime = System.currentTimeMillis()
         } else super.onBackPressed()

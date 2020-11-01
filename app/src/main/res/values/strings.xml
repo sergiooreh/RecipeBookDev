@@ -14,8 +14,8 @@
     <string name="recipe_name">Recipe name</string>
     <string name="img">Img</string>
     <string name="category">Category:</string>
-    <string name="directions">Directions:</string>
-    <string name="ingredients">Ingredients:</string>
+    <string name="directions">Directions</string>
+    <string name="ingredients">Ingredients</string>
     <string name="liked_recipes">Liked</string>
     <string name="recipes">Recipes</string>
     <string name="about_me">About Me:</string>
@@ -40,11 +40,21 @@
     <string name="you_have_to_accept_permission_to_load_image">You have to accept permission to load image</string>
     <string name="the_list_of_recipes_is_empty">The list of recipes is empty</string>
     <string name="add_ingredients">Add ingredients</string>
-    <string name="your_passwords_do_not_match">Your passwords do not match</string>
     <string name="new_direction">New direction</string>
     <string name="new_ingredient">New ingredient</string>
     <string name="please_enter_the_direction">Please, enter the direction</string>
     <string name="please_enter_the_ingredient">Please, enter the ingredient</string>
+
+    <!--Errors-->
+    <string name="please_fill_out_all_the_fields">Please, fill out all the fields</string>
+    <string name="ERROR_PASSWORDS_DO_NOT_MATCH">The passwords do not match</string>
+    <string name="EMAIL_IS_NOT_ACTIVATED">Email is not activated. Please, activate your email</string>
+    <string name="ERROR_USER_NOT_FOUND">There is no user record corresponding to this identifier. The user may have been deleted.</string>
+    <string name="ERROR_INVALID_EMAIL">The email address is badly formatted.</string>
+    <string name="ERROR_WRONG_PASSWORD">The password is invalid or the user does not have a password.</string>
+    <string name="ERROR_USER_DISABLED">The user account has been disabled by an administrator.</string>
+    <string name="ERROR_EMAIL_ALREADY_IN_USE">The email address is already in use by another account.</string>
+    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">An activation link has been sent to your E-Mail. Please click it to activate your account</string>
 
     <string name="unit">Unit</string>
     <string name="open" translatable="false">Open</string>
@@ -91,8 +101,11 @@
     <string name="decrement_amount_of_ingredient">decrement amount of ingredient</string>
     <string name="the_image_of_recipe">the image of recipe</string>
     <string name="recipes_of_particular_type">Recipes of a specific category</string>
-    <string name="Dont_have_an_account_Swipe_up_to_register">Don\'t have an account?\nSwipe up to register!</string>
+    <string name="Dont_have_an_account_Swipe_up_to_register">Don\'t have an account? Swipe up to register!</string>
     <string name="Already_have_an_account_Swipe_down_to_login">Already have an account?\nSwipe down to login!</string>
+    <string name="an_unknown_error_occurred">An unknown error occurred</string>
+    <string name="recipe_successfully_deleted">Recipe successfully deleted</string>
+    <string name="press_back_again_to_exit">Press back again to exit</string>
 
     <string-array name="recipeTypes">
         <item>@string/cookies</item>

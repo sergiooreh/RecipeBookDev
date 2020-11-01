@@ -23,7 +23,7 @@ class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
 
         ingredientsAdapter = IngredientsAdapter(ingredients = ingrList)
         ingredientsAdapter.items = ingrList
-        setupRecycleView(ingredients_rv,ingredientsAdapter, 0)
+        setupRecycleView(ingredients_rv,ingredientsAdapter, 0, ingrList)
 
         add_recipe_ingr_btn.setOnClickListener {
             AddIngrItemDialog(requireContext(),

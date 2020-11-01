@@ -25,7 +25,7 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
 
         directionsAdapter = DirectionsAdapter(directions = directList)
         directionsAdapter.items = directList
-        setupRecycleView(directions_rv, directionsAdapter, 0)
+        setupRecycleView(directions_rv, directionsAdapter, 0, directList)
 
         add_ingr_btn.setOnClickListener {
             AddDirectionsDialog(requireContext(),
@@ -46,9 +46,10 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
             }
             recipe?.let { recipe ->
                 finish_add_recipe_btn.isClickable = false
-                recipeViewModel.insertRecipe(recipe)
-                showSnackBar(R.string.recipe_added)
-                findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
+                recipeViewModel.insertRecipe(recipe).invokeOnCompletion {
+                    showSnackBar(R.string.recipe_added)
+                    findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
+                }
             }
         }
     }

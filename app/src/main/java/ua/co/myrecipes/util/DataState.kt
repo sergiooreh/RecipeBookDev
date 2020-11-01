@@ -9,7 +9,7 @@ sealed class DataState<out R> {
 }
 
 /*Wrapper class to handle responses from server*/
-data class Resource<out T>(val status: Status,val data: T?, val message: String?) {
+data class Resource<out T>(val status: Status, val data: T?, var message: String?) {
     companion object{
         fun <T> success(data: T?): Resource<T>{
             return Resource(Status.SUCCESS,data,null)

@@ -24,4 +24,6 @@ interface RecipeRepositoryInt {
     fun getRecipesByUserName(userName: String): Flow<DataState<List<Recipe>>>
 
     suspend fun isLikedRecipe(recipe: Recipe): Boolean
+
+    suspend fun deleteRecipe(recipe: Recipe)
 }
