@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RecipeBookApp</string>
-    <string name="skip">Пропустить</string>
     <string name="login">Войти</string>
     <string name="create">Создать</string>
     <string name="password">Пароль</string>
@@ -24,7 +22,6 @@
     <string name="Name">Название</string>
     <string name="Amount">Количество</string>
     <string name="CANCEL">Отмена</string>
-    <string name="Direction">Шаг</string>
     <string name="ADD">Добавить</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="welcome_nplease_log_in">Добро пожаловать!\nВойдите или создайте аккаунт</string>
@@ -41,7 +38,6 @@
     <string name="new_ingredient">Новый ингредиент</string>
     <string name="please_enter_the_direction">Пожалуйста, введите шаг</string>
     <string name="please_enter_the_ingredient">Пожалуйста, введите ингредиент</string>
-    <string name="about_you">Про Вас</string>
     <string name="app_version">Версия приложения</string>
     <string name="new_recipe">Новый рецепт</string>
     <string name="profile">Профиль</string>
@@ -77,22 +73,21 @@
     <string name="no_internet_connection_connect_to_the_internet_and_try_again">"Отсутствует подключение к интернету. Подключитесь к интернету и попробуйте еще раз "</string>
     <string name="click_to_choose_profile_s_image">нажмите, чтобы выбрать изображение профиля</string>
     <string name="like_button">кнопка \"нравится\"</string>
-    <string name="delete_direction">удалить шаг</string>
-    <string name="delete_ingredient">удалить ингредиент</string>
-    <string name="increment_amount_of_ingredient">Увеличить количество ингредиента</string>
-    <string name="decrement_amount_of_ingredient">Уменьшить количество ингредиента</string>
     <string name="the_image_of_recipe">изображение рецепта</string>
     <string name="recipes_of_particular_type">Рецепты определенной категории</string>
     <string name="EMAIL_IS_NOT_ACTIVATED">Электронная почта не активирована. Пожалуйста, активируйте свою электронную почту</string>
     <string name="please_fill_out_all_the_fields">Пожалуйста, заполните все поля</string>
     <string name="ERROR_PASSWORDS_DO_NOT_MATCH">Пароли не совпадают</string>
-    <string name="ERROR_USER_NOT_FOUND">Нет записи пользователя, соответствующей этому идентификатору. Пользователь мог быть удален.</string>
+    <string name="ERROR_USER_NOT_FOUND">Нет записи пользователя, соответствующей этому идентификатору.</string>
     <string name="ERROR_INVALID_EMAIL">Адрес электронной почты неправильно отформатирован.</string>
     <string name="ERROR_WRONG_PASSWORD">Пароль недействителен или у пользователя нет пароля.</string>
     <string name="ERROR_USER_DISABLED">Учетная запись пользователя была отключена администратором.</string>
     <string name="ERROR_EMAIL_ALREADY_IN_USE">Адрес электронной почты уже используется другой учетной записью.</string>
-    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">Ссылка для активации была отправлена на вашу электронную почту. Пожалуйста, нажмите на нее, чтобы активировать свою учетную запись</string>
+    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">Ссылка для активации была отправлена на вашу электронную почту. Пожалуйста, активируйте свою учетную запись</string>
     <string name="an_unknown_error_occurred">Произошла неизвестная ошибка</string>
     <string name="recipe_successfully_deleted">Рецепт успешно удален</string>
     <string name="press_back_again_to_exit">Нажмите еще раз, чтобы выйти</string>
+    <string name="Dont_have_an_account_Swipe_up_to_register">Смахните вверх, чтобы зарегистрироваться</string>
+    <string name="Already_have_an_account_Swipe_down_to_login">Уже есть аккаунт? Проведите вниз, чтобы войти!</string>
+    <string name="delete_recipe">Удалить рецепт</string>
 </resources>

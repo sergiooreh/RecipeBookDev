@@ -1,8 +1,6 @@
 package ua.co.myrecipes.repository.user
 
 import android.graphics.Bitmap
-import com.google.firebase.auth.AuthResult
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.DataState

@@ -13,21 +13,6 @@ abstract class BaseAdapter<T>(
 
     class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    protected val diffCallback = object : DiffUtil.ItemCallback<T>() {
-        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-            return oldItem == newItem
-        }
-        override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
-    }
-
-    protected abstract val differ: AsyncListDiffer<T>
-
-    var items: MutableList<T>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         BaseViewHolder(LayoutInflater.from(parent.context).inflate(layoutID, parent, false))
 
@@ -38,4 +23,18 @@ abstract class BaseAdapter<T>(
     }
 
     override fun getItemCount() = items.size
+
+    protected val diffCallback = object : DiffUtil.ItemCallback<T>() {
+        override fun areItemsTheSame(oldItem: T, newItem: T) =
+            oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: T, newItem: T) =
+            oldItem.hashCode() == newItem.hashCode()
+    }
+
+    protected abstract val differ: AsyncListDiffer<T>
+
+    var items: MutableList<T>
+        get() = differ.currentList
+        set(value) = differ.submitList(value)
 }

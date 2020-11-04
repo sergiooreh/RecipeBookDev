@@ -41,6 +41,7 @@ class Recipe() : Parcelable {
         if (durationPrepare != other.durationPrepare) return false
         if (ingredients != other.ingredients) return false
         if (directions != other.directions) return false
+        if (userLiked != other.userLiked) return false
         if (imgUrl != other.imgUrl) return false
 
         return true
@@ -54,6 +55,7 @@ class Recipe() : Parcelable {
         result = 31 * result + durationPrepare.hashCode()
         result = 31 * result + ingredients.hashCode()
         result = 31 * result + directions.hashCode()
+        result = 31 * result + userLiked.hashCode()
         result = 31 * result + imgUrl.hashCode()
         return result
     }

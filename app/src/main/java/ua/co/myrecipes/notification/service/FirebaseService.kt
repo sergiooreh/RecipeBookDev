@@ -32,7 +32,7 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    override fun onNewToken(newToken: String) {                         //whenever we get a new token
+    override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
         sharedPreferences.edit().putString(KEY_FIRST_NEW_TOKEN,newToken).apply()
     }
@@ -40,8 +40,8 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
     override fun onMessageReceived(message: RemoteMessage) {        //when this device gets message
         super.onMessageReceived(message)
 
-        val getNotifications = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification", true)
-        if (!getNotifications){
+        val isNotificationEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification", true)
+        if (!isNotificationEnabled){
             return
         }
 
@@ -66,8 +66,7 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
         notificationManager.notify(notificationID,notification)
     }
 
-    /*Starting in Android 8.0 (API level 26), all notifications must be assigned to a channel.
-    For each channel, you can set the visual and auditory behavior that is applied to all notifications in that channel. */
+    /*Starting in Android 8.0 (API level 26), all notifications must be assigned to a channel.*/
     @RequiresApi(Build.VERSION_CODES.O)
         private fun createNotificationChannel(notificationManager: NotificationManager){
         val channelName = "channelName"

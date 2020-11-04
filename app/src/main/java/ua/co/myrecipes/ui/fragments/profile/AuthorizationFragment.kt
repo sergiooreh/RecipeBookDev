@@ -39,12 +39,11 @@ class AuthorizationFragment: BaseFragment(R.layout.fragment_auth) {
             result?.let {
                 when (result.status) {
                     Status.SUCCESS -> {
-                        showSnackBar(text = "Successfully logged in")                               //TODO
                         findNavController().navigate(R.id.action_regFragment_to_homeFragment)
                         activity?.recreate()
                     }
                     Status.ERROR -> {
-                        if (result.message == "An activation link has been sent to your E-Mail. Please click it to activate your account"){
+                        if (result.message == getString(R.string.ERROR_ACTIVATION_LINK_SENT_TO_YOU)){
                             requireView().findViewById<MotionLayout>(R.id.motionLayout).transitionToStart()
                         }
                         showSnackBar(text = result.message ?: getString(R.string.an_unknown_error_occurred))

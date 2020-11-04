@@ -106,11 +106,10 @@ class RecipeRepository @Inject constructor(
 
     override suspend fun insertRecipe(recipe: Recipe) {
         val byteArray = compressBitmap(recipe.imgBitmap!!)
-        recipe.imgUrl.let {                                                                                                    //!!!!
+        recipe.imgUrl.let {
             val snapshot = Firebase.storage.reference.child("images/${recipe.name}").putBytes(byteArray).await()
-            val url = snapshot.storage.downloadUrl
-            while (!url.isSuccessful);
-            recipe.imgUrl = url.result.toString()
+            val url = snapshot.storage.downloadUrl.await()
+            recipe.imgUrl = url.toString()
         }
 
         FirebaseFirestore.getInstance().runTransaction { transaction ->

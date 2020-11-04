@@ -61,7 +61,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             activity?.recreate()
         }
 
-        userRecipes_lnr.setOnClickListener {
+        linearLayout.setOnClickListener {
             if (recipes_tv.text=="0"){
                 showToast(R.string.the_list_of_recipes_is_empty)
                 return@setOnClickListener
@@ -147,7 +147,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
         }
 
         AlertDialog.Builder(requireContext()).apply {
-            setTitle(R.string.about_you)
+            setTitle(R.string.about_me)
             setView(editText)
             setPositiveButton(R.string.ok) { _, _ ->
                 userViewModel.updateAbout(editText.text.toString())

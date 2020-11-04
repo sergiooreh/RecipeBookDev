@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">RecipeBookApp</string>
+    <string name="app_name" translatable="false">RecipeBookApp</string>
     <string name="app_version">App version</string>
 
     <string name="ADD">Add</string>
-    <string name="Direction">Direction</string>
     <string name="CANCEL">Cancel</string>
     <string name="Amount">Amount</string>
     <string name="Name">Name</string>
@@ -19,7 +18,6 @@
     <string name="liked_recipes">Liked</string>
     <string name="recipes">Recipes</string>
     <string name="about_me">About Me:</string>
-    <string name="about_you">About You</string>
     <string name="no_information">No information…</string>
     <string name="author">Author:</string>
     <string name="time_">Time:</string>
@@ -30,7 +28,6 @@
     <string name="create">Create</string>
     <string name="welcome_nplease_log_in">Welcome!\nLogin into your account</string>
     <string name="login">Login</string>
-    <string name="skip">Skip</string>
     <string name="recipe_added">Recipe added</string>
     <string name="add_directions">Add directions</string>
     <string name="choose_time">Choose time</string>
@@ -95,17 +92,14 @@
     <string name="no_internet_connection_connect_to_the_internet_and_try_again">No internet connection. Connect to the internet and try again</string>
     <string name="click_to_choose_profile_s_image">click to choose profile image</string>
     <string name="like_button">like button</string>
-    <string name="delete_direction">delete direction</string>
-    <string name="delete_ingredient">delete ingredient</string>
-    <string name="increment_amount_of_ingredient">Increment amount of ingredient</string>
-    <string name="decrement_amount_of_ingredient">decrement amount of ingredient</string>
     <string name="the_image_of_recipe">the image of recipe</string>
     <string name="recipes_of_particular_type">Recipes of a specific category</string>
-    <string name="Dont_have_an_account_Swipe_up_to_register">Don\'t have an account? Swipe up to register!</string>
-    <string name="Already_have_an_account_Swipe_down_to_login">Already have an account?\nSwipe down to login!</string>
+    <string name="Dont_have_an_account_Swipe_up_to_register">Don\'t have an account? Swipe up to register</string>
+    <string name="Already_have_an_account_Swipe_down_to_login">Already have an account? Swipe down to login!</string>
     <string name="an_unknown_error_occurred">An unknown error occurred</string>
     <string name="recipe_successfully_deleted">Recipe successfully deleted</string>
     <string name="press_back_again_to_exit">Press back again to exit</string>
+    <string name="delete_recipe">Delete recipe</string>
 
     <string-array name="recipeTypes">
         <item>@string/cookies</item>

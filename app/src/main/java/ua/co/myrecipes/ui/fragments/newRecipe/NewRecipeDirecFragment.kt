@@ -1,7 +1,12 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputFilter
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,31 +14,24 @@ import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.viewmodels.RecipeViewModel
-import ua.co.myrecipes.ui.dialogs.AddDialogListenerDir
-import ua.co.myrecipes.ui.dialogs.AddDirectionsDialog
 import ua.co.myrecipes.ui.fragments.BaseFragment
+import ua.co.myrecipes.viewmodels.RecipeViewModel
 
 @AndroidEntryPoint
 class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) {
-    val directList = arrayListOf<String>()
+    private val directList = arrayListOf<String>()
     private lateinit var directionsAdapter: DirectionsAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        directionsAdapter = DirectionsAdapter(directions = directList)
+        directionsAdapter = DirectionsAdapter(directList)
         directionsAdapter.items = directList
         setupRecycleView(directions_rv, directionsAdapter, 0, directList)
 
         add_ingr_btn.setOnClickListener {
-            AddDirectionsDialog(requireContext(),
-            object : AddDialogListenerDir{
-                override fun onAddButtonClick(direction: String) {
-                    directList.add(direction)
-                }
-            }).show()
+            addDirectionDialog()
         }
 
         val recipe = arguments?.getParcelable<Recipe>("recipe")
@@ -51,6 +49,33 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
                     findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
                 }
             }
+        }
+    }
+
+    private fun addDirectionDialog() {
+        val editText = EditText(requireContext()).apply {
+            isSingleLine = false
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            gravity = Gravity.START or Gravity.TOP
+            isHorizontalScrollBarEnabled = true
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(300))                //max length
+        }
+
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.new_direction)
+            setView(editText)
+            setPositiveButton(R.string.ADD) { _, _ ->
+                if (editText.text.toString().isNotEmpty()){
+                    directList.add(editText.text.toString())
+                } else{
+                    showToast(R.string.please_enter_the_direction)
+                }
+            }
+            setNegativeButton(R.string.CANCEL) { dialogInterface, _ -> dialogInterface.cancel() }
+            show()
         }
     }
 }

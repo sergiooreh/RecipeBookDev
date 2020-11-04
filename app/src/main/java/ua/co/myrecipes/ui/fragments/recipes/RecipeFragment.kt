@@ -72,8 +72,8 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
 
                         handleLikeBtn(this)
 
-                        ingredientsAdapter = IngredientsAdapter(false, ingredients)
-                        directionsAdapter = DirectionsAdapter(false, directions)
+                        ingredientsAdapter = IngredientsAdapter(ingredients)
+                        directionsAdapter = DirectionsAdapter(directions)
                         ingredientsAdapter.items = ingredients
                         directionsAdapter.items = directions
                         setupRecycleView(directions_rv,directionsAdapter,1)
@@ -94,7 +94,7 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
 
     private fun handleLikeBtn(recipe: Recipe){
         if (userViewModel.getUserEmail().isBlank()){
-            like_btn.visibility = View.GONE
+            like_btn.isEnabled = false
         } else{
             var isLiked = false
             lifecycleScope.launch {

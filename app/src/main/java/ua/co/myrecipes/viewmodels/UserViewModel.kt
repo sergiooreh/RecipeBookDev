@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -19,12 +20,19 @@ import ua.co.myrecipes.model.User
 import ua.co.myrecipes.repository.user.UserRepositoryInt
 import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.Resource
+import java.util.*
 
 class UserViewModel @ViewModelInject constructor(
     private val userRepository: UserRepositoryInt,
     application: Application
 ): AndroidViewModel(application) {
     private val resources: Resources = getApplication<MyApp>().resources
+
+    init {
+        val lang = PreferenceManager.getDefaultSharedPreferences(application).getString("language", "")
+        resources.configuration.setLocale(Locale(lang?:"en"))
+        resources.updateConfiguration(resources.configuration, resources.displayMetrics)
+    }
 
     private val _authStatus = MutableLiveData<Resource<String>>()
     val authStatus: LiveData<Resource<String>> = _authStatus

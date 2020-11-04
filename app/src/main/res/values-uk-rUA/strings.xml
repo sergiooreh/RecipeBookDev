@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RecipeBookApp</string>
     <string name="app_version">Версія додатку</string>
     <string name="ADD">Додати</string>
-    <string name="Direction">Крок</string>
     <string name="CANCEL">Відміна</string>
     <string name="Amount">Кількість</string>
     <string name="Name">Назва</string>
@@ -19,7 +17,6 @@
     <string name="liked_recipes">Вподобані</string>
     <string name="recipes">Рецепти</string>
     <string name="about_me">Про мене:</string>
-    <string name="about_you">Про Вас</string>
     <string name="no_information">Немає інформації…</string>
     <string name="author">Автор:</string>
     <string name="time_">Час:</string>
@@ -28,7 +25,6 @@
     <string name="confirm_password">Підтвердити пароль</string>
     <string name="create">Створити</string>
     <string name="login">Увійти</string>
-    <string name="skip">Пропустити</string>
     <string name="recipe_added">Рецепт додано</string>
     <string name="add_directions">Додайте кроки</string>
     <string name="choose_time">Оберіть час</string>
@@ -77,14 +73,10 @@
     <string name="no_internet_connection_connect_to_the_internet_and_try_again">Відсутнє підключення до інтернету.  Підключіться до інтернету і спробуйте ще раз</string>
     <string name="click_to_choose_profile_s_image">натисніть, щоб вибрати зображення профілю</string>
     <string name="like_button">кнопка \"подобається\"</string>
-    <string name="delete_direction">видалити крок</string>
-    <string name="delete_ingredient">видалити інгредієнт</string>
-    <string name="increment_amount_of_ingredient">Збільшити кількість інгредієнта</string>
-    <string name="decrement_amount_of_ingredient">Зменшити кількість інгредієнта</string>
     <string name="the_image_of_recipe">зображення рецепту</string>
     <string name="recipes_of_particular_type">Рецепти певної категорії</string>
     <string name="EMAIL_IS_NOT_ACTIVATED">Електронна пошта не активована. Будь ласка, активуйте свою електронну адресу</string>
-    <string name="ERROR_USER_NOT_FOUND">Немає запису користувача, що відповідає цьому ідентифікатору. Можливо, користувача видалено.</string>
+    <string name="ERROR_USER_NOT_FOUND">Немає запису користувача, що відповідає цьому ідентифікатору.</string>
     <string name="please_fill_out_all_the_fields">Будь-ласка, заповніть всі поля</string>
     <string name="ERROR_PASSWORDS_DO_NOT_MATCH">Паролі не збігаються</string>
     <string name="ERROR_INVALID_EMAIL">Адреса електронної пошти погано відформатована.</string>
@@ -95,4 +87,7 @@
     <string name="an_unknown_error_occurred">Сталася невідома помилка</string>
     <string name="recipe_successfully_deleted">Рецепт успішно видалено</string>
     <string name="press_back_again_to_exit">Повторно натисніть назад, щоб вийти</string>
+    <string name="Dont_have_an_account_Swipe_up_to_register">Змахніть вгору, щоб зареєструватися</string>
+    <string name="Already_have_an_account_Swipe_down_to_login">Вже є аккаунт? Змахніть вниз, щоб увійти</string>
+    <string name="delete_recipe">Видалити рецепт</string>
 </resources>

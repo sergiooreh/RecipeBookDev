@@ -5,15 +5,16 @@ import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.flow.Flow
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.DataState
+import ua.co.myrecipes.util.Resource
 
 class FakeUserRepositoryTest: UserRepositoryInt {
     private val userList = mutableListOf<User>()
     private var shouldReturnError = false
-    override suspend fun register(email: String, password: String): AuthResult {
+    override suspend fun register(email: String, password: String): Resource<String> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun login(email: String, password: String, token: String): AuthResult {
+    override suspend fun login(email: String, password: String, token: String): Resource<String> {
         TODO("Not yet implemented")
     }
 
@@ -46,10 +47,6 @@ class FakeUserRepositoryTest: UserRepositoryInt {
     }
 
     override suspend fun updateImage(imgBitmap: Bitmap) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateToken(token: String) {
         TODO("Not yet implemented")
     }
 

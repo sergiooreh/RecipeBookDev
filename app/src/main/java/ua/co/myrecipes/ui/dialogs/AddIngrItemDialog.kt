@@ -42,5 +42,8 @@ class AddIngrItemDialog(
             cancel()
         }
     }
+}
 
+interface AddDialogListenerIngr {
+    fun onAddButtonClick(ingredient: Ingredient)
 }

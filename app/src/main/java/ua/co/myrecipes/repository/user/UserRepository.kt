@@ -36,6 +36,7 @@ class UserRepository @Inject constructor(
                     user.id = firebaseAuth.currentUser?.uid ?: UUID.randomUUID().toString()
                     collectionReference.document(user.id).set(user)
                     firebaseAuth.currentUser?.sendEmailVerification()
+                    firebaseAuth.signOut()
                 }.await()
             Resource.error("ERROR_ACTIVATION_LINK_SENT_TO_YOU", null)
         } catch (e: FirebaseAuthException){
@@ -66,51 +67,50 @@ class UserRepository @Inject constructor(
         collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.get("img") as String
     }
 
-        override suspend fun getUserToken(nickName: String): String =
-            collectionReference.whereEqualTo("nickname",nickName).get().await().first()?.get("token", String::class.java)!!
+    override suspend fun getUserToken(nickName: String): String =
+        collectionReference.whereEqualTo("nickname",nickName).get().await().first()?.get("token", String::class.java)!!
 
-        override fun getUserByName(userName: String) = flow {
-            emit(DataState.Loading)
-            try {
-                val user = collectionReference.whereEqualTo("nickname", userName).get().await().first().toObject(User::class.java)
-                emit(DataState.Success(user))
-            } catch (e: Exception){
-                emit(DataState.Error(e))
-            }
-        }
-
-        override fun getCurrentUser() = flow {
-            emit(DataState.Loading)
-            try {
-                val user = collectionReference.whereEqualTo("email",getUserEmail()).get().await().first().toObject(User::class.java)
-                emit(DataState.Success(user))
-            } catch (e: Exception){
-                emit(DataState.Error(e))
-            }
-        }
-
-        override suspend fun updateAbout(about: String){
-            collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("about",about)
-        }
-
-        override suspend fun updateImage(imgBitmap: Bitmap){
-            val byteArray = compressBitmap(imgBitmap)
-            val snapshot = Firebase.storage.reference.child("avatars/${firebaseAuth.currentUser?.email?.substringBefore("@")}").putBytes(byteArray).await()
-            val url = snapshot.storage.downloadUrl
-            while (!url.isSuccessful);
-            val imgUrl = url.result.toString()
-            collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("img", imgUrl)
-        }
-
-        override suspend fun logOut() = firebaseAuth.signOut()
-
-        private fun compressBitmap(bitmap: Bitmap):ByteArray{
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream)
-            return stream.toByteArray()
-        }
-
-        private suspend fun updateToken(token: String){
-            collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("token",token)
+    override fun getUserByName(userName: String) = flow {
+        emit(DataState.Loading)
+        try {
+            val user = collectionReference.whereEqualTo("nickname", userName).get().await().first().toObject(User::class.java)
+            emit(DataState.Success(user))
+        } catch (e: Exception){
+            emit(DataState.Error(e))
         }
     }
+
+    override fun getCurrentUser() = flow {
+        emit(DataState.Loading)
+        try {
+            val user = collectionReference.whereEqualTo("email",getUserEmail()).get().await().first().toObject(User::class.java)
+            emit(DataState.Success(user))
+        } catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    }
+
+    override suspend fun updateAbout(about: String){
+        collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("about",about)
+    }
+
+    override suspend fun updateImage(imgBitmap: Bitmap){
+        val byteArray = compressBitmap(imgBitmap)
+        val snapshot = Firebase.storage.reference.child("avatars/${firebaseAuth.currentUser?.email?.substringBefore("@")}").putBytes(byteArray).await()
+        val url = snapshot.storage.downloadUrl.await()
+        val imgUrl = url.toString()
+        collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("img", imgUrl)
+    }
+
+    override suspend fun logOut() = firebaseAuth.signOut()
+
+    private fun compressBitmap(bitmap: Bitmap):ByteArray{
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream)
+        return stream.toByteArray()
+    }
+
+    private suspend fun updateToken(token: String){
+        collectionReference.whereEqualTo("email",getUserEmail()).get().await().first()?.reference?.update("token",token)
+    }
+}

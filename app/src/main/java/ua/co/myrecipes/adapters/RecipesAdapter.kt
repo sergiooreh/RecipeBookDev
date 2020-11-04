@@ -18,7 +18,6 @@ class RecipesAdapter @Inject constructor(
         holder.itemView.apply {
             recipeName_tv.text = recipe.name
             recipeAuthor_tv.text = recipe.author
-            //duration_tv.text = recipe.durationPrepare
             glide.load(recipe.imgUrl).into(imageView)
 
             setOnClickListener {

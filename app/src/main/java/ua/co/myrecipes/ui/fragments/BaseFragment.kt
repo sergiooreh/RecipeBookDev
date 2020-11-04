@@ -1,7 +1,6 @@
 package ua.co.myrecipes.ui.fragments
 
 import android.content.Intent
-import android.graphics.Canvas
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
@@ -21,7 +20,7 @@ import ua.co.myrecipes.util.Permissions
 
 const val REQUEST_CODE_EXTERNAL_STORAGE = 1
 
-abstract class BaseFragment(layoutId: Int): Fragment(layoutId), EasyPermissions. PermissionCallbacks {
+abstract class BaseFragment(layoutId: Int): Fragment(layoutId), EasyPermissions.PermissionCallbacks {
 
     fun showSnackBar(textResource: Int = 0, text: String = ""){
         if (textResource != 0){
@@ -82,9 +81,6 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId), EasyPermissions.
         progressBar.visibility = if(isDisplayed) View.VISIBLE else View.GONE
     }
 
-
-    /*PERMISSIONS REQUEST*/
-
     fun launchImageCrop(uri: Uri) {
         CropImage.activity(uri)
             .setAspectRatio(500,500)
@@ -99,6 +95,8 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId), EasyPermissions.
             startActivityForResult(this, Constants.REQUEST_CODE)
         }
     }
+
+    /*PERMISSIONS REQUEST*/
 
     fun requestPermissions(){
         if (Permissions.hasStoragePermissions(requireContext())){ return }

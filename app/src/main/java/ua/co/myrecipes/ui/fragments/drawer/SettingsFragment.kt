@@ -11,7 +11,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import ua.co.myrecipes.BuildConfig
 import ua.co.myrecipes.R
-import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

@@ -87,10 +87,9 @@
         android:id="@+id/recipeTime_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/recipeAuthor_tv"
         app:layout_constraintTop_toBottomOf="@+id/recipeAuthor_tv"
         tools:text="Recipe's time" />
 
@@ -99,10 +98,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:text="@string/ingredients"
         android:textAlignment="center"
         android:textSize="28sp"
-        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeTime_tv" />
@@ -112,6 +112,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:text="@string/directions"
         android:textAlignment="center"
         android:textSize="28sp"

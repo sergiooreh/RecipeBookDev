@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/deleteRecipe"
-        android:title="Delete recipe"
+        android:title="@string/delete_recipe"
         app:showAsAction="never"/>
 </menu>

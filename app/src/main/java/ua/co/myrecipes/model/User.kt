@@ -6,7 +6,7 @@ class User() {
     lateinit var email: String
     private lateinit var password: String
     var token = ""
-    lateinit var nickname: String
+    var nickname = ""
     var about: String = ""
     var img: String = ""
 

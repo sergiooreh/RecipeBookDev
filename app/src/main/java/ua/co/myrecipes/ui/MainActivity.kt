@@ -35,7 +35,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
     private val networkMonitor = NetworkMonitorUtil(this)
