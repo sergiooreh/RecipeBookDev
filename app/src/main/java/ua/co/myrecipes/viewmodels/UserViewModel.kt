@@ -9,22 +9,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.firebase.auth.AuthResult
+import kotlinx.coroutines.*
 import ua.co.myrecipes.MyApp
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.repository.user.UserRepositoryInt
-import ua.co.myrecipes.util.DataState
+import ua.co.myrecipes.util.AuthUtil
+import ua.co.myrecipes.util.Event
 import ua.co.myrecipes.util.Resource
 import java.util.*
 
 class UserViewModel @ViewModelInject constructor(
     private val userRepository: UserRepositoryInt,
-    application: Application
+    application: Application,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ): AndroidViewModel(application) {
     private val resources: Resources = getApplication<MyApp>().resources
 
@@ -34,23 +33,23 @@ class UserViewModel @ViewModelInject constructor(
         resources.updateConfiguration(resources.configuration, resources.displayMetrics)
     }
 
-    private val _authStatus = MutableLiveData<Resource<String>>()
-    val authStatus: LiveData<Resource<String>> = _authStatus
+    private val _authStatus = MutableLiveData<Event<Resource<AuthResult>>>()
+    val authStatus: LiveData<Event<Resource<AuthResult>>> = _authStatus
 
-    private val _user = MutableLiveData<DataState<User>>()
-    val user: LiveData<DataState<User>> = _user
+    private val _user = MutableLiveData<Event<Resource<User>>>()
+    val user: LiveData<Event<Resource<User>>> = _user
 
     fun register(email: String, password: String, confirmPassword: String){
-        _authStatus.postValue(Resource.loading(null))
+        _authStatus.postValue(Event(Resource.Loading(null)))
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
-            _authStatus.postValue(Resource.error(resources.getString(R.string.please_fill_out_all_the_fields),null))
+            _authStatus.postValue(Event(Resource.Error(resources.getString(R.string.please_fill_out_all_the_fields),null)))
             return
         }
         if (password != confirmPassword){
-            _authStatus.postValue(Resource.error(resources.getString(R.string.ERROR_PASSWORDS_DO_NOT_MATCH),null))
+            _authStatus.postValue(Event(Resource.Error(resources.getString(R.string.ERROR_PASSWORDS_DO_NOT_MATCH),null)))
             return
         }
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             val result = userRepository.register(email, password)
             result.message = when(result.message){
                 "ERROR_INVALID_EMAIL" -> resources.getString(R.string.ERROR_INVALID_EMAIL)
@@ -58,16 +57,16 @@ class UserViewModel @ViewModelInject constructor(
                 "ERROR_ACTIVATION_LINK_SENT_TO_YOU" -> resources.getString(R.string.ERROR_ACTIVATION_LINK_SENT_TO_YOU)
                 else -> result.message
             }
-            _authStatus.postValue(result)
+            _authStatus.postValue(Event(result))
         }
     }
 
     fun login(email: String, password: String, token: String){
         if (email.isEmpty() || password.isEmpty()){
-            _authStatus.postValue(Resource.error(resources.getString(R.string.please_fill_out_all_the_fields),null))
+            _authStatus.postValue(Event(Resource.Error(resources.getString(R.string.please_fill_out_all_the_fields),null)))
             return
         }
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             val result = userRepository.login(email, password, token)
             result.message = when(result.message){
                 "ERROR_USER_NOT_FOUND" -> resources.getString(R.string.ERROR_USER_NOT_FOUND)
@@ -77,30 +76,20 @@ class UserViewModel @ViewModelInject constructor(
                 "ERROR_USER_DISABLED" -> resources.getString(R.string.ERROR_USER_DISABLED)
                 else -> result.message
             }
-            _authStatus.postValue(result)
+            _authStatus.postValue(Event(result))
         }
-    }
-
-    fun getUserEmail() = userRepository.getUserEmail()
-
-    suspend fun getUserImgAsync() = withContext(viewModelScope.coroutineContext) {
-        userRepository.getUserImg()
     }
 
     fun getUserTokenAsync(nickName: String) = viewModelScope.async {
             userRepository.getUserToken(nickName)
         }
 
-    fun getUser(userName: String) {
-        if (userName!="" && userName!=getUserEmail().substringBefore("@")){
-            userRepository.getUserByName(userName).onEach { _user.value = it }.launchIn(viewModelScope)
+    fun getUser(userName: String) = viewModelScope.launch {
+        if (userName!="" && userName!=AuthUtil.email.substringBefore("@")){
+            _user.postValue(Event(userRepository.getUserByName(userName)))
         } else {
-            userRepository.getCurrentUser().onEach { _user.value = it }.launchIn(viewModelScope)
+            _user.postValue(Event(userRepository.getCurrentUser()))
         }
-    }
-
-    fun logOut() = viewModelScope.launch {
-        userRepository.logOut()
     }
 
     fun updateImage(imgBitmap: Bitmap) = viewModelScope.launch {

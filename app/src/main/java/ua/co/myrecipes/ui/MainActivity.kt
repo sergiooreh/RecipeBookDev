@@ -19,13 +19,16 @@ import androidx.preference.PreferenceManager
 import com.bumptech.glide.RequestManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
+import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.ConnectionType
+import ua.co.myrecipes.util.EventObserver
 import ua.co.myrecipes.util.NetworkMonitorUtil
 import ua.co.myrecipes.viewmodels.UserViewModel
 import java.util.*
@@ -72,21 +75,22 @@ class MainActivity : AppCompatActivity() {
         setupNav()
 
         val navHeader = navView.getHeaderView(0)
-        if (userViewModel.getUserEmail() == "") {
+        if (FirebaseAuth.getInstance().uid == null) {
             navHeader.nickName_drawer_tv.text = getString(R.string.guest)
             navHeader.log_out_btn.visibility = View.GONE
         } else {
-            lifecycleScope.launch {
-                if (userViewModel.getUserImgAsync() != "") {
-                    glide.load(userViewModel.getUserImgAsync()).into(navHeader.drawer_user_img)
-                }
-            }
-            navHeader.nickName_drawer_tv.text = userViewModel.getUserEmail().substringBefore("@")
+            val currentUserNickName = AuthUtil.email.substringBefore("@")
+            userViewModel.getUser(currentUserNickName)
+            userViewModel.user.observe(this, EventObserver {
+                glide.load(it.img).into(navHeader.drawer_user_img)
+            })
+
+            navHeader.nickName_drawer_tv.text = currentUserNickName
             navHeader.log_out_btn.visibility = View.VISIBLE
         }
 
         navHeader.log_out_btn.setOnClickListener {
-            userViewModel.logOut()
+            FirebaseAuth.getInstance().signOut()
             val navOptions = NavOptions.Builder()
                 .setLaunchSingleTop(true)
                 .build()

@@ -1,56 +1,51 @@
 package ua.co.myrecipes.repository.recipe
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.util.Resource
 
 class FakeRecipeRepositoryTest: RecipeRepositoryInt{
     private val recipeList = mutableListOf<Recipe>()
     private var shouldReturnError = false
 
-    override fun getRecipesByType(recipeType: RecipeType): Flow<DataState<List<Recipe>>>  = flow {
+    override suspend fun getRecipesByType(recipeType: RecipeType): Resource<List<Recipe>> = withContext(Dispatchers.IO) {
         if (shouldReturnError){
-            emit(DataState.Error(Exception("Error while loading recipes")))
+            Resource.Error("Error while loading recipes", null)
         } else{
-            emit(DataState.Success(recipeList))
+            Resource.Success(recipeList)
         }
     }
 
-    override fun getCurrentUserRecipes(): Flow<DataState<List<Recipe>>> {
+    override suspend fun getCurrentUserRecipes(): Resource<List<Recipe>> {
         TODO("Not yet implemented")
     }
 
-    override fun getMyLikedRecipes(): Flow<DataState<List<Recipe>>> {
+    override suspend fun getMyLikedRecipes(): Resource<List<Recipe>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addLikedRecipe(recipe: Recipe) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun removeLikedRecipe(recipe: Recipe) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getRecipe(recipe: Recipe): Flow<DataState<Recipe>> {
+    override suspend fun getRecipe(recipe: Recipe): Resource<Recipe> {
         TODO("Not yet implemented")
     }
 
     override suspend fun insertRecipe(recipe: Recipe) {
-        recipeList.add(recipe)
-    }
-
-    override fun getRecipesByUserName(userName: String): Flow<DataState<List<Recipe>>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun isLikedRecipe(recipe: Recipe): Boolean {
+    override suspend fun getRecipesByUserName(userName: String): Resource<List<Recipe>> {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun deleteRecipe(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun toggleLikeForRecipe(recipe: Recipe): Resource<Boolean> {
         TODO("Not yet implemented")
     }
 

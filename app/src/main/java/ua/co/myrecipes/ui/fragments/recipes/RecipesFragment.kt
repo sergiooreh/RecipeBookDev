@@ -10,9 +10,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipes.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipesAdapter
-import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.fragments.BaseFragment
-import ua.co.myrecipes.util.DataState
+import ua.co.myrecipes.util.AuthUtil
+import ua.co.myrecipes.util.EventObserver
 import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.viewmodels.UserViewModel
@@ -36,7 +36,7 @@ class RecipesFragment : BaseFragment(R.layout.fragment_recipes){
                 val type = RecipeType.valueOf(arguments?.getString("recipeType").toString())
                 recipeViewModel.loadRecipesByType(type)
             }
-            userViewModel.getUserEmail() -> {
+            AuthUtil.email -> {
                 recipeViewModel.loadCurrentUserRecipes()
             }
             else -> if (recipesAuthor.startsWith("@")) {
@@ -62,20 +62,15 @@ class RecipesFragment : BaseFragment(R.layout.fragment_recipes){
     }
 
     private fun subscribeToObservers(){
-        recipeViewModel.recipes.observe(viewLifecycleOwner, {
-            when(it){
-                is DataState.Success<List<Recipe>> ->{
-                    displayProgressBar(progress_bar)
-                    recipesAdapter.items = it.data.toMutableList()
-                }
-                is DataState.Error -> {
-                    displayProgressBar(progress_bar)
-                    showToast(text = it.exception.message ?: getString(R.string.an_unknown_error_occurred))
-                }
-                is DataState.Loading -> {
-                    displayProgressBar(progress_bar, isDisplayed = true)
-                }
-            }
+        recipeViewModel.recipes.observe(viewLifecycleOwner, EventObserver(
+            onError = {
+                displayProgressBar(progress_bar)
+                showToast(text = it)
+            },
+            onLoading = { displayProgressBar(progress_bar, isDisplayed = true) }
+        ){
+            displayProgressBar(progress_bar)
+            recipesAdapter.items = it.toMutableList()
         })
     }
 }

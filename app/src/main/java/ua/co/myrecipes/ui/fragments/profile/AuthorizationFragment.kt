@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_auth.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
-import ua.co.myrecipes.util.Status
+import ua.co.myrecipes.util.EventObserver
 import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
@@ -35,23 +35,16 @@ class AuthorizationFragment: BaseFragment(R.layout.fragment_auth) {
     }
 
     private fun subscribeToObservers() {
-        userViewModel.authStatus.observe(viewLifecycleOwner, { result ->
-            result?.let {
-                when (result.status) {
-                    Status.SUCCESS -> {
-                        findNavController().navigate(R.id.action_regFragment_to_homeFragment)
-                        activity?.recreate()
-                    }
-                    Status.ERROR -> {
-                        if (result.message == getString(R.string.ERROR_ACTIVATION_LINK_SENT_TO_YOU)){
-                            requireView().findViewById<MotionLayout>(R.id.motionLayout).transitionToStart()
-                        }
-                        showSnackBar(text = result.message ?: getString(R.string.an_unknown_error_occurred))
-                    }
-                    Status.LOADING -> {
-                    }
+        userViewModel.authStatus.observe(viewLifecycleOwner, EventObserver(
+            onError = {
+                if (it == getString(R.string.ERROR_ACTIVATION_LINK_SENT_TO_YOU)){
+                    requireView().findViewById<MotionLayout>(R.id.motionLayout).transitionToStart()
                 }
-            }
+                showSnackBar(text = it)
+            },
+        ){
+            findNavController().navigate(R.id.action_regFragment_to_homeFragment)
+            activity?.recreate()
         })
     }
 

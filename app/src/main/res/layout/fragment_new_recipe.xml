@@ -103,14 +103,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/the_image_of_your_recipe"
         android:cropToPadding="true"
         android:scaleType="fitStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_recipe_img"
-        tools:src="@tools:sample/backgrounds/scenic"
-        android:contentDescription="@string/the_image_of_your_recipe" />
+        tools:src="@tools:sample/backgrounds/scenic" />
 
     <TextView
         android:id="@+id/new_time_tv"

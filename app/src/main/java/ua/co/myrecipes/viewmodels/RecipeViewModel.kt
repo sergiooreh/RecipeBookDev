@@ -6,74 +6,71 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
-import ua.co.myrecipes.util.DataState
+import ua.co.myrecipes.util.Event
 import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.util.Resource
 
 class RecipeViewModel @ViewModelInject constructor(
     val app: Application,
-    private val recipeRepository: RecipeRepositoryInt
+    private val recipeRepository: RecipeRepositoryInt,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ): AndroidViewModel(app) {
 
-    private var _recipes: MutableLiveData<DataState<List<Recipe>>> = MutableLiveData()
-    val recipes: LiveData<DataState<List<Recipe>>> = _recipes
+    private var _recipes: MutableLiveData<Event<Resource<List<Recipe>>>> = MutableLiveData()
+    val recipes: LiveData<Event<Resource<List<Recipe>>>> = _recipes
 
-    private var _recipe: MutableLiveData<DataState<Recipe>> = MutableLiveData()
-    val recipe: LiveData<DataState<Recipe>> = _recipe
+    private var _recipe: MutableLiveData<Event<Resource<Recipe>>> = MutableLiveData()
+    val recipe: LiveData<Event<Resource<Recipe>>> = _recipe
 
-    fun loadRecipesByType(recipeType: RecipeType){
-        recipeRepository.getRecipesByType(recipeType)
-            .onEach { _recipes.value = it }
-            .launchIn(viewModelScope)
+    private val _likePostStatus = MutableLiveData<Event<Resource<Boolean>>>()
+    val likePostStatus: LiveData<Event<Resource<Boolean>>> = _likePostStatus
+
+    fun loadRecipesByType(recipeType: RecipeType) = viewModelScope.launch(dispatcher) {
+        val result = recipeRepository.getRecipesByType(recipeType)
+        _recipes.postValue(Event(result))
     }
 
-    fun loadCurrentUserRecipes(){
-        recipeRepository.getCurrentUserRecipes()
-            .onEach { _recipes.value = it }
-            .launchIn(viewModelScope)
+    fun loadCurrentUserRecipes() = viewModelScope.launch(dispatcher) {
+        val result = recipeRepository.getCurrentUserRecipes()
+        _recipes.postValue(Event(result))
     }
 
-    fun loadMyLikedRecipes(){
-        recipeRepository.getMyLikedRecipes()
-            .onEach { _recipes.value = it }
-            .launchIn(viewModelScope)
+    fun loadMyLikedRecipes() = viewModelScope.launch(dispatcher) {
+        val result = recipeRepository.getMyLikedRecipes()
+        _recipes.postValue(Event(result))
     }
 
-    fun loadRecipesByUserName(userName: String){
-        recipeRepository.getRecipesByUserName(userName)
-            .onEach { _recipes.value = it }
-            .launchIn(viewModelScope)
+    fun loadRecipesByUserName(userName: String) = viewModelScope.launch(dispatcher) {
+        val result = recipeRepository.getRecipesByUserName(userName)
+        _recipes.postValue(Event(result))
     }
 
-    fun loadRecipe(recipe: Recipe){
-       recipeRepository.getRecipe(recipe)
-           .onEach { _recipe.value = it }
-           .launchIn(viewModelScope)
+    fun loadRecipe(recipe: Recipe) = viewModelScope.launch(dispatcher) {
+        val result = recipeRepository.getRecipe(recipe)
+        _recipe.postValue(Event(result))
     }
 
-    fun insertRecipe(recipe: Recipe) = viewModelScope.launch {
+    fun insertRecipe(recipe: Recipe) = viewModelScope.launch(dispatcher) {
         recipeRepository.insertRecipe(recipe)
     }
 
-    fun addLikedRecipe(recipe: Recipe) = viewModelScope.launch {
-        recipeRepository.addLikedRecipe(recipe)
+    fun toggleLikeForRecipe(recipe: Recipe) {
+        _likePostStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch(dispatcher) {
+            val result = recipeRepository.toggleLikeForRecipe(recipe)
+            _likePostStatus.postValue(Event(result))
+        }
     }
 
-    fun removeLikedRecipe(recipe: Recipe) = viewModelScope.launch {
-        recipeRepository.removeLikedRecipe(recipe)
-    }
-
-    /*TODO: waiting Philip answer*/
-    fun isLikedRecipeAsync(recipe: Recipe) = viewModelScope.async {
-        recipeRepository.isLikedRecipe(recipe)
-    }
-
-    fun deleteRecipe(recipe: Recipe) = viewModelScope.launch {
+    fun deleteRecipe(recipe: Recipe) = viewModelScope.launch(dispatcher) {
         recipeRepository.deleteRecipe(recipe)
     }
 }

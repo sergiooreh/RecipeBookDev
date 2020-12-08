@@ -23,7 +23,7 @@ import ua.co.myrecipes.util.Constants.KEY_FIRST_NEW_TOKEN
 import javax.inject.Inject
 import kotlin.random.Random
 
-private const val CHANNEL_ID = "my_channel"                     //const here cause we need this nowhere else
+private const val CHANNEL_ID = "my_channel"
 
 @AndroidEntryPoint
 class FirebaseService: FirebaseMessagingService() {                 //to have ability get notifications when we don't use app
@@ -37,7 +37,7 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
         sharedPreferences.edit().putString(KEY_FIRST_NEW_TOKEN,newToken).apply()
     }
 
-    override fun onMessageReceived(message: RemoteMessage) {        //when this device gets message
+    override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
         val isNotificationEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notification", true)
@@ -45,7 +45,7 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
             return
         }
 
-        val intent = Intent(this, MainActivity::class.java)      //when we clicked notification
+        val intent = Intent(this, MainActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
 
@@ -54,7 +54,7 @@ class FirebaseService: FirebaseMessagingService() {                 //to have ab
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this,0,intent,FLAG_ONE_SHOT)      //when we click notification this pending intent consumes one time and all
+        val pendingIntent = PendingIntent.getActivity(this,0,intent,FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])

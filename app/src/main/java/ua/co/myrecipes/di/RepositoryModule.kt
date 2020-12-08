@@ -21,7 +21,7 @@ object RepositoryModule {
     @Recipes
     @Singleton
     @Provides
-    fun provideCollectionRecipes(): CollectionReference = FirebaseFirestore.getInstance().collection("RecipeType")
+    fun provideCollectionRecipes(): CollectionReference = FirebaseFirestore.getInstance().collection("Recipes")
 
     @Users
     @Singleton
@@ -36,11 +36,15 @@ object RepositoryModule {
 
     @Singleton
     @Provides
+    fun provideUserUid(): String = FirebaseAuth.getInstance().uid ?: ""
+
+    @Singleton
+    @Provides
     fun provideRecipeRepository(
         @Recipes collectionReference: CollectionReference,
         @Users collectionReferenceUser: CollectionReference,
-        firebaseAuth: FirebaseAuth
-    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser, firebaseAuth)
+        userUid: String
+    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser, userUid)
 
 
     @Singleton

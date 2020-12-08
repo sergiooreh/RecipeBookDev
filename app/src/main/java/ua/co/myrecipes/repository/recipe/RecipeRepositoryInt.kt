@@ -1,28 +1,24 @@
 package ua.co.myrecipes.repository.recipe
 
-import kotlinx.coroutines.flow.Flow
 import ua.co.myrecipes.model.Recipe
-import ua.co.myrecipes.util.DataState
 import ua.co.myrecipes.util.RecipeType
+import ua.co.myrecipes.util.Resource
 
 interface RecipeRepositoryInt {
 
-    fun getRecipesByType(recipeType: RecipeType): Flow<DataState<List<Recipe>>>
+    suspend fun getRecipesByType(recipeType: RecipeType): Resource<List<Recipe>>
 
-    fun getCurrentUserRecipes(): Flow<DataState<List<Recipe>>>
+    suspend fun getCurrentUserRecipes(): Resource<List<Recipe>>
 
-    fun getMyLikedRecipes(): Flow<DataState<List<Recipe>>>
+    suspend fun getMyLikedRecipes(): Resource<List<Recipe>>
 
-    suspend fun addLikedRecipe(recipe: Recipe)
-    suspend fun removeLikedRecipe(recipe: Recipe)
-
-    fun getRecipe(recipe: Recipe): Flow<DataState<Recipe>>
+    suspend fun getRecipe(recipe: Recipe): Resource<Recipe>
 
     suspend fun insertRecipe(recipe: Recipe)
 
-    fun getRecipesByUserName(userName: String): Flow<DataState<List<Recipe>>>
-
-    suspend fun isLikedRecipe(recipe: Recipe): Boolean
+    suspend fun getRecipesByUserName(userName: String): Resource<List<Recipe>>
 
     suspend fun deleteRecipe(recipe: Recipe)
+
+    suspend fun toggleLikeForRecipe(recipe: Recipe): Resource<Boolean>
 }

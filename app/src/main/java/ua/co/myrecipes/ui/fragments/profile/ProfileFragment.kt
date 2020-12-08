@@ -18,14 +18,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
+import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ua.co.myrecipes.R
-import ua.co.myrecipes.model.User
 import ua.co.myrecipes.ui.fragments.BaseFragment
+import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.Constants
-import ua.co.myrecipes.util.DataState
+import ua.co.myrecipes.util.EventObserver
 import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
         super.onViewCreated(view, savedInstanceState)
 
         userName = arguments?.getString("userName")?: ""
-        if (userViewModel.getUserEmail().isBlank()){
+        if (AuthUtil.email.isBlank()){
             findNavController().navigate(
                 R.id.action_profileFragment_to_regFragment,
                 bundleOf("redirectToRegister" to true)
@@ -53,7 +54,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
         subscribeToObservers()
 
         profile_log_out_btn.setOnClickListener {
-            userViewModel.logOut()
+            FirebaseAuth.getInstance().signOut()
             findNavController().navigate(
                 R.id.action_profileFragment_to_regFragment,
                 bundleOf("redirectToRegister" to true)
@@ -88,34 +89,26 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
     }
 
     private fun subscribeToObservers(){
-        userViewModel.user.observe(viewLifecycleOwner, {
-            when (it) {
-                is DataState.Success<User> -> {
-                    userName = it.data.nickname
-                    settingProfileForUser()
+        userViewModel.user.observe(viewLifecycleOwner, EventObserver(
+            onError = { displayProgressBar(progress_bar_profile) },
+            onLoading = { displayProgressBar(progress_bar_profile, isDisplayed = true) }
+        ){ user ->
+            userName = user.nickname
+            settingProfileForUser()
 
-                    displayProgressBar(progress_bar_profile)
-                    val user = it.data
-                    nickname_tv.text = user.nickname
-                    recipes_tv.text = user.recipe.size.toString()
-                    liked_tv.text = user.likedRecipes.size.toString()
-                    userAbout_tv.text = user.about
-                    if (user.img != "") {
-                        glide.load(user.img.toUri()).into(user_imv)
-                    }
-                }
-                is DataState.Error -> {
-                    displayProgressBar(progress_bar_profile)
-                }
-                is DataState.Loading -> {
-                    displayProgressBar(progress_bar_profile, isDisplayed = true)
-                }
+            displayProgressBar(progress_bar_profile)
+            nickname_tv.text = user.nickname
+            recipes_tv.text = user.recipes.size.toString()
+            liked_tv.text = user.likedRecipes.size.toString()
+            userAbout_tv.text = user.about
+            if (user.img != "") {
+                glide.load(user.img.toUri()).into(user_imv)
             }
         })
     }
 
     private fun settingProfileForUser(){
-        if (userName == userViewModel.getUserEmail().substringBefore("@")){
+        if (userName == AuthUtil.email.substringBefore("@")){
             activity?.title = getString(R.string.profile)
             constraintLayout2.setOnClickListener {
                 actNumberDialog()

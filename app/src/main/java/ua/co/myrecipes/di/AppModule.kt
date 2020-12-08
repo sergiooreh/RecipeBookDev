@@ -10,6 +10,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import ua.co.myrecipes.R
 import ua.co.myrecipes.util.Constants.SHARED_PREFERENCES_NAME
 import javax.inject.Singleton
@@ -17,6 +19,10 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 @Module
 object AppModule {
+    @Singleton
+    @Provides
+    fun provideMainDispatcher() = Dispatchers.Main as CoroutineDispatcher
+
     @Singleton
     @Provides
     fun provideSharedPreferences(@ApplicationContext app: Context): SharedPreferences =

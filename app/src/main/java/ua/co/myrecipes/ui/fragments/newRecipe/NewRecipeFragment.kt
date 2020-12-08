@@ -14,12 +14,14 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.fragments.BaseFragment
+import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.Constants.REQUEST_CODE
 import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
@@ -27,14 +29,13 @@ import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
 class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
-    private val userViewModel: UserViewModel by viewModels()
     private var imgUri: Uri? = null
     private var time = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (userViewModel.getUserEmail().isBlank()){
+        if (AuthUtil.email.isBlank()){
             findNavController().navigate(R.id.action_newRecipeFragment_to_regFragment, bundleOf("redirectToRegister" to true))
         }
 
@@ -70,7 +71,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
 
             val recipe = Recipe().apply {
                 name = recipe_name_et.text.toString().trim()
-                author = userViewModel.getUserEmail().substringBefore("@")
+                author = AuthUtil.email.substringBefore("@")
                 durationPrepare = time
                 type = RecipeType.values()[type_spinner.selectedItemPosition]
                 imgUrl = imgUri.toString()
