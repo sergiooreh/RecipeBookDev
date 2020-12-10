@@ -18,9 +18,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.fragments.BaseFragment
@@ -80,23 +82,20 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             }
             findNavController().navigate(
                 R.id.action_profileFragment_to_recipesFragment, bundleOf(
-                    "recipeAuthor" to "@".plus(
-                        userName
-                    )
-                )
+                    "recipeAuthor" to "@".plus(userName))
             )
         }
     }
 
     private fun subscribeToObservers(){
         userViewModel.user.observe(viewLifecycleOwner, EventObserver(
-            onError = { displayProgressBar(progress_bar_profile) },
-            onLoading = { displayProgressBar(progress_bar_profile, isDisplayed = true) }
+            onLoading = { displayProgressBar(progress_bar_profile, isDisplayed = true) },
+            onError = { displayProgressBar(progress_bar_profile, isDisplayed = false) }
         ){ user ->
             userName = user.nickname
             settingProfileForUser()
 
-            displayProgressBar(progress_bar_profile)
+            displayProgressBar(progress_bar_profile, isDisplayed = false)
             nickname_tv.text = user.nickname
             recipes_tv.text = user.recipes.size.toString()
             liked_tv.text = user.likedRecipes.size.toString()
@@ -165,6 +164,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
                         user_imv.setImageURI(it)
                         userViewModel.updateImage((user_imv.drawable as BitmapDrawable).bitmap)
                         glide.load(it).into(user_imv)
+                        glide.load(it).into(
+                            (activity?.findViewById(R.id.navView) as NavigationView)
+                                .getHeaderView(0).drawer_user_img)
                     }
                 }
             }

@@ -1,7 +1,6 @@
 package ua.co.myrecipes.repository.recipe
 
-import android.graphics.Bitmap
-import com.google.firebase.auth.FirebaseAuth
+import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -14,7 +13,6 @@ import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.util.Resource
 import ua.co.myrecipes.util.dataCall
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class RecipeRepository @Inject constructor(
@@ -91,12 +89,8 @@ class RecipeRepository @Inject constructor(
     }
 
     override suspend fun insertRecipe(recipe: Recipe) {
-        val byteArray = compressBitmap(recipe.imgBitmap!!)
-        recipe.imgUrl.let {
-            val snapshot = Firebase.storage.reference.child("images/${recipe.id}").putBytes(byteArray).await()
-            val url = snapshot.storage.downloadUrl.await()
-            recipe.imgUrl = url.toString()
-        }
+        val imageUploadResult = Firebase.storage.reference.child("images/${recipe.id}").putFile(recipe.imgUrl.toUri()).await()
+        recipe.imgUrl = imageUploadResult?.metadata?.reference?.downloadUrl?.await().toString()
 
         FirebaseFirestore.getInstance().runTransaction { transaction ->
             val userRecipes = transaction.get(userRef.document(userUid)).get("recipes") as MutableList<String>
@@ -135,11 +129,5 @@ class RecipeRepository @Inject constructor(
             }.await()
             Resource.Success(isLiked)
         }
-    }
-
-    private fun compressBitmap(bitmap: Bitmap):ByteArray{
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
-        return stream.toByteArray()
     }
 }

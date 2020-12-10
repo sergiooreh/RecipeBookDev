@@ -43,7 +43,6 @@
     <string name="profile">Профиль</string>
     <string name="settings">Настройки</string>
     <string name="about_us">Про Нас</string>
-    <string name="language">Язык</string>
     <string name="color_theme">Тема</string>
     <string name="notification">Уведомления</string>
     <string name="notifications_are_disabled">Уведомления отключены</string>
@@ -83,7 +82,7 @@
     <string name="ERROR_WRONG_PASSWORD">Пароль недействителен или у пользователя нет пароля.</string>
     <string name="ERROR_USER_DISABLED">Учетная запись пользователя была отключена администратором.</string>
     <string name="ERROR_EMAIL_ALREADY_IN_USE">Адрес электронной почты уже используется другой учетной записью.</string>
-    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">Ссылка для активации была отправлена на вашу электронную почту. Пожалуйста, активируйте свою учетную запись</string>
+    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">Ссылка для активации была отправлена на вашу электронную почту.</string>
     <string name="an_unknown_error_occurred">Произошла неизвестная ошибка</string>
     <string name="recipe_successfully_deleted">Рецепт успешно удален</string>
     <string name="press_back_again_to_exit">Нажмите еще раз, чтобы выйти</string>

@@ -4,13 +4,6 @@
 
     <PreferenceCategory app:title="@string/main">
 
-        <ListPreference
-            app:entries="@array/language_entries"
-            app:entryValues="@array/language_values"
-            app:key="language"
-            app:title="@string/language"
-            app:useSimpleSummaryProvider="true"
-            app:defaultValue="eng"/>
         <SwitchPreferenceCompat
             app:key="theme"
             app:title="@string/color_theme"

@@ -9,6 +9,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
@@ -25,10 +30,7 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        directionsAdapter = DirectionsAdapter(directList)
-        directionsAdapter.items = directList
-        setupRecycleView(directions_rv, directionsAdapter, 0, directList)
+        setupRecycleView()
 
         add_ingr_btn.setOnClickListener {
             addDirectionDialog()
@@ -51,6 +53,36 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
             }
         }
     }
+
+    private val itemTouchHelperCallback = object :
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = true
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.layoutPosition
+            val item = directList[position]
+            directList.removeAt(position)
+            directionsAdapter.notifyItemRemoved(position)
+            Snackbar.make(requireView(),"Successfully deleted", Snackbar.LENGTH_LONG).apply {
+                setAction("Undo"){
+                    directList.add(position, item)
+                    directionsAdapter.notifyItemInserted(directList.indexOf(item))
+                }
+                show()
+            }
+            directionsAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun setupRecycleView() = directions_rv.apply {
+        directionsAdapter = DirectionsAdapter(directList)
+        adapter = directionsAdapter
+        layoutManager = LinearLayoutManager(requireContext())
+        addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(this)
+    }
+
 
     private fun addDirectionDialog() {
         val editText = EditText(requireContext()).apply {

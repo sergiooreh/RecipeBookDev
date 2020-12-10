@@ -7,14 +7,12 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import ua.co.myrecipes.R
-import ua.co.myrecipes.adapters.BaseAdapter
 import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.Permissions
 
@@ -37,47 +35,7 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId), EasyPermissions.
         else Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
-    fun <T>setupRecycleView(recycleView: RecyclerView, myAdapter: BaseAdapter<T>, mode: Int = -1, list: MutableList<T> = mutableListOf()){
-        val itemTouchHelperCallback = object :
-            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {            //direction of swiping
-
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return true
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.layoutPosition
-                val item = myAdapter.items[position]
-                list.removeAt(position)
-                myAdapter.notifyItemRemoved(position)
-                Snackbar.make(requireView(),"Successfully deleted", Snackbar.LENGTH_LONG).apply {
-                    setAction("Undo"){
-                        list.add(item)
-                        myAdapter.notifyItemInserted(position)
-                    }
-                    show()
-                }
-                myAdapter.notifyDataSetChanged()
-            }
-        }
-
-        recycleView.apply {
-            adapter = myAdapter
-            when(mode){
-                0 -> { addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                    ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(this)
-                }
-                1 -> { overScrollMode = View.OVER_SCROLL_NEVER }
-                2 ->{
-                    layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
-                    return
-                }
-            }
-            layoutManager = LinearLayoutManager(activity)
-        }
-    }
-
-    fun displayProgressBar(progressBar: ProgressBar,isDisplayed: Boolean = false){
+    fun displayProgressBar(progressBar: ProgressBar,isDisplayed: Boolean = true){
         progressBar.visibility = if(isDisplayed) View.VISIBLE else View.GONE
     }
 

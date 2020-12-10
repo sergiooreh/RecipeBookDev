@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import ua.co.myrecipes.R
@@ -24,12 +25,17 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecycleView(recipeTypes,recipeTypeAdapter)
+        setupRecycleView()
         recipeTypeAdapter.items = RecipeType.values().toMutableList()
 
         recipeTypeAdapter.setItemClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_recipesFragment, bundleOf("recipeType" to it.name))
         }
+    }
+
+    private fun setupRecycleView() = recipeTypes.apply {
+        adapter = recipeTypeAdapter
+        layoutManager = LinearLayoutManager(requireContext())
     }
 
     override fun onResume() {

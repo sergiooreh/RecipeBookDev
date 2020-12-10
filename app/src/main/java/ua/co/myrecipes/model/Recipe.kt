@@ -1,7 +1,6 @@
 package ua.co.myrecipes.model
 
 import android.graphics.Bitmap
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
 import kotlinx.android.parcel.Parcelize
@@ -20,7 +19,6 @@ data class Recipe(
     var directions: List<String> = mutableListOf(),
     var likedBy: List<String> = mutableListOf(),
     var imgUrl: String = "",
-    @get:Exclude var imgBitmap: Bitmap? = null,
     @get:Exclude var isLiked: Boolean = false,
     @get:Exclude var isLiking: Boolean = false
 ): Parcelable

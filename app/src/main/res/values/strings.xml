@@ -51,7 +51,7 @@
     <string name="ERROR_WRONG_PASSWORD">The password is invalid or the user does not have a password.</string>
     <string name="ERROR_USER_DISABLED">The user account has been disabled by an administrator.</string>
     <string name="ERROR_EMAIL_ALREADY_IN_USE">The email address is already in use by another account.</string>
-    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">An activation link has been sent to your E-Mail. Please click it to activate your account</string>
+    <string name="ERROR_ACTIVATION_LINK_SENT_TO_YOU">An activation link has been sent to your E-Mail.</string>
 
     <string name="unit">Unit</string>
     <string name="open" translatable="false">Open</string>
@@ -61,7 +61,6 @@
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="about_us">About Us</string>
-    <string name="language">Language</string>
     <string name="color_theme">Color Theme</string>
     <string name="notification">Notifications</string>
     <string name="notifications_are_disabled">Notifications are disabled</string>

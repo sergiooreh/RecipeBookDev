@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -21,12 +20,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
-
-        val language: ListPreference? = findPreference("language")
-        language?.setOnPreferenceChangeListener { _, _ ->
-            activity?.recreate()
-            true
-        }
 
         val theme: SwitchPreferenceCompat? = findPreference("theme")
         theme?.setOnPreferenceChangeListener { _, _ ->

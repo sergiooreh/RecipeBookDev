@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,11 +43,8 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         recipe = arguments?.getParcelable("recipe")!!
-        if (recipe.author == AuthUtil.email.substringBefore("@")){
-            setHasOptionsMenu(true)
-        } else {
-            setHasOptionsMenu(false)
-        }
+        setHasOptionsMenu(recipe.author == AuthUtil.email.substringBefore("@"))
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -60,7 +58,7 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
             findNavController().navigate(R.id.action_recipeFragment_to_profileFragment, bundleOf("userName" to recipeAuthor_tv.text))
         }
 
-        if (AuthUtil.email.isBlank()) { like_btn.isEnabled = false}
+        like_btn.isEnabled = AuthUtil.email.isNotBlank()
 
         like_btn.setOnClickListener {
             if (!recipe.isLiking){
@@ -72,11 +70,11 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
 
     private fun subscribeToObservers(){
         recipeViewModel.recipe.observe(viewLifecycleOwner, EventObserver(
-            onError = {
-                displayProgressBar(progress_bar_recipe)
-                showToast(text = it)
+            onError = { error ->
+                displayProgressBar(progress_bar_recipe, isDisplayed = false)
+                showToast(text = error)
             },
-            onLoading = { displayProgressBar(progress_bar_recipe, isDisplayed = true) }
+            onLoading = { displayProgressBar(progress_bar_recipe) }
         ){
             it.apply {
                 glide.load(imgUrl).into(recipeImg_img)
@@ -90,15 +88,11 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
                 } else {
                     like_btn.setColorFilter(Color.GRAY)
                 }
-
-                ingredientsAdapter = IngredientsAdapter(ingredients.toMutableList())
-                directionsAdapter = DirectionsAdapter(directions.toMutableList())
-                ingredientsAdapter.items = ingredients.toMutableList()
-                directionsAdapter.items = directions.toMutableList()
-                setupRecycleView(directions_rv,directionsAdapter,1)
-                setupRecycleView(ingredients_rv,ingredientsAdapter,1)
+                ingredientsAdapter = IngredientsAdapter(ingredients)
+                directionsAdapter = DirectionsAdapter(directions)
+                setupRecycleView()
             }
-            displayProgressBar(progress_bar_recipe)
+            displayProgressBar(progress_bar_recipe, isDisplayed = false)
         })
 
         recipeViewModel.likePostStatus.observe(viewLifecycleOwner, EventObserver(
@@ -153,5 +147,18 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.recipe_menu, menu)
+    }
+
+    private fun setupRecycleView() {
+        ingredients_rv.apply {
+            adapter = ingredientsAdapter
+            overScrollMode = View.OVER_SCROLL_NEVER
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        directions_rv.apply {
+            adapter = directionsAdapter
+            overScrollMode = View.OVER_SCROLL_NEVER
+            layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 }

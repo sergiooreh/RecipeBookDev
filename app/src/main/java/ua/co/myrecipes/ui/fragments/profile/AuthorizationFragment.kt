@@ -26,11 +26,17 @@ class AuthorizationFragment: BaseFragment(R.layout.fragment_auth) {
         subscribeToObservers()
 
         btnRegister.setOnClickListener {
-            register()
+            val email = etRegisterEmail.text.toString().trim()
+            val password = etRegisterPassword.text.toString().trim()
+            val confirmPassword = etRegisterPasswordConfirm.text.toString().trim()
+            userViewModel.register(email, password, confirmPassword)
         }
 
         btnLogin.setOnClickListener {
-            login()
+            val email = etLoginEmail.text.toString().trim()
+            val password = etLoginPassword.text.toString().trim()
+            val token = sharedPreferences.getString(KEY_FIRST_NEW_TOKEN, "") ?: ""
+            userViewModel.login(email, password, token)
         }
     }
 
@@ -46,19 +52,5 @@ class AuthorizationFragment: BaseFragment(R.layout.fragment_auth) {
             findNavController().navigate(R.id.action_regFragment_to_homeFragment)
             activity?.recreate()
         })
-    }
-
-    private fun login(){
-        val email = etLoginEmail.text.toString().trim()
-        val password = etLoginPassword.text.toString().trim()
-        val token = sharedPreferences.getString(KEY_FIRST_NEW_TOKEN, "") ?: ""
-        userViewModel.login(email, password, token)
-    }
-
-    private fun register(){
-        val email = etRegisterEmail.text.toString().trim()
-        val password = etRegisterPassword.text.toString().trim()
-        val confirmPassword = etRegisterPasswordConfirm.text.toString().trim()
-        userViewModel.register(email, password, confirmPassword)
     }
 }

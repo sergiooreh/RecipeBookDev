@@ -11,10 +11,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
@@ -25,7 +23,6 @@ import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.Constants.REQUEST_CODE
 import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
-import ua.co.myrecipes.viewmodels.UserViewModel
 
 @AndroidEntryPoint
 class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
@@ -75,7 +72,6 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
                 durationPrepare = time
                 type = RecipeType.values()[type_spinner.selectedItemPosition]
                 imgUrl = imgUri.toString()
-                imgBitmap = (recipe_img.drawable as BitmapDrawable).bitmap
             }
             findNavController().navigate(R.id.action_newRecipeFragment_to_newRecipeIngrFragment, bundleOf("recipe" to recipe))
         }

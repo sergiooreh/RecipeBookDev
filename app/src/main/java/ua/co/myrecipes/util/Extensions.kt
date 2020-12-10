@@ -12,7 +12,6 @@ inline fun <T> authCall(action: () -> Resource<T>): Resource<T> {
 }
 
 inline fun <T> dataCall(action: () -> Resource<T>): Resource<T> {
-    Resource.Loading(null)
     return try {
         action()
     } catch (e: FirebaseFirestoreException){

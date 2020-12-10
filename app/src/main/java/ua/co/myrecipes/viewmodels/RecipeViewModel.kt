@@ -8,9 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
@@ -34,26 +31,31 @@ class RecipeViewModel @ViewModelInject constructor(
     val likePostStatus: LiveData<Event<Resource<Boolean>>> = _likePostStatus
 
     fun loadRecipesByType(recipeType: RecipeType) = viewModelScope.launch(dispatcher) {
+        _recipes.postValue(Event(Resource.Loading()))
         val result = recipeRepository.getRecipesByType(recipeType)
         _recipes.postValue(Event(result))
     }
 
     fun loadCurrentUserRecipes() = viewModelScope.launch(dispatcher) {
+        _recipes.postValue(Event(Resource.Loading()))
         val result = recipeRepository.getCurrentUserRecipes()
         _recipes.postValue(Event(result))
     }
 
     fun loadMyLikedRecipes() = viewModelScope.launch(dispatcher) {
+        _recipes.postValue(Event(Resource.Loading()))
         val result = recipeRepository.getMyLikedRecipes()
         _recipes.postValue(Event(result))
     }
 
     fun loadRecipesByUserName(userName: String) = viewModelScope.launch(dispatcher) {
+        _recipes.postValue(Event(Resource.Loading()))
         val result = recipeRepository.getRecipesByUserName(userName)
         _recipes.postValue(Event(result))
     }
 
     fun loadRecipe(recipe: Recipe) = viewModelScope.launch(dispatcher) {
+        _recipe.postValue(Event(Resource.Loading()))
         val result = recipeRepository.getRecipe(recipe)
         _recipe.postValue(Event(result))
     }
