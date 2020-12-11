@@ -124,6 +124,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             aboutMe_img.visibility = View.GONE
             profile_log_out_btn.visibility = View.GONE
             imageButton.visibility = View.GONE
+            linearLayoutLiked.visibility = View.GONE
         }
     }
 

@@ -73,6 +73,17 @@ class RecipeRepository @Inject constructor(
 
     override suspend fun getRecipesByUserName(userName: String) = withContext(Dispatchers.IO) {
         dataCall {
+            val userRecipesIDs = userRef.whereEqualTo("nickname", userName)
+                .get().await().first().toObject(User::class.java).recipes
+            val likedRecipes = userRecipesIDs.map { id ->
+                recipeRef.whereEqualTo("id", id).get().await().first().toObject(Recipe::class.java)
+            }
+            Resource.Success(likedRecipes)
+        }
+    }
+
+    override suspend fun getRecipesByUserName(userName: String) = withContext(Dispatchers.IO) {
+        dataCall {
             val userRecipesIDs = (userRef.whereEqualTo("nickname",userName).get().await().first().get("recipes") as List<String>)
             val userRecipes = userRecipesIDs.map { id ->
                 recipeRef.whereEqualTo("id", id).get().await().first().toObject(Recipe::class.java)

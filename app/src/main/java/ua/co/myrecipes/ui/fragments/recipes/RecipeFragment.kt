@@ -24,6 +24,7 @@ import ua.co.myrecipes.notification.PushNotificationData
 import ua.co.myrecipes.notification.api.RetrofitInstance
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
+import ua.co.myrecipes.util.AuthUtil.Companion.uid
 import ua.co.myrecipes.util.EventObserver
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 import ua.co.myrecipes.viewmodels.UserViewModel
@@ -63,6 +64,9 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
         like_btn.setOnClickListener {
             if (!recipe.isLiking){
                 recipe.isLiked = !recipe.isLiked
+                if (recipe.isLiked) recipe.likedBy += uid
+                else recipe.likedBy -= uid
+
                 recipeViewModel.toggleLikeForRecipe(recipe)
             }
         }
@@ -76,6 +80,7 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
             },
             onLoading = { displayProgressBar(progress_bar_recipe) }
         ){
+            recipe = it
             it.apply {
                 glide.load(imgUrl).into(recipeImg_img)
                 recipeName_tv.text = name
@@ -84,8 +89,10 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
                 recipeLikes_tv.text = likedBy.size.toString()
 
                 if(FirebaseAuth.getInstance().currentUser?.uid in likedBy){
+                    recipe.isLiked = true
                     like_btn.setColorFilter((Color.RED))
                 } else {
+                    recipe.isLiked = false
                     like_btn.setColorFilter(Color.GRAY)
                 }
                 ingredientsAdapter = IngredientsAdapter(ingredients)
@@ -98,17 +105,13 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
         recipeViewModel.likePostStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 recipe.isLiking = false
-//                snackbar(it)
             },
             onLoading = {
                 recipe.isLiking = true
             }
         ) { isLiked ->
-            val uid = FirebaseAuth.getInstance().uid!!
-            recipe.isLiked = isLiked
             recipe.isLiking = false
             if(isLiked) {
-                recipe.likedBy += uid
                 like_btn.setColorFilter((Color.RED))
 
                 lifecycleScope.launch {
@@ -120,7 +123,6 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
                     }
                 }
             } else {
-                recipe.likedBy -= uid
                 like_btn.setColorFilter(Color.GRAY)
             }
             recipeLikes_tv.text = recipe.likedBy.size.toString()

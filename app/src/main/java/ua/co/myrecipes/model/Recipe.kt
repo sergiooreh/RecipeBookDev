@@ -1,6 +1,5 @@
 package ua.co.myrecipes.model
 
-import android.graphics.Bitmap
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
 import kotlinx.android.parcel.Parcelize

@@ -75,7 +75,9 @@ class MainActivity : AppCompatActivity() {
             val currentUserNickName = AuthUtil.email.substringBefore("@")
             userViewModel.getUser(currentUserNickName)
             userViewModel.user.observe(this, EventObserver {
-                glide.load(it.img).into(navHeader.drawer_user_img)
+                if (it.img.isNotEmpty()){
+                    glide.load(it.img).into(navHeader.drawer_user_img)
+                }
             })
 
             navHeader.nickName_drawer_tv.text = currentUserNickName
