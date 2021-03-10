@@ -1,11 +1,7 @@
 package ua.co.myrecipes.viewmodels
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,10 +12,9 @@ import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.util.Resource
 
 class RecipeViewModel @ViewModelInject constructor(
-    val app: Application,
     private val recipeRepository: RecipeRepositoryInt,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
-): AndroidViewModel(app) {
+): ViewModel() {
 
     private var _recipes: MutableLiveData<Event<Resource<List<Recipe>>>> = MutableLiveData()
     val recipes: LiveData<Event<Resource<List<Recipe>>>> = _recipes

@@ -25,7 +25,6 @@ class UserRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ): UserRepositoryInt {
 
-
     override suspend fun register(email: String, password: String): Resource<AuthResult> = withContext(Dispatchers.IO) {
         authCall {
             val user = User(email = email)
@@ -61,9 +60,9 @@ class UserRepository @Inject constructor(
     override suspend fun getUserToken(nickName: String): String =
         collectionReference.whereEqualTo("nickname",nickName).get().await().first()?.get("token", String::class.java)!!
 
-    override suspend fun getUserByName(userName: String) = withContext(Dispatchers.IO) {
+    override suspend fun getUserByNickName(nickName: String) = withContext(Dispatchers.IO) {
         dataCall {
-            val user = collectionReference.whereEqualTo("nickname", userName).get().await().first().toObject(User::class.java)
+            val user = collectionReference.whereEqualTo("nickname", nickName).get().await().first().toObject(User::class.java)
             Resource.Success(user)
         }
     }

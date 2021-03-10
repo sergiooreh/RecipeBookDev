@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">RecipeBookApp</string>
     <string name="app_version">App version</string>
+    
+    <string name="app_version_string" translatable="false">%1$s %2$s</string>
 
     <string name="ADD">Add</string>
     <string name="CANCEL">Cancel</string>

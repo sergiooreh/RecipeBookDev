@@ -36,15 +36,10 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserUid(): String = FirebaseAuth.getInstance().uid ?: ""
-
-    @Singleton
-    @Provides
     fun provideRecipeRepository(
         @Recipes collectionReference: CollectionReference,
-        @Users collectionReferenceUser: CollectionReference,
-        userUid: String
-    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser, userUid)
+        @Users collectionReferenceUser: CollectionReference
+    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser)
 
 
     @Singleton

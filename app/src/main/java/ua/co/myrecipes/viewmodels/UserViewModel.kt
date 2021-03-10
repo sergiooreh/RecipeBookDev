@@ -24,6 +24,7 @@ import ua.co.myrecipes.util.Resource
 class UserViewModel @ViewModelInject constructor(
     private val userRepository: UserRepositoryInt,
     application: Application,
+//    @ApplicationContext val context: ApplicationContext,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ): AndroidViewModel(application) {
     private val resources: Resources = getApplication<MyApp>().resources
@@ -78,10 +79,10 @@ class UserViewModel @ViewModelInject constructor(
             userRepository.getUserToken(nickName)
         }
 
-    fun getUser(userName: String = AuthUtil.email) = viewModelScope.launch {
+    fun getUser(nickName: String = AuthUtil.email) = viewModelScope.launch {
         _user.postValue(Event(Resource.Loading()))
-        if (userName!="" && userName!=AuthUtil.email.substringBefore("@")){
-            _user.postValue(Event(userRepository.getUserByName(userName)))
+        if (nickName!="" && nickName!=AuthUtil.email.substringBefore("@")){
+            _user.postValue(Event(userRepository.getUserByNickName(nickName)))
         } else {
             _user.postValue(Event(userRepository.getCurrentUser()))
         }

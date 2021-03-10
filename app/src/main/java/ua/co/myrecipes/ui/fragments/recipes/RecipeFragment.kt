@@ -114,14 +114,7 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
             if(isLiked) {
                 like_btn.setColorFilter((Color.RED))
 
-                lifecycleScope.launch {
-                    PushNotification(
-                        PushNotificationData("RecipeBookApp", "${AuthUtil.email.substringBefore('@')} liked your recipe"),
-                        userViewModel.getUserTokenAsync(recipe.author).await()
-                    ).also {
-                        sendNotification(it)
-                    }
-                }
+                sendNotification()
             } else {
                 like_btn.setColorFilter(Color.GRAY)
             }
@@ -129,9 +122,23 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
         })
     }
 
-    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-        try { RetrofitInstance.api.postNotification(notification) }
-        catch (e: Exception){ showToast(text = e.message ?: getString(R.string.an_unknown_error_occurred))}
+    private fun sendNotification() {
+        lifecycleScope.launch {
+            PushNotification(
+                PushNotificationData(
+                    "RecipeBookApp",
+                    "${AuthUtil.email.substringBefore('@')} liked your recipe"
+                ),
+                userViewModel.getUserTokenAsync(recipe.author).await()
+            ).also {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try { RetrofitInstance.api.postNotification(it) }
+                    catch (e: Exception) {
+                        showToast(text = e.message ?: getString(R.string.an_unknown_error_occurred))
+                    }
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

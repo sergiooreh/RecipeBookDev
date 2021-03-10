@@ -12,7 +12,7 @@ interface UserRepositoryInt {
 
     suspend fun getUserToken(nickName: String): String
 
-    suspend fun getUserByName(userName: String): Resource<User>
+    suspend fun getUserByNickName(nickName: String): Resource<User>
 
     suspend fun getCurrentUser(): Resource<User>
 

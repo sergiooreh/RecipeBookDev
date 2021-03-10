@@ -3,6 +3,7 @@ package ua.co.myrecipes.repository.recipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ua.co.myrecipes.model.Recipe
+import ua.co.myrecipes.util.AuthUtil.Companion.email
 import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.util.Resource
 
@@ -14,37 +15,37 @@ class FakeRecipeRepositoryTest: RecipeRepositoryInt{
         if (shouldReturnError){
             Resource.Error("Error while loading recipes", null)
         } else{
-            Resource.Success(recipeList)
+            Resource.Success(recipeList.filter { it.type == recipeType })
         }
     }
 
     override suspend fun getCurrentUserRecipes(): Resource<List<Recipe>> {
-        TODO("Not yet implemented")
+        return Resource.Success(recipeList.filter { it.author == email.substringBefore("@") })
     }
 
     override suspend fun getMyLikedRecipes(): Resource<List<Recipe>> {
-        TODO("Not yet implemented")
+        return Resource.Error("There is no my liked recipes")
     }
 
     override suspend fun getRecipe(recipe: Recipe): Resource<Recipe> {
-        TODO("Not yet implemented")
+        return Resource.Success(recipeList.find { it == recipe }!!)
     }
 
     override suspend fun insertRecipe(recipe: Recipe) {
-        TODO("Not yet implemented")
+        recipeList.add(recipe)
     }
 
     override suspend fun getRecipesByUserName(userName: String): Resource<List<Recipe>> {
-        TODO("Not yet implemented")
+        return Resource.Success(recipeList.filter { it.author == userName })
     }
 
 
     override suspend fun deleteRecipe(recipe: Recipe) {
-        TODO("Not yet implemented")
+        recipeList.remove(recipe)
     }
 
     override suspend fun toggleLikeForRecipe(recipe: Recipe): Resource<Boolean> {
-        TODO("Not yet implemented")
+        return Resource.Success(recipeList.find { it == recipe }?.isLiked!!)
     }
 
     fun setShouldReturnError(value: Boolean){

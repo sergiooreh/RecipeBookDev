@@ -10,6 +10,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import ua.co.myrecipes.BuildConfig
 import ua.co.myrecipes.R
+import ua.co.myrecipes.util.Constants
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -21,13 +22,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-        val theme: SwitchPreferenceCompat? = findPreference("theme")
+        val theme: SwitchPreferenceCompat? = findPreference(Constants.FIELD_THEME)
         theme?.setOnPreferenceChangeListener { _, _ ->
             activity?.recreate()
             true
         }
 
-        val feedback: Preference? = findPreference("feedback")
+        val feedback: Preference? = findPreference(Constants.FIELD_FEEDBACK)
         feedback?.intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:sergiooreh@ukr.net"))
         feedback?.setOnPreferenceClickListener {
             it?.intent?.apply {
@@ -42,7 +43,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val app: Preference? = findPreference("app")
+        val app: Preference? = findPreference(Constants.FIELD_APP)
         app?.intent = Intent(Intent.ACTION_VIEW)
         app?.setOnPreferenceClickListener {
             it?.intent?.apply {

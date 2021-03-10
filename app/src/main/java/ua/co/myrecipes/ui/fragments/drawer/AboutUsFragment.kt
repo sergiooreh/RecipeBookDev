@@ -12,7 +12,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        app_version_tv.text = "${getString(R.string.app_version)}  ${BuildConfig.VERSION_NAME}"
+        app_version_tv.text = getString(R.string.app_version_string, getString(R.string.app_version), BuildConfig.VERSION_NAME)
     }
 
     override fun onResume() {
