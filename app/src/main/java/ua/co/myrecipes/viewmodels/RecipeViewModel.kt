@@ -1,7 +1,7 @@
 package ua.co.myrecipes.viewmodels
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,8 +10,10 @@ import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
 import ua.co.myrecipes.util.Event
 import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.util.Resource
+import javax.inject.Inject
 
-class RecipeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class RecipeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepositoryInt,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ): ViewModel() {

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import ua.co.myrecipes.repository.recipe.RecipeRepository
 import ua.co.myrecipes.repository.recipe.RecipeRepositoryInt
 import ua.co.myrecipes.repository.user.UserRepository
@@ -14,7 +14,7 @@ import ua.co.myrecipes.repository.user.UserRepositoryInt
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 object RepositoryModule {
 

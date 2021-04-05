@@ -1,6 +1,5 @@
 package ua.co.myrecipes.ui
 
-import android.content.SharedPreferences
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -14,8 +13,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ua.co.myrecipes.R
-import javax.inject.Inject
-import javax.inject.Named
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
@@ -23,14 +20,6 @@ class MainActivityTest{
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
-
-    @set:Inject
-    @Named("test_preferences_app_enter")
-    var isFirstAppOpen = true
-
-    @Inject
-    @Named("test_preferences")
-    lateinit var sharedPref: SharedPreferences
 
     @Before
     fun setup(){

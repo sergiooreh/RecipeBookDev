@@ -3,12 +3,12 @@ package ua.co.myrecipes.viewmodels
 import android.app.Application
 import android.content.res.Resources
 import android.graphics.Bitmap
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -20,11 +20,12 @@ import ua.co.myrecipes.repository.user.UserRepositoryInt
 import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.Event
 import ua.co.myrecipes.util.Resource
+import javax.inject.Inject
 
-class UserViewModel @ViewModelInject constructor(
+@HiltViewModel
+class UserViewModel @Inject constructor(
     private val userRepository: UserRepositoryInt,
     application: Application,
-//    @ApplicationContext val context: ApplicationContext,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ): AndroidViewModel(application) {
     private val resources: Resources = getApplication<MyApp>().resources
