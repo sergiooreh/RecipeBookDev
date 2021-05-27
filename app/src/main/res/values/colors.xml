@@ -20,4 +20,6 @@
 
     <color name="mediumDarkBackground">#303030</color>
     <color name="lightBackground">#404040</color>
+
+    <color name="error">#e65100</color>
 </resources>

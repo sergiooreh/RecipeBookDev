@@ -89,4 +89,5 @@
     <string name="Dont_have_an_account_Swipe_up_to_register">Смахните вверх, чтобы зарегистрироваться</string>
     <string name="Already_have_an_account_Swipe_down_to_login">Уже есть аккаунт? Проведите вниз, чтобы войти!</string>
     <string name="delete_recipe">Удалить рецепт</string>
+    <string name="permissions_required">Требуются разрешения</string>
 </resources>

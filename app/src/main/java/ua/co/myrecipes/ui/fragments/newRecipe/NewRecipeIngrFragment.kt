@@ -32,6 +32,7 @@ class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
                 object : AddDialogListenerIngr {
                     override fun onAddButtonClick(ingredient: Ingredient) {
                         ingrList.add(ingredient)
+                        ingredientsAdapter.notifyDataSetChanged()
                     }
                 }).show()
         }

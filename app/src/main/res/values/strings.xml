@@ -37,6 +37,7 @@
     <string name="add_new_recipe">Add new recipe</string>
     <string name="the_field_cant_be_empty">The field can\'t be empty</string>
     <string name="you_have_to_accept_permission_to_load_image">You have to accept permission to load image</string>
+    <string name="permissions_required">Permissions required</string>
     <string name="the_list_of_recipes_is_empty">The list of recipes is empty</string>
     <string name="add_ingredients">Add ingredients</string>
     <string name="new_direction">New direction</string>

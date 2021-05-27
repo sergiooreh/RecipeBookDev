@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -23,6 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
 import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.ConnectionType
@@ -106,8 +109,8 @@ class MainActivity : AppCompatActivity() {
                                 ).show()
                                 wasDisconnected = false
                             }
-                            flFragment.internetLayout.visibility = View.INVISIBLE
-                            NavHostFragment.view?.visibility = View.VISIBLE
+                            flFragment?.internetLayout?.visibility = View.INVISIBLE
+                            NavHostFragment?.view?.visibility = View.VISIBLE
                         }
                         else -> {
                         }
@@ -119,8 +122,8 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.disconnected),
                         Snackbar.LENGTH_LONG
                     ).show()
-                    flFragment.internetLayout.visibility = View.VISIBLE
-                    NavHostFragment.view?.visibility = View.INVISIBLE
+                    flFragment?.internetLayout?.visibility = View.VISIBLE
+                    NavHostFragment?.view?.visibility = View.INVISIBLE
                     wasDisconnected = true
                 }
             }

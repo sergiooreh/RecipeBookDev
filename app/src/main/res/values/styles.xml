@@ -22,6 +22,12 @@
         <item name="android:autofilledHighlight" tools:targetApi="o">@android:color/transparent</item>
     </style>
 
+    <style name="splashScreenTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:windowBackground">@drawable/splash_image</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+
     <style name="snackbarStyle" parent="Widget.Design.Snackbar">
         <item name="android:background">@color/colorLight</item>
     </style>
@@ -43,6 +49,7 @@
     </style>
     <style name="BottomNavL">
         <item name="android:background">@color/colorLight</item>
+        <item name="itemIconTint">@color/navbar_item</item>
     </style>
     <style name="cardViewL" parent="CardView">
         <item name="cardBackgroundColor">@color/cardL</item>
@@ -89,6 +96,7 @@
     </style>
     <style name="BottomNavD">
         <item name="android:background">@color/lightBlack</item>
+        <item name="itemIconTint">@color/navbar_item_d</item>
     </style>
     <style name="ToolbarStyleD" parent="Widget.AppCompat.ActionBar">
         <item name="fontFamily">sans-serif</item>

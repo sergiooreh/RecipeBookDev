@@ -1,27 +1,29 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
-import android.app.Activity
+import android.Manifest
 import android.app.TimePickerDialog
-import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
-import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
-import ua.co.myrecipes.util.Constants.REQUEST_CODE
-import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.util.RecipeType
+import java.io.File
 
 @AndroidEntryPoint
 class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
@@ -35,12 +37,31 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
             findNavController().navigate(R.id.action_newRecipeFragment_to_regFragment, bundleOf("redirectToRegister" to true))
         }
 
+        cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract){
+            it?.let {
+                imgUri = it
+                recipe_img.setImageURI(it)
+                setImage_tv.hint = ""                           //clear textView
+            }
+        }
+
         add_recipe_img.setOnClickListener {
-            if (!Permissions.hasStoragePermissions(requireContext())){
-                requestPermissions()
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 return@setOnClickListener
             }
-            openGalleryForImage()
+
+            /*AlertDialog.Builder(requireContext())
+                .setTitle("Choose resource")
+                .setMessage("Choose source")
+                .setPositiveButton("Camera") { _, _ ->
+                    showToast(0, "Hello")
+                }
+                .setNegativeButton("Gallery") { _, _ ->
+                    cropActivityResultLauncher.launch(null)
+                }
+                .show()*/
+            cropActivityResultLauncher.launch(null)
         }
 
         prep_time_btn.setOnClickListener {
@@ -57,11 +78,13 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
 
             if (new_time_tv.text.isBlank()){
                 showSnackBar(R.string.choose_time)
+                new_time_tv.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 return@setOnClickListener
             }
 
             if (recipe_img.drawable == null){
                 showSnackBar(R.string.insert_image)
+                setImage_tv.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 return@setOnClickListener
             }
 
@@ -81,6 +104,15 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
         activity?.title = getString(R.string.add_new_recipe)
     }
 
+    private fun launchCamera(){
+        val file = File("picFromCamera")
+        val uri = FileProvider.getUriForFile(requireContext(), context?.packageName + ".provider", file)
+        val getContent = registerForActivityResult(ActivityResultContracts.TakePicture()){
+
+        }
+        getContent.launch(uri)
+    }
+
     private fun choosingTime(){
         val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
             { _, h, m ->
@@ -96,7 +128,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
         timePickerDialog.show()
     }
 
-    private fun validateInput(string: String, textInputLayout: TextInputLayout)=
+    private fun validateInput(string: String, textInputLayout: TextInputLayout) =
         if (string.isEmpty()){
             textInputLayout.error = getString(R.string.the_field_cant_be_empty)
             false
@@ -104,22 +136,4 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
             textInputLayout.error = null
             true
         }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            REQUEST_CODE ->{
-                if (resultCode == Activity.RESULT_OK){ data?.data?.let { launchImageCrop(it) } } }
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ->{
-                val result = CropImage.getActivityResult(data)
-                if (resultCode == Activity.RESULT_OK){
-                    result.uri?.let {
-                        imgUri = it
-                        recipe_img.setImageURI(it)
-                        setImage_tv.hint = ""                           //clear textView
-                    }
-                }
-            }
-        }
-    }
 }

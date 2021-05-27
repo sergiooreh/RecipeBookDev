@@ -102,6 +102,7 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
             setPositiveButton(R.string.ADD) { _, _ ->
                 if (editText.text.toString().isNotEmpty()){
                     directList.add(editText.text.toString())
+                    directionsAdapter.notifyDataSetChanged()
                 } else{
                     showToast(R.string.please_enter_the_direction)
                 }

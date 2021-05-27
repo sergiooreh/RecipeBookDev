@@ -1,8 +1,8 @@
 package ua.co.myrecipes.ui.fragments.profile
 
-import android.app.Activity
+import android.Manifest
 import android.app.AlertDialog
-import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.InputFilter
@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -20,16 +21,14 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.drawer_header.view.*
+import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
-import ua.co.myrecipes.util.Constants
 import ua.co.myrecipes.util.EventObserver
-import ua.co.myrecipes.util.Permissions
 import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
@@ -85,6 +84,17 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
                     "recipeAuthor" to "@".plus(userName))
             )
         }
+
+        cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract){
+            it?.let {
+                user_imv.setImageURI(it)
+                userViewModel.updateImage((user_imv.drawable as BitmapDrawable).bitmap)
+                glide.load(it).into(user_imv)
+                glide.load(it).into(
+                    (activity?.findViewById(R.id.navView) as NavigationView)
+                        .getHeaderView(0).drawer_user_img)
+            }
+        }
     }
 
     private fun subscribeToObservers(){
@@ -113,11 +123,11 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
                 actNumberDialog()
             }
             user_imv.setOnClickListener {
-                if (!Permissions.hasStoragePermissions(requireContext())){
-                    requestPermissions()
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                    requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     return@setOnClickListener
                 }
-                openGalleryForImage()
+                cropActivityResultLauncher.launch(null)
             }
         } else {
             activity?.title = userName
@@ -147,30 +157,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
                 userAbout_tv.text = editText.text.toString()}
             setNegativeButton(R.string.CANCEL) { dialogInterface, _ -> dialogInterface.cancel() }
             show()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            Constants.REQUEST_CODE -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    data?.data?.let { launchImageCrop(it) }
-                }
-            }
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                val result = CropImage.getActivityResult(data)
-                if (resultCode == Activity.RESULT_OK) {
-                    result.uri?.let {
-                        user_imv.setImageURI(it)
-                        userViewModel.updateImage((user_imv.drawable as BitmapDrawable).bitmap)
-                        glide.load(it).into(user_imv)
-                        glide.load(it).into(
-                            (activity?.findViewById(R.id.navView) as NavigationView)
-                                .getHeaderView(0).drawer_user_img)
-                    }
-                }
-            }
         }
     }
 }

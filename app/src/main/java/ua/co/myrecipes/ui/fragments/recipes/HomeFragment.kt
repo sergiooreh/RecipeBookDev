@@ -4,10 +4,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipeTypeAdapter
 import ua.co.myrecipes.ui.fragments.BaseFragment

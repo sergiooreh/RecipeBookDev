@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,8 +28,8 @@ class UserRepository @Inject constructor(
     override suspend fun register(email: String, password: String): Resource<AuthResult> = withContext(Dispatchers.IO) {
         authCall {
             val user = User(email = email)
-            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
-                user.token = it.token
+            FirebaseMessaging.getInstance().token.addOnSuccessListener {
+                user.token = it
             }.await()
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
