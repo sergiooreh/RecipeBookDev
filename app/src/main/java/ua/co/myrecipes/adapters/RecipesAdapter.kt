@@ -25,13 +25,11 @@ class RecipesAdapter @Inject constructor(
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Recipe>(){
-        override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe) =
+           oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
+        override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe) =
+            oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)

@@ -22,13 +22,11 @@ class IngredientsAdapter(
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Ingredient>(){
-        override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return oldItem.name == newItem.name
-        }
+        override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient) =
+            oldItem.name == newItem.name
 
-        override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
+        override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient) =
+            oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)

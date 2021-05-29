@@ -19,13 +19,11 @@ class DirectionsAdapter(
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<String>(){
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: String, newItem: String) =
+            oldItem == newItem
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
+        override fun areContentsTheSame(oldItem: String, newItem: String) =
+            oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)

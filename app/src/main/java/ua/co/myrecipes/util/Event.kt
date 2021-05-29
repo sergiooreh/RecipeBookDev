@@ -29,7 +29,7 @@ class EventObserver<T>(
             is Resource.Error -> {
                 t.getContentIfNotHandled()?.let {
                     onError?.let { error ->
-                        error(it.message!!)
+                        error(it.message ?: "")
                     }
                 }
             }

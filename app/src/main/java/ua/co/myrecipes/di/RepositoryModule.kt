@@ -34,13 +34,13 @@ object RepositoryModule {
         it.useAppLanguage()
     }
 
+
     @Singleton
     @Provides
     fun provideRecipeRepository(
         @Recipes collectionReference: CollectionReference,
         @Users collectionReferenceUser: CollectionReference
     ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser)
-
 
     @Singleton
     @Provides

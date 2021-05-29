@@ -54,80 +54,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(toggle)
-
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.settings_item -> navController.navigate(R.id.settingsFragment)
-                R.id.about_item -> navController.navigate(R.id.aboutUsFragment)
-            }
-            drawerLayout.closeDrawer(GravityCompat.START, false)
-            true
-        }
-
-        bottomNavigationView.setupWithNavController(NavHostFragment.findNavController())
-        bottomNavigationView.setOnNavigationItemReselectedListener { /*NO OPERATIONS*/ }
+        setupNavigationDrawer(savedInstanceState)
         setupNav()
-
-        val navHeader = navView.getHeaderView(0)
-        if (FirebaseAuth.getInstance().uid == null) {
-            navHeader.nickName_drawer_tv.text = getString(R.string.guest)
-            navHeader.log_out_btn.visibility = View.GONE
-        } else {
-            val currentUserNickName = AuthUtil.email.substringBefore("@")
-            userViewModel.getUser(currentUserNickName)
-            userViewModel.user.observe(this, EventObserver {
-                if (it.img.isNotEmpty()){
-                    glide.load(it.img).into(navHeader.drawer_user_img)
-                }
-            })
-
-            navHeader.nickName_drawer_tv.text = currentUserNickName
-            navHeader.log_out_btn.visibility = View.VISIBLE
-        }
-
-        navHeader.log_out_btn.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val navOptions = NavOptions.Builder()
-                .setLaunchSingleTop(true)
-                .build()
-            navController.navigate(R.id.regFragment, savedInstanceState, navOptions)
-            recreate()
-        }
-
-        networkMonitor.result = { isAvailable, type ->
-            runOnUiThread {
-                if (isAvailable){
-                    when (type) {
-                        ConnectionType.Wifi, ConnectionType.Cellular -> {
-                            if (wasDisconnected) {
-                                Snackbar.make(
-                                    findViewById(R.id.drawerLayout),
-                                    getString(R.string.connected),
-                                    Snackbar.LENGTH_LONG
-                                ).show()
-                                wasDisconnected = false
-                            }
-                            flFragment?.internetLayout?.visibility = View.INVISIBLE
-                            NavHostFragment?.view?.visibility = View.VISIBLE
-                        }
-                        else -> {
-                        }
-                    }
-                }
-                else {
-                    Snackbar.make(
-                        findViewById(R.id.drawerLayout),
-                        getString(R.string.disconnected),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                    flFragment?.internetLayout?.visibility = View.VISIBLE
-                    NavHostFragment?.view?.visibility = View.INVISIBLE
-                    wasDisconnected = true
-                }
-            }
-        }
+        setupNetworkMonitor()
     }
 
     override fun onResume() {
@@ -167,7 +96,48 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setupNavigationDrawer(savedInstanceState: Bundle?){
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.settings_item -> navController.navigate(R.id.settingsFragment)
+                R.id.about_item -> navController.navigate(R.id.aboutUsFragment)
+            }
+            drawerLayout.closeDrawer(GravityCompat.START, false)
+            true
+        }
+        val navHeader = navView.getHeaderView(0)
+        if (FirebaseAuth.getInstance().uid == null) {
+            navHeader.nickName_drawer_tv.text = getString(R.string.guest)
+            navHeader.log_out_btn.visibility = View.GONE
+        } else {
+            val currentUserNickName = AuthUtil.email.substringBefore("@")
+            userViewModel.getUser(currentUserNickName)
+            userViewModel.user.observe(this, EventObserver {
+                if (it.img.isNotEmpty()){
+                    glide.load(it.img).into(navHeader.drawer_user_img)
+                }
+            })
+            navHeader.nickName_drawer_tv.text = currentUserNickName
+            navHeader.log_out_btn.visibility = View.VISIBLE
+        }
+
+        navHeader.log_out_btn.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val navOptions = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .build()
+            navController.navigate(R.id.regFragment, savedInstanceState, navOptions)
+            recreate()
+        }
+    }
+
     private fun setupNav() {
+        bottomNavigationView.setupWithNavController(NavHostFragment.findNavController())
+        bottomNavigationView.setOnNavigationItemReselectedListener { /*NO OPERATIONS*/ }
+
         navController = findNavController(R.id.NavHostFragment)
         findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             .setupWithNavController(navController)
@@ -187,6 +157,41 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             toggle.syncState()
+        }
+    }
+
+    private fun setupNetworkMonitor(){
+        networkMonitor.result = { isAvailable, type ->
+            runOnUiThread {
+                if (isAvailable){
+                    when (type) {
+                        ConnectionType.Wifi, ConnectionType.Cellular -> {
+                            if (wasDisconnected) {
+                                Snackbar.make(
+                                    findViewById(R.id.drawerLayout),
+                                    getString(R.string.connected),
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                                wasDisconnected = false
+                            }
+                            flFragment?.internetLayout?.visibility = View.INVISIBLE
+                            NavHostFragment?.view?.visibility = View.VISIBLE
+                        }
+                        else -> {
+                        }
+                    }
+                }
+                else {
+                    Snackbar.make(
+                        findViewById(R.id.drawerLayout),
+                        getString(R.string.disconnected),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    flFragment?.internetLayout?.visibility = View.VISIBLE
+                    NavHostFragment?.view?.visibility = View.INVISIBLE
+                    wasDisconnected = true
+                }
+            }
         }
     }
 

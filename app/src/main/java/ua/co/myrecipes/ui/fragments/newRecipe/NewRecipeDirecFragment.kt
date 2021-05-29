@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.edittext.*
+import kotlinx.android.synthetic.main.edittext.view.*
 import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
@@ -85,7 +88,7 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
 
 
     private fun addDirectionDialog() {
-        val editText = EditText(requireContext()).apply {
+        /*val editText = EditText(requireContext()).apply {
             isSingleLine = false
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -94,14 +97,15 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
             gravity = Gravity.START or Gravity.TOP
             isHorizontalScrollBarEnabled = true
             filters = arrayOf<InputFilter>(InputFilter.LengthFilter(300))                //max length
-        }
+        }*/
+        val editText = LayoutInflater.from(requireContext()).inflate(R.layout.edittext, null)
 
         AlertDialog.Builder(requireContext()).apply {
             setTitle(R.string.new_direction)
             setView(editText)
             setPositiveButton(R.string.ADD) { _, _ ->
-                if (editText.text.toString().isNotEmpty()){
-                    directList.add(editText.text.toString())
+                if (editText.edit_text.text.toString().isNotEmpty()){
+                    directList.add(editText.edit_text.text.toString())
                     directionsAdapter.notifyDataSetChanged()
                 } else{
                     showToast(R.string.please_enter_the_direction)
