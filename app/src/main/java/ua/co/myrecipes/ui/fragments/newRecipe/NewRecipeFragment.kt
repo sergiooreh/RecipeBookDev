@@ -1,18 +1,18 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.Manifest
+import android.Manifest.permission.CAMERA
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.TimePickerDialog
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
@@ -23,7 +23,6 @@ import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.RecipeType
-import java.io.File
 
 @AndroidEntryPoint
 class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
@@ -46,27 +45,30 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
         }
 
         add_recipe_img.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            /*if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
                 requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 return@setOnClickListener
-            }
+            }*/
 
-            /*AlertDialog.Builder(requireContext())
+            AlertDialog.Builder(requireContext())
                 .setTitle("Choose resource")
                 .setMessage("Choose source")
                 .setPositiveButton("Camera") { _, _ ->
-                    showToast(0, "Hello")
+                    if (isPermissionGranted(CAMERA) && isPermissionGranted(WRITE_EXTERNAL_STORAGE)){
+                        takePhoto.launch()
+                    } else {
+                        requestCameraPermissions.launch(arrayOf(CAMERA, WRITE_EXTERNAL_STORAGE))
+                    }
+                    takePhoto.launch()
                 }
                 .setNegativeButton("Gallery") { _, _ ->
-                    cropActivityResultLauncher.launch(null)
+                    requestReadExternalPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
-                .show()*/
-            cropActivityResultLauncher.launch(null)
+                .show()
+//            cropActivityResultLauncher.launch(null)
         }
 
-        prep_time_btn.setOnClickListener {
-            choosingTime()
-        }
+        prep_time_btn.setOnClickListener(this::choosingTime)
 
         type_spinner.adapter =
             ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.recipeTypes))
@@ -104,16 +106,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
         activity?.title = getString(R.string.add_new_recipe)
     }
 
-    private fun launchCamera(){
-        val file = File("picFromCamera")
-        val uri = FileProvider.getUriForFile(requireContext(), context?.packageName + ".provider", file)
-        val getContent = registerForActivityResult(ActivityResultContracts.TakePicture()){
-
-        }
-        getContent.launch(uri)
-    }
-
-    private fun choosingTime(){
+    private fun choosingTime(view: View){
         val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
             { _, h, m ->
                 time = when {

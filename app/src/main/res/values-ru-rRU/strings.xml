@@ -90,4 +90,5 @@
     <string name="Already_have_an_account_Swipe_down_to_login">Уже есть аккаунт? Проведите вниз, чтобы войти!</string>
     <string name="delete_recipe">Удалить рецепт</string>
     <string name="permissions_required">Требуются разрешения</string>
+    <string name="language">Язык</string>
 </resources>

@@ -124,7 +124,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             }
             user_imv.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                    requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestReadExternalPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     return@setOnClickListener
                 }
                 cropActivityResultLauncher.launch(null)
