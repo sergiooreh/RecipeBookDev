@@ -91,4 +91,7 @@
     <string name="delete_recipe">Удалить рецепт</string>
     <string name="permissions_required">Требуются разрешения</string>
     <string name="language">Язык</string>
+    <string name="choose_resource">Выберите источник</string>
+    <string name="camera">Камера</string>
+    <string name="gallery">Галерея</string>
 </resources>

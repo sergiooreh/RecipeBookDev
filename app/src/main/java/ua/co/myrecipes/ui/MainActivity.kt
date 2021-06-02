@@ -27,10 +27,7 @@ import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
-import ua.co.myrecipes.util.AuthUtil
-import ua.co.myrecipes.util.ConnectionType
-import ua.co.myrecipes.util.EventObserver
-import ua.co.myrecipes.util.NetworkMonitorUtil
+import ua.co.myrecipes.util.*
 import ua.co.myrecipes.viewmodels.UserViewModel
 import java.util.*
 import javax.inject.Inject
@@ -199,11 +196,9 @@ class MainActivity : AppCompatActivity() {
     private fun preferencesSetting() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val lang = sharedPreferences.getString("language", "")
-        if (lang != ""){
-            resources.configuration.setLocale(Locale(lang as String))
-            resources.updateConfiguration(resources.configuration, resources.displayMetrics)
-        }
+        val lang = sharedPreferences.getString("language", LocaleHelper.getSystemLang())
+        resources.configuration.setLocale(Locale(lang as String))
+        resources.updateConfiguration(resources.configuration, resources.displayMetrics)
 
         val theme = sharedPreferences.getBoolean("theme", true)
         if (theme){

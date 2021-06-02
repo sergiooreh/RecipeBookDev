@@ -12,6 +12,7 @@ import androidx.preference.SwitchPreferenceCompat
 import ua.co.myrecipes.BuildConfig
 import ua.co.myrecipes.R
 import ua.co.myrecipes.util.Constants
+import ua.co.myrecipes.util.LocaleHelper
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -24,6 +25,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
         val language: ListPreference? = findPreference("language")
+        language?.setDefaultValue(LocaleHelper.getSystemLang())
         language?.setOnPreferenceChangeListener { _, _ ->
             activity?.recreate()
             true

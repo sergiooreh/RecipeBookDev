@@ -19,7 +19,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_main.*
+import pub.devrel.easypermissions.AppSettingsDialog
 import ua.co.myrecipes.BuildConfig
+import ua.co.myrecipes.R
 import java.io.File
 
 
@@ -47,9 +49,8 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
 
     fun openImageSource(){
         AlertDialog.Builder(requireContext())
-            .setTitle("Choose resource")
-            .setMessage("Choose source")
-            .setPositiveButton("Camera") { _, _ ->
+            .setTitle(R.string.choose_resource)
+            .setPositiveButton(R.string.camera) { _, _ ->
                 if (isPermissionGranted(CAMERA)){
                     savePhotoToStorage()
                     takePhoto.launch(uri)
@@ -57,7 +58,7 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
                     requestCameraPermissions.launch(arrayOf(CAMERA))
                 }
             }
-            .setNegativeButton("Gallery") { _, _ ->
+            .setNegativeButton(R.string.gallery) { _, _ ->
                 getContent.launch("image/*")
             }
             .show()
@@ -75,9 +76,11 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
 
     /*PERMISSIONS*/
     private val requestCameraPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions ->
-        if (permissions[CAMERA] == true && permissions[WRITE_EXTERNAL_STORAGE] == true){
+        if (permissions[CAMERA] == true){
             savePhotoToStorage()
             takePhoto.launch(uri)
+        } else {
+            AppSettingsDialog.Builder(this).build().show()
         }
     }
 
