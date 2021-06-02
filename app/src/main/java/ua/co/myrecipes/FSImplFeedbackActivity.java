@@ -1,5 +1,7 @@
+/*
 package ua.co.myrecipes;
-
+*/
+/*
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -144,7 +146,8 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
     /**
      * this method will update the invoice details of the current booking,
      * will populate the recycler view's adapter
-     */
+     *//*
+
     private void updateInvoice() {
         if (AppPreferences.getDriverSettings() == null ||
                 AppPreferences.getDriverSettings().getData() == null ||
@@ -183,11 +186,13 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         invoiceAdapter.setItems(filtered);
     }
 
-    /**
+    */
+/**
      * this will update ui for batch
      *
      * @param isKamiyabDelivery flag to check is kamiyab
-     */
+     *//*
+
     private void handleInputInfoForBatch(boolean isKamiyabDelivery) {
         if (!isNewBatchFlow) return;
         binder.llReceiverInfo.setVisibility(isKamiyabDelivery ? View.VISIBLE : View.GONE);
@@ -202,9 +207,11 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    /**
+    */
+/**
      * This method listens for touch on receivedAmountEt and moves scrollview to bottom
-     */
+     *//*
+
     private void updateScroll() {
         moveScrollViewToBottom();
         binder.receivedAmountEt.setOnTouchListener(new View.OnTouchListener() {
@@ -217,9 +224,11 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         binder.etReceiverName.requestFocus();
     }
 
-    /**
+    */
+/**
      * This method scrolls down scroll view when it's ready
-     */
+     *//*
+
     private void moveScrollViewToBottom() {
         binder.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -340,11 +349,13 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         binder.ivTakeImage.setVisibility(isProofRequired() || isAtmType ? View.VISIBLE : View.GONE);
     }
 
-    /**
+    */
+/**
      * check whether contains cod booking
      *
      * @return contains or not
-     */
+     *//*
+
     private boolean containsCodBooking() {
         if (Utils.isNewBatchService(batchServiceCode)) {
             for (BatchBooking batchBooking : callData.getBookingList())
@@ -354,12 +365,14 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         return false;
     }
 
-    /**
+    */
+/**
      * this will update the total amount for invoice
      *
      * @param invoiceList list of fields in invoice
      * @return total value
-     */
+     *//*
+
     private String updateTotal(ArrayList<Invoice> invoiceList) {
         String total = StringUtils.EMPTY;
         for (Invoice invoice : invoiceList) {
@@ -378,9 +391,11 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         return total;
     }
 
-    /**
+    */
+/**
      * this will initialize the call data object
-     */
+     *//*
+
     private void initCallData() {
         callData = AppPreferences.getCallData();
         isNewBatchFlow = Utils.isNewBatchService(callData.getServiceCode());
@@ -941,7 +956,8 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         }
     };
 
-    /**
+    */
+/**
      * Feedback validation on the following cases.
      *
      * <ul>
@@ -955,7 +971,8 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
      * </ul>
      *
      * @return true if all the validation is true otherwise false
-     */
+     *//*
+
     private boolean valid() {
         if (isNewBatchFlow && selectedMsgPosition != NumberUtils.INTEGER_ZERO) {
             binder.receivedAmountEt.setText(String.valueOf(NumberUtils.INTEGER_ZERO));
@@ -1162,11 +1179,13 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    /**
+    */
+/**
      * Event Received from Socket (BOOKING_UPDATED)
      *
      * @param response updated data
-     */
+     *//*
+
     @Subscribe
     public void onEvent(BookingUpdated response) {
         if (callData != null) {
@@ -1187,4 +1206,4 @@ public class FSImplFeedbackActivity extends BaseActivity implements View.OnClick
             }
         }
     }
-}
+}*/

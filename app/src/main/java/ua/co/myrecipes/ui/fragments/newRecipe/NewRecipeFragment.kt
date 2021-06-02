@@ -1,8 +1,5 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
-import android.Manifest
-import android.Manifest.permission.CAMERA
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,8 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.activity.result.launch
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
@@ -45,27 +40,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
         }
 
         add_recipe_img.setOnClickListener {
-            /*if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                return@setOnClickListener
-            }*/
-
-            AlertDialog.Builder(requireContext())
-                .setTitle("Choose resource")
-                .setMessage("Choose source")
-                .setPositiveButton("Camera") { _, _ ->
-                    if (isPermissionGranted(CAMERA) && isPermissionGranted(WRITE_EXTERNAL_STORAGE)){
-                        takePhoto.launch()
-                    } else {
-                        requestCameraPermissions.launch(arrayOf(CAMERA, WRITE_EXTERNAL_STORAGE))
-                    }
-                    takePhoto.launch()
-                }
-                .setNegativeButton("Gallery") { _, _ ->
-                    requestReadExternalPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-                .show()
-//            cropActivityResultLauncher.launch(null)
+            openImageSource()
         }
 
         prep_time_btn.setOnClickListener(this::choosingTime)
@@ -107,7 +82,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
     }
 
     private fun choosingTime(view: View){
-        val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
+        val timePickerDialog = TimePickerDialog(requireContext(),
             { _, h, m ->
                 time = when {
                     h==0 -> "$m ${getString(R.string.min)}"
@@ -117,7 +92,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
                 new_time_tv.text = time
             }, 0, 0, true
         )
-        timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         timePickerDialog.show()
     }
 

@@ -1,14 +1,10 @@
 package ua.co.myrecipes.ui.fragments
 
-import android.Manifest
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.view.View
 import android.widget.ProgressBar
@@ -16,72 +12,73 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.IOException
-import java.util.*
+import ua.co.myrecipes.BuildConfig
+import java.io.File
+
 
 abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
+    private var uri: Uri? = null
 
-    lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
-
-     val cropActivityResultContract = object : ActivityResultContract<Any?, Uri?>(){
-        override fun createIntent(context: Context, input: Any?): Intent {
-            return CropImage.activity()
+    lateinit var cropActivityResultLauncher: ActivityResultLauncher<Uri?>
+    val cropActivityResultContract = object : ActivityResultContract<Uri?, Uri?>(){
+        override fun createIntent(context: Context, input: Uri?): Intent =
+            CropImage.activity(input)
                 .setAspectRatio(500,500)
                 .setFixAspectRatio(true)
                 .getIntent(requireContext())
-        }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? = CropImage.getActivityResult(intent)?.uri
     }
 
-    val takePhoto = registerForActivityResult(ActivityResultContracts.TakePicturePreview()){
-        lifecycleScope.launch {
-            val isSavedSuccessfully = savePhotoToInternalStorage(UUID.randomUUID().toString(), it)                 //Internal storage
-            if (isSavedSuccessfully){
-
-            }
-        }
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { cropActivityResultLauncher.launch(uri) }
     }
 
-    private fun savePhotoToInternalStorage(filename: String, bmp: Bitmap): Boolean {
-        return try {
-            activity?.openFileOutput("$filename.jpg", MODE_PRIVATE).use { stream ->
-                if(!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("Couldn't save bitmap.")
+    private val takePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()){ successful ->
+        if (successful) cropActivityResultLauncher.launch(uri)
+    }
+
+    fun openImageSource(){
+        AlertDialog.Builder(requireContext())
+            .setTitle("Choose resource")
+            .setMessage("Choose source")
+            .setPositiveButton("Camera") { _, _ ->
+                if (isPermissionGranted(CAMERA)){
+                    savePhotoToStorage()
+                    takePhoto.launch(uri)
+                } else {
+                    requestCameraPermissions.launch(arrayOf(CAMERA))
                 }
             }
-            true
-        } catch(e: IOException) {
-            e.printStackTrace()
-            false
-        }
+            .setNegativeButton("Gallery") { _, _ ->
+                getContent.launch("image/*")
+            }
+            .show()
+    }
+
+    private fun savePhotoToStorage() {
+        val file = File(activity?.filesDir, "picFromCamera")
+        uri = FileProvider.getUriForFile(
+            requireContext(),
+            BuildConfig.APPLICATION_ID + ".provider",
+            file
+        )
     }
 
 
     /*PERMISSIONS*/
-    val requestReadExternalPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        granted?.let {
-            /*if (granted){
-                cropActivityResultLauncher.launch(null)
-            } else {
-                AppSettingsDialog.Builder(this)
-                    .setTitle(getString(R.string.permissions_required))
-                    .setRationale(getString(R.string.you_have_to_accept_permission_to_load_image))
-                    .build().show()
-            }*/
+    private val requestCameraPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions ->
+        if (permissions[CAMERA] == true && permissions[WRITE_EXTERNAL_STORAGE] == true){
+            savePhotoToStorage()
+            takePhoto.launch(uri)
         }
-    }
-    val requestCameraPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions ->
-        if (permissions[CAMERA] == false) true
     }
 
 
@@ -104,6 +101,6 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
         progressBar.visibility = if(isDisplayed) View.VISIBLE else View.GONE
     }
 
-    fun isPermissionGranted(permission: String) =
+    private fun isPermissionGranted(permission: String) =
         ActivityCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
 }

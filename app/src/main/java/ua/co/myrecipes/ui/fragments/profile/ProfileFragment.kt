@@ -1,8 +1,6 @@
 package ua.co.myrecipes.ui.fragments.profile
 
-import android.Manifest
 import android.app.AlertDialog
-import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.InputFilter
@@ -13,7 +11,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.EditText
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -23,7 +20,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.drawer_header.view.*
-import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.ui.fragments.BaseFragment
@@ -123,11 +119,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
                 actNumberDialog()
             }
             user_imv.setOnClickListener {
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                    requestReadExternalPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    return@setOnClickListener
-                }
-                cropActivityResultLauncher.launch(null)
+                openImageSource()
             }
         } else {
             activity?.title = userName
