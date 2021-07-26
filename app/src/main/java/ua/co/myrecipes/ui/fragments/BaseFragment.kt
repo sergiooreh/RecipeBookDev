@@ -1,7 +1,6 @@
 package ua.co.myrecipes.ui.fragments
 
 import android.Manifest.permission.CAMERA
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -52,7 +51,7 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
             .setTitle(R.string.choose_resource)
             .setPositiveButton(R.string.camera) { _, _ ->
                 if (isPermissionGranted(CAMERA)){
-                    savePhotoToStorage()
+                    createFileAndGetItsUri()
                     takePhoto.launch(uri)
                 } else {
                     requestCameraPermissions.launch(arrayOf(CAMERA))
@@ -64,20 +63,21 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
             .show()
     }
 
-    private fun savePhotoToStorage() {
+    private fun createFileAndGetItsUri() {
         val file = File(activity?.filesDir, "picFromCamera")
         uri = FileProvider.getUriForFile(
             requireContext(),
             BuildConfig.APPLICATION_ID + ".provider",
             file
         )
+        uri
     }
 
 
     /*PERMISSIONS*/
     private val requestCameraPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions ->
         if (permissions[CAMERA] == true){
-            savePhotoToStorage()
+            createFileAndGetItsUri()
             takePhoto.launch(uri)
         } else {
             AppSettingsDialog.Builder(this).build().show()
