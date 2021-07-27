@@ -2,31 +2,31 @@ package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.InputFilter
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.edittext.*
-import kotlinx.android.synthetic.main.edittext.view.*
-import kotlinx.android.synthetic.main.fragment_new_recipe_direc.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
+import ua.co.myrecipes.databinding.EdittextBinding
+import ua.co.myrecipes.databinding.FragmentNewRecipeDirecBinding
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.viewmodels.RecipeViewModel
 
 @AndroidEntryPoint
-class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) {
+class NewRecipeDirecFragment : BaseFragment<FragmentNewRecipeDirecBinding>() {
+
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentNewRecipeDirecBinding::inflate
+
     private val directList = arrayListOf<String>()
     private lateinit var directionsAdapter: DirectionsAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -35,20 +35,20 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
 
-        add_ingr_btn.setOnClickListener {
+        binding.addIngrBtn.setOnClickListener {
             addDirectionDialog()
         }
 
         val recipe = arguments?.getParcelable<Recipe>("recipe")
         recipe?.directions = directList
 
-        finish_add_recipe_btn.setOnClickListener {
+        binding.finishAddRecipeBtn.setOnClickListener {
             if (directList.isEmpty()){
                 showSnackBar(R.string.add_directions)
                 return@setOnClickListener
             }
             recipe?.let { recipe ->
-                finish_add_recipe_btn.isClickable = false
+                binding.finishAddRecipeBtn.isClickable = false
                 recipeViewModel.insertRecipe(recipe).invokeOnCompletion {
                     showSnackBar(R.string.recipe_added)
                     findNavController().navigate(R.id.action_newRecipeDirecFragment_to_homeFragment)
@@ -78,7 +78,7 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
         }
     }
 
-    private fun setupRecycleView() = directions_rv.apply {
+    private fun setupRecycleView() = binding.directionsRv.apply {
         directionsAdapter = DirectionsAdapter(directList)
         adapter = directionsAdapter
         layoutManager = LinearLayoutManager(requireContext())
@@ -98,14 +98,14 @@ class NewRecipeDirecFragment : BaseFragment(R.layout.fragment_new_recipe_direc) 
             isHorizontalScrollBarEnabled = true
             filters = arrayOf<InputFilter>(InputFilter.LengthFilter(300))                //max length
         }*/
-        val editText = LayoutInflater.from(requireContext()).inflate(R.layout.edittext, null)
+        val editText = EdittextBinding.inflate(LayoutInflater.from(context), null, false)
 
         AlertDialog.Builder(requireContext()).apply {
             setTitle(R.string.new_direction)
-            setView(editText)
+            setView(editText.root)
             setPositiveButton(R.string.ADD) { _, _ ->
-                if (editText.edit_text.text.toString().isNotEmpty()){
-                    directList.add(editText.edit_text.text.toString())
+                if (editText.editText.text.toString().isNotEmpty()){
+                    directList.add(editText.editText.text.toString())
                     directionsAdapter.notifyDataSetChanged()
                 } else{
                     showToast(R.string.please_enter_the_direction)

@@ -1,17 +1,20 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_new_recipe_ingr.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.IngredientsAdapter
+import ua.co.myrecipes.databinding.FragmentNewRecipeIngrBinding
 import ua.co.myrecipes.model.Ingredient
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.dialogs.AddDialogListenerIngr
@@ -19,7 +22,10 @@ import ua.co.myrecipes.ui.dialogs.AddIngrItemDialog
 import ua.co.myrecipes.ui.fragments.BaseFragment
 
 
-class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
+class NewRecipeIngrFragment : BaseFragment<FragmentNewRecipeIngrBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentNewRecipeIngrBinding::inflate
+
     val ingrList = arrayListOf<Ingredient>()
     private lateinit var ingredientsAdapter: IngredientsAdapter
 
@@ -27,7 +33,7 @@ class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
 
-        add_recipe_ingr_btn.setOnClickListener {
+        binding.addRecipeIngrBtn.setOnClickListener {
             AddIngrItemDialog(requireContext(),
                 object : AddDialogListenerIngr {
                     override fun onAddButtonClick(ingredient: Ingredient) {
@@ -40,7 +46,7 @@ class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
         val recipe = arguments?.getParcelable<Recipe>("recipe")
         recipe?.ingredients = ingrList
 
-        to_directions_fab.setOnClickListener {
+        binding.toDirectionsFab.setOnClickListener {
             if (ingrList.isEmpty()){
                 showSnackBar(R.string.add_ingredients)
                 return@setOnClickListener
@@ -70,7 +76,7 @@ class NewRecipeIngrFragment : BaseFragment(R.layout.fragment_new_recipe_ingr) {
         }
     }
 
-    private fun setupRecycleView() = ingredients_rv.apply {
+    private fun setupRecycleView() = binding.ingredientsRv.apply {
         ingredientsAdapter = IngredientsAdapter(ingrList)
         adapter = ingredientsAdapter
         layoutManager = LinearLayoutManager(requireContext())

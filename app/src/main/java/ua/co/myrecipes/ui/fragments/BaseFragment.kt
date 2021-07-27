@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -15,17 +18,35 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import ua.co.myrecipes.BuildConfig
 import ua.co.myrecipes.R
+import ua.co.myrecipes.ui.MainActivity
 import java.io.File
 
 
-abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
+abstract class BaseFragment<out T : ViewBinding>: Fragment() {
+    private var _binding: ViewBinding? = null
+    @Suppress("UNCHECKED_CAST")
+    protected val binding: T
+        get() = _binding as T
+
     private var uri: Uri? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = bindingInflater(inflater)
+        return _binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    protected abstract val bindingInflater: (LayoutInflater) -> ViewBinding
 
     lateinit var cropActivityResultLauncher: ActivityResultLauncher<Uri?>
     val cropActivityResultContract = object : ActivityResultContract<Uri?, Uri?>(){
@@ -87,9 +108,9 @@ abstract class BaseFragment(layoutId: Int): Fragment(layoutId) {
 
     fun showSnackBar(textResource: Int = 0, text: String = ""){
         if (textResource != 0){
-            Snackbar.make(requireActivity().drawerLayout, textResource, Snackbar.LENGTH_LONG).show()
+            Snackbar.make((requireActivity() as MainActivity).binding.drawerLayout, textResource, Snackbar.LENGTH_LONG).show()
             return
-        } else Snackbar.make(requireActivity().drawerLayout, text, Snackbar.LENGTH_LONG).show()
+        } else Snackbar.make((requireActivity() as MainActivity).binding.drawerLayout, text, Snackbar.LENGTH_LONG).show()
     }
 
     fun showToast(textResource: Int = 0, text: String = ""){

@@ -8,16 +8,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.RequestManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_recipe.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.DirectionsAdapter
 import ua.co.myrecipes.adapters.IngredientsAdapter
+import ua.co.myrecipes.databinding.FragmentRecipeBinding
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.notification.PushNotification
 import ua.co.myrecipes.notification.PushNotificationData
@@ -31,7 +32,10 @@ import ua.co.myrecipes.viewmodels.UserViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
+class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentRecipeBinding::inflate
+
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
 
@@ -42,26 +46,22 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
     @Inject
     lateinit var glide: RequestManager
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        recipe = arguments?.getParcelable("recipe")!!
-        setHasOptionsMenu(recipe.author == AuthUtil.email.substringBefore("@"))
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recipe = arguments?.getParcelable("recipe")!!
+        setHasOptionsMenu(recipe.author == AuthUtil.email.substringBefore("@"))
 
         recipeViewModel.loadRecipe(recipe)
         subscribeToObservers()
 
-        recipeAuthor_tv.setOnClickListener {
-            findNavController().navigate(R.id.action_recipeFragment_to_profileFragment, bundleOf("userName" to recipeAuthor_tv.text))
+        binding.recipeAuthorTv.setOnClickListener {
+            findNavController().navigate(R.id.action_recipeFragment_to_profileFragment, bundleOf("userName" to binding.recipeAuthorTv.text))
         }
 
-        like_btn.isEnabled = AuthUtil.email.isNotBlank()
+        binding.likeBtn.isEnabled = AuthUtil.email.isNotBlank()
 
-        like_btn.setOnClickListener {
+        binding.likeBtn.setOnClickListener {
             if (!recipe.isLiking){
                 recipe.isLiked = !recipe.isLiked
                 if (recipe.isLiked) recipe.likedBy += uid
@@ -75,31 +75,31 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
     private fun subscribeToObservers(){
         recipeViewModel.recipe.observe(viewLifecycleOwner, EventObserver(
             onError = { error ->
-                displayProgressBar(progress_bar_recipe, isDisplayed = false)
+                displayProgressBar(binding.progressBarRecipe, isDisplayed = false)
                 showToast(text = error)
             },
-            onLoading = { displayProgressBar(progress_bar_recipe) }
+            onLoading = { displayProgressBar(binding.progressBarRecipe) }
         ){
             recipe = it
             it.apply {
-                glide.load(imgUrl).into(recipeImg_img)
-                recipeName_tv.text = name
-                recipeAuthor_tv.text = author
-                recipeTime_tv.text = durationPrepare
-                recipeLikes_tv.text = likedBy.size.toString()
+                glide.load(imgUrl).into(binding.recipeImgImg)
+                binding.recipeNameTv.text = name
+                binding.recipeAuthorTv.text = author
+                binding.recipeTimeTv.text = durationPrepare
+                binding.recipeLikesTv.text = likedBy.size.toString()
 
                 if(FirebaseAuth.getInstance().currentUser?.uid in likedBy){
                     recipe.isLiked = true
-                    like_btn.setColorFilter((Color.RED))
+                    binding.likeBtn.setColorFilter((Color.RED))
                 } else {
                     recipe.isLiked = false
-                    like_btn.setColorFilter(Color.GRAY)
+                    binding.likeBtn.setColorFilter(Color.GRAY)
                 }
                 ingredientsAdapter = IngredientsAdapter(ingredients)
                 directionsAdapter = DirectionsAdapter(directions)
                 setupRecycleView()
             }
-            displayProgressBar(progress_bar_recipe, isDisplayed = false)
+            displayProgressBar(binding.progressBarRecipe, isDisplayed = false)
         })
 
         recipeViewModel.likePostStatus.observe(viewLifecycleOwner, EventObserver(
@@ -112,13 +112,13 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
         ) { isLiked ->
             recipe.isLiking = false
             if(isLiked) {
-                like_btn.setColorFilter((Color.RED))
+                binding.likeBtn.setColorFilter((Color.RED))
 
                 sendNotification()
             } else {
-                like_btn.setColorFilter(Color.GRAY)
+                binding.likeBtn.setColorFilter(Color.GRAY)
             }
-            recipeLikes_tv.text = recipe.likedBy.size.toString()
+            binding.recipeLikesTv.text = recipe.likedBy.size.toString()
         })
     }
 
@@ -159,12 +159,12 @@ class RecipeFragment : BaseFragment(R.layout.fragment_recipe) {
     }
 
     private fun setupRecycleView() {
-        ingredients_rv.apply {
+        binding.ingredientsRv.apply {
             adapter = ingredientsAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
             layoutManager = LinearLayoutManager(requireContext())
         }
-        directions_rv.apply {
+        binding.directionsRv.apply {
             adapter = directionsAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
             layoutManager = LinearLayoutManager(requireContext())

@@ -1,7 +1,7 @@
 plugins{
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    id("kotlin-parcelize")                  /*https://developer.android.com/topic/libraries/view-binding/migration#kts*/
     id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
@@ -40,7 +40,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-
+    buildFeatures {
+        viewBinding = true
+    }
     bundle {
         language {
             // Specifies that the app bundle should not support

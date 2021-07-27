@@ -1,26 +1,29 @@
 package ua.co.myrecipes.ui.fragments.newRecipe
 
 import android.app.TimePickerDialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.FragmentNewRecipeBinding
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.RecipeType
 
 @AndroidEntryPoint
-class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
+class NewRecipeFragment : BaseFragment<FragmentNewRecipeBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentNewRecipeBinding::inflate
+
     private var imgUri: Uri? = null
     private var time = ""
 
@@ -34,42 +37,42 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract){
             it?.let {
                 imgUri = it
-                recipe_img.setImageURI(it)
-                setImage_tv.hint = ""                           //clear textView
+                binding.recipeImg.setImageURI(it)
+                binding.setImageTv.hint = ""                           //clear textView
             }
         }
 
-        add_recipe_img.setOnClickListener {
+        binding.addRecipeImg.setOnClickListener {
             openImageSource()
         }
 
-        prep_time_btn.setOnClickListener(this::choosingTime)
+        binding.prepTimeBtn.setOnClickListener(this::choosingTime)
 
-        type_spinner.adapter =
+        binding.typeSpinner.adapter =
             ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.recipeTypes))
 
-        to_ingredients_fab.setOnClickListener {
-            if (!validateInput(recipe_name_et.text.toString(), recipe_name_til)){
+        binding.toIngredientsFab.setOnClickListener {
+            if (!validateInput(binding.recipeNameEt.text.toString(), binding.recipeNameTil)){
                 return@setOnClickListener
             }
 
-            if (new_time_tv.text.isBlank()){
+            if (binding.newTimeTv.text.isBlank()){
                 showSnackBar(R.string.choose_time)
-                new_time_tv.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                binding.newTimeTv.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 return@setOnClickListener
             }
 
-            if (recipe_img.drawable == null){
+            if (binding.recipeImg.drawable == null){
                 showSnackBar(R.string.insert_image)
-                setImage_tv.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                binding.setImageTv.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 return@setOnClickListener
             }
 
             val recipe = Recipe().apply {
-                name = recipe_name_et.text.toString().trim()
+                name = binding.recipeNameEt.text.toString().trim()
                 author = AuthUtil.email.substringBefore("@")
                 durationPrepare = time
-                type = RecipeType.values()[type_spinner.selectedItemPosition]
+                type = RecipeType.values()[binding.typeSpinner.selectedItemPosition]
                 imgUrl = imgUri.toString()
             }
             findNavController().navigate(R.id.action_newRecipeFragment_to_newRecipeIngrFragment, bundleOf("recipe" to recipe))
@@ -89,7 +92,7 @@ class NewRecipeFragment : BaseFragment(R.layout.fragment_new_recipe) {
                     m==0 -> "$h ${getString(R.string.hour)}"
                     else -> "$h ${getString(R.string.hour)}  $m ${getString(R.string.min)}"
                 }
-                new_time_tv.text = time
+                binding.newTimeTv.text = time
             }, 0, 0, true
         )
 //        timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

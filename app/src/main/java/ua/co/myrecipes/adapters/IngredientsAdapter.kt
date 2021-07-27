@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_ingredient.view.*
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.ItemIngredientBinding
 import ua.co.myrecipes.model.Ingredient
 
 class IngredientsAdapter(
@@ -16,9 +16,10 @@ class IngredientsAdapter(
 ): RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
 
     class IngredientsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val tvName: TextView = itemView.tvName
-        val tvUnit: TextView = itemView.tvUnit
-        val tvAmount: TextView = itemView.tvAmount
+        val binding = ItemIngredientBinding.bind(itemView)
+        val tvName: TextView = binding.tvName
+        val tvUnit: TextView = binding.tvUnit
+        val tvAmount: TextView = binding.tvAmount
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Ingredient>(){

@@ -3,30 +3,26 @@ package ua.co.myrecipes.ui
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.RequestManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.drawer_header.view.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import de.hdodenhof.circleimageview.CircleImageView
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.ActivityMainBinding
 import ua.co.myrecipes.util.*
 import ua.co.myrecipes.viewmodels.UserViewModel
 import java.util.*
@@ -35,6 +31,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
 
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var toggle: ActionBarDrawerToggle
@@ -50,7 +47,8 @@ class MainActivity : AppCompatActivity() {
         preferencesSetting()
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupNavigationDrawer(savedInstanceState)
         setupNav()
@@ -68,8 +66,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
             return
         }
 
@@ -95,34 +93,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigationDrawer(savedInstanceState: Bundle?){
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(toggle)
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
+        binding.drawerLayout.addDrawerListener(toggle)
 
-        navView.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.settings_item -> navController.navigate(R.id.settingsFragment)
                 R.id.about_item -> navController.navigate(R.id.aboutUsFragment)
             }
-            drawerLayout.closeDrawer(GravityCompat.START, false)
+            binding.drawerLayout.closeDrawer(GravityCompat.START, false)
             true
         }
-        val navHeader = navView.getHeaderView(0)
+        val navHeader = binding.navView.getHeaderView(0)
+        val nickNameTv = navHeader.findViewById<TextView>(R.id.nickName_drawer_tv)
+        val logOutBtn = navHeader.findViewById<Button>(R.id.log_out_btn)
+        val drawerUser = navHeader.findViewById<CircleImageView>(R.id.drawer_user_img)
+
         if (FirebaseAuth.getInstance().uid == null) {
-            navHeader.nickName_drawer_tv.text = getString(R.string.guest)
-            navHeader.log_out_btn.visibility = View.GONE
+            nickNameTv.text = getString(R.string.guest)
+            logOutBtn.visibility = View.GONE
         } else {
             val currentUserNickName = AuthUtil.email.substringBefore("@")
             userViewModel.getUser(currentUserNickName)
             userViewModel.user.observe(this, EventObserver {
                 if (it.img.isNotEmpty()){
-                    glide.load(it.img).into(navHeader.drawer_user_img)
+                    glide.load(it.img).into(drawerUser)
                 }
             })
-            navHeader.nickName_drawer_tv.text = currentUserNickName
-            navHeader.log_out_btn.visibility = View.VISIBLE
+            nickNameTv.text = currentUserNickName
+            logOutBtn.visibility = View.VISIBLE
         }
 
-        navHeader.log_out_btn.setOnClickListener {
+        logOutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val navOptions = NavOptions.Builder()
                 .setLaunchSingleTop(true)
@@ -133,24 +135,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNav() {
-        bottomNavigationView.setupWithNavController(NavHostFragment.findNavController())
-        bottomNavigationView.setOnNavigationItemReselectedListener { /*NO OPERATIONS*/ }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
 
-        navController = findNavController(R.id.NavHostFragment)
-        findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-            .setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setOnNavigationItemReselectedListener { /*NO OPERATIONS*/ }
 
-        navController.addOnDestinationChangedListener { _, destination, args ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment, R.id.newRecipeFragment, R.id.profileFragment, R.id.regFragment -> {
                     toggle.isDrawerIndicatorEnabled = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    bottomNavigationView.visibility = View.VISIBLE
+                    binding.bottomNavigationView.visibility = View.VISIBLE
                 }
                 else -> {
                     toggle.isDrawerIndicatorEnabled = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                    bottomNavigationView.visibility = View.GONE
+                    binding.bottomNavigationView.visibility = View.GONE
                     title = getString(R.string.app_name)
                 }
             }
@@ -172,8 +173,8 @@ class MainActivity : AppCompatActivity() {
                                 ).show()
                                 wasDisconnected = false
                             }
-                            flFragment?.internetLayout?.visibility = View.INVISIBLE
-                            NavHostFragment?.view?.visibility = View.VISIBLE
+                            binding.internetLayout.layoutNoInternet.visibility = View.INVISIBLE
+                            binding.NavHostFragment.visibility = View.VISIBLE
                         }
                         else -> {
                         }
@@ -185,8 +186,8 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.disconnected),
                         Snackbar.LENGTH_LONG
                     ).show()
-                    flFragment?.internetLayout?.visibility = View.VISIBLE
-                    NavHostFragment?.view?.visibility = View.INVISIBLE
+                    binding.internetLayout.layoutNoInternet.visibility = View.VISIBLE
+                    binding.NavHostFragment.visibility = View.INVISIBLE
                     wasDisconnected = true
                 }
             }

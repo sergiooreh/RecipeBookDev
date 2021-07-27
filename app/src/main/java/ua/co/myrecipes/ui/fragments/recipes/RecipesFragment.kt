@@ -1,15 +1,17 @@
 package ua.co.myrecipes.ui.fragments.recipes
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.viewbinding.ViewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_recipes.*
 import ua.co.myrecipes.R
 import ua.co.myrecipes.adapters.RecipesAdapter
+import ua.co.myrecipes.databinding.FragmentRecipesBinding
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.EventObserver
@@ -18,7 +20,10 @@ import ua.co.myrecipes.viewmodels.RecipeViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecipesFragment : BaseFragment(R.layout.fragment_recipes){
+class RecipesFragment : BaseFragment<FragmentRecipesBinding>(){
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentRecipesBinding::inflate
+
     @Inject
     lateinit var recipesAdapter: RecipesAdapter
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -29,14 +34,14 @@ class RecipesFragment : BaseFragment(R.layout.fragment_recipes){
 
         loadSpecificRecipes()
 
-        displayProgressBar(progress_bar)
+        displayProgressBar(binding.progressBar)
         subscribeToObservers()
 
-        start_srLayout.apply {
+        binding.startSrLayout.apply {
             setOnRefreshListener {
                 loadSpecificRecipes()
-                progress_bar.visibility = View.GONE
-                start_srLayout.isRefreshing = false
+                binding.progressBar.visibility = View.GONE
+                binding.startSrLayout.isRefreshing = false
             }
         }
 
@@ -48,16 +53,16 @@ class RecipesFragment : BaseFragment(R.layout.fragment_recipes){
     private fun subscribeToObservers(){
         recipeViewModel.recipes.observe(viewLifecycleOwner, EventObserver(
             onError = {
-                displayProgressBar(progress_bar, isDisplayed = false)
+                displayProgressBar(binding.progressBar, isDisplayed = false)
                 showToast(text = it)
             }
         ){ list ->
-            displayProgressBar(progress_bar, isDisplayed = false)
+            displayProgressBar(binding.progressBar, isDisplayed = false)
             recipesAdapter.items = list.toMutableList()
         })
     }
 
-    private fun setupRecycleView() = recipes_rv.apply {
+    private fun setupRecycleView() = binding.recipesRv.apply {
         adapter = recipesAdapter
         layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
     }

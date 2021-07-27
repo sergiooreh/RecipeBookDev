@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -15,13 +16,14 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.RequestManager
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.drawer_header.view.*
-import kotlinx.android.synthetic.main.fragment_profile.*
+import de.hdodenhof.circleimageview.CircleImageView
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.FragmentProfileBinding
 import ua.co.myrecipes.ui.fragments.BaseFragment
 import ua.co.myrecipes.util.AuthUtil
 import ua.co.myrecipes.util.EventObserver
@@ -30,7 +32,10 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment(R.layout.fragment_profile){
+class ProfileFragment : BaseFragment<FragmentProfileBinding>(){
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentProfileBinding::inflate
+
     private val userViewModel: UserViewModel by viewModels()
     private var userName: String = ""
 
@@ -50,7 +55,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
         userViewModel.getUser(userName)
         subscribeToObservers()
 
-        profile_log_out_btn.setOnClickListener {
+        binding.profileLogOutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             findNavController().navigate(
                 R.id.action_profileFragment_to_regFragment,
@@ -59,8 +64,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             activity?.recreate()
         }
 
-        linearLayout.setOnClickListener {
-            if (recipes_tv.text=="0"){
+        binding.linearLayout.setOnClickListener {
+            if (binding.recipesTv.text=="0"){
                 showToast(R.string.the_list_of_recipes_is_empty)
                 return@setOnClickListener
             }
@@ -70,8 +75,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             )
         }
 
-        linearLayoutLiked.setOnClickListener {
-            if (liked_tv.text=="0"){
+        binding.linearLayoutLiked.setOnClickListener {
+            if (binding.likedTv.text=="0"){
                 showToast(textResource = R.string.the_list_of_recipes_is_empty)
                 return@setOnClickListener
             }
@@ -83,31 +88,31 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract){
             it?.let {
-                user_imv.setImageURI(it)
-                userViewModel.updateImage((user_imv.drawable as BitmapDrawable).bitmap)
-                glide.load(it).into(user_imv)
+                binding.userImv.setImageURI(it)
+                userViewModel.updateImage((binding.userImv.drawable as BitmapDrawable).bitmap)
+                glide.load(it).into(binding.userImv)
                 glide.load(it).into(
                     (activity?.findViewById(R.id.navView) as NavigationView)
-                        .getHeaderView(0).drawer_user_img)
+                        .getHeaderView(0).findViewById<CircleImageView>(R.id.drawer_user_img))
             }
         }
     }
 
     private fun subscribeToObservers(){
         userViewModel.user.observe(viewLifecycleOwner, EventObserver(
-            onLoading = { displayProgressBar(progress_bar_profile, isDisplayed = true) },
-            onError = { displayProgressBar(progress_bar_profile, isDisplayed = false) }
+            onLoading = { displayProgressBar(binding.progressBarProfile, isDisplayed = true) },
+            onError = { displayProgressBar(binding.progressBarProfile, isDisplayed = false) }
         ){ user ->
             userName = user.nickname
             settingProfileForUser()
 
-            displayProgressBar(progress_bar_profile, isDisplayed = false)
-            nickname_tv.text = user.nickname
-            recipes_tv.text = user.recipes.size.toString()
-            liked_tv.text = user.likedRecipes.size.toString()
-            userAbout_tv.text = user.about
+            displayProgressBar(binding.progressBarProfile, isDisplayed = false)
+            binding.nicknameTv.text = user.nickname
+            binding.recipesTv.text = user.recipes.size.toString()
+            binding.likedTv.text = user.likedRecipes.size.toString()
+            binding.userAboutTv.text = user.about
             if (user.img != "") {
-                glide.load(user.img.toUri()).into(user_imv)
+                glide.load(user.img.toUri()).into(binding.userImv)
             }
         })
     }
@@ -115,24 +120,24 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
     private fun settingProfileForUser(){
         if (userName == AuthUtil.email.substringBefore("@")){
             activity?.title = getString(R.string.profile)
-            constraintLayout2.setOnClickListener {
+            binding.constraintLayout2.setOnClickListener {
                 actNumberDialog()
             }
-            user_imv.setOnClickListener {
+            binding.userImv.setOnClickListener {
                 openImageSource()
             }
         } else {
             activity?.title = userName
-            aboutMe_img.visibility = View.GONE
-            profile_log_out_btn.visibility = View.GONE
-            imageButton.visibility = View.GONE
-            linearLayoutLiked.visibility = View.GONE
+            binding.aboutMeImg.visibility = View.GONE
+            binding.profileLogOutBtn.visibility = View.GONE
+            binding.imageButton.visibility = View.GONE
+            binding.linearLayoutLiked.visibility = View.GONE
         }
     }
 
     private fun actNumberDialog() {
         val editText = EditText(requireContext()).apply {
-            setText(userAbout_tv.text.trim())
+            setText(binding.userAboutTv.text.trim())
             isSingleLine = false
             layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             gravity = Gravity.START or Gravity.TOP
@@ -146,7 +151,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile){
             setView(editText)
             setPositiveButton(R.string.ok) { _, _ ->
                 userViewModel.updateAbout(editText.text.toString())
-                userAbout_tv.text = editText.text.toString()}
+                binding.userAboutTv.text = editText.text.toString()}
             setNegativeButton(R.string.CANCEL) { dialogInterface, _ -> dialogInterface.cancel() }
             show()
         }

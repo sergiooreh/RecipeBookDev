@@ -30,7 +30,7 @@
                 layout="@layout/fragment_no_internet">
             </include>
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/NavHostFragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"

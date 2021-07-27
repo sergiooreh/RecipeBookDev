@@ -7,15 +7,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_direction.view.*
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.ItemDirectionBinding
 
 class DirectionsAdapter(
     var directions: List<String>
 ): RecyclerView.Adapter<DirectionsAdapter.DirectionsViewHolder>() {
 
     class DirectionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val directionNameTv: TextView = itemView.direction_name_tv
+        val binding = ItemDirectionBinding.bind(itemView)
+        val directionNameTv: TextView = binding.directionNameTv
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<String>(){

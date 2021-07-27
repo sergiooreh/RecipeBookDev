@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import kotlinx.android.synthetic.main.item_recipes.view.*
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.ItemRecipesBinding
 import ua.co.myrecipes.model.Recipe
 import javax.inject.Inject
 
@@ -19,9 +19,10 @@ class RecipesAdapter @Inject constructor(
 ): RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>()  {
 
     class RecipesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val recipeNameTv: TextView = itemView.recipeName_tv
-        val recipeAuthorTv: TextView = itemView.recipeAuthor_tv
-        val imageView: ImageView = itemView.imageView
+        val binding = ItemRecipesBinding.bind(itemView)
+        val recipeNameTv: TextView = binding.recipeNameTv
+        val recipeAuthorTv: TextView = binding.recipeAuthorTv
+        val imageView: ImageView = binding.imageView
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Recipe>(){

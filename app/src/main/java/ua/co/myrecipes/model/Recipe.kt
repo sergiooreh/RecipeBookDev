@@ -2,8 +2,8 @@ package ua.co.myrecipes.model
 
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import ua.co.myrecipes.util.RecipeType
 import java.util.*
 

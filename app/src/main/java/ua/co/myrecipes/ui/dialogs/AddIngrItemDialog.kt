@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialog
-import kotlinx.android.synthetic.main.dialog_add_ingridient_item.*
 import ua.co.myrecipes.R
+import ua.co.myrecipes.databinding.DialogAddIngridientItemBinding
 import ua.co.myrecipes.model.Ingredient
 import java.util.*
 
@@ -13,20 +13,23 @@ class AddIngrItemDialog(
     context: Context,
     private var addDialogListenerIngr: AddDialogListenerIngr
 ): AppCompatDialog(context) {
+    private var _binding: DialogAddIngridientItemBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_add_ingridient_item)
+        _binding = DialogAddIngridientItemBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         this.setTitle(R.string.new_ingredient)
 
-        tvAdd.setOnClickListener {
+        binding.tvAdd.setOnClickListener {
             val ingredient = Ingredient().apply {
-                name = etName.text.toString().capitalize(Locale.ROOT)
-                amount = if (etAmount.text.toString().isNotBlank()){
-                    etAmount.text.toString()
+                name = binding.etName.text.toString().capitalize(Locale.ROOT)
+                amount = if (binding.etAmount.text.toString().isNotBlank()){
+                    binding.etAmount.text.toString()
                 } else
                     ""
-                unit = etUnit.text.toString()
+                unit = binding.etUnit.text.toString()
             }
 
             if (ingredient.name.isEmpty()){
@@ -38,7 +41,7 @@ class AddIngrItemDialog(
             dismiss()
         }
 
-        tvCancel.setOnClickListener {
+        binding.tvCancel.setOnClickListener {
             cancel()
         }
     }
