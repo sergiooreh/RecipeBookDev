@@ -16,7 +16,7 @@ class UserViewModelTest{
 
     @Before
     fun setup(){
-        viewModel = UserViewModel(FakeUserRepositoryTest(), ApplicationProvider.getApplicationContext(), Dispatchers.IO)
+        viewModel = UserViewModel(FakeUserRepositoryTest(), Dispatchers.IO)
     }
 
     @Test
