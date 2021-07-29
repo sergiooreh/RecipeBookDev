@@ -7,17 +7,21 @@ import ua.co.myrecipes.util.AuthUtil.Companion.uid
 import ua.co.myrecipes.util.Resource
 
 class FakeUserRepositoryTest: UserRepositoryInt {
-    private val userList = mutableListOf<User>()
+    private val userList = mutableListOf(
+        User(email = "aaa@aaa.aaa"),
+        User(email = "bbb@bbb.bbb"),
+        User(email = "ccc@ccc.ccc")
+    )
     private var shouldReturnError = false
 
     override suspend fun register(email: String, password: String): Resource<AuthResult> {
         userList.add(User(email=email))
-        return Resource.Error("User is created")
+        return Resource.Success()
     }
 
     override suspend fun login(email: String, password: String, token: String): Resource<AuthResult> {
-        userList.find { it.email == email }!!
-        return Resource.Error("User is log in")
+        userList.find { it.email == email } ?: return Resource.Error("User not found")
+        return Resource.Success()
     }
 
 

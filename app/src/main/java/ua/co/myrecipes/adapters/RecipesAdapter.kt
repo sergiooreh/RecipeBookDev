@@ -1,7 +1,6 @@
 package ua.co.myrecipes.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import ua.co.myrecipes.R
 import ua.co.myrecipes.databinding.ItemRecipesBinding
 import ua.co.myrecipes.model.Recipe
 import javax.inject.Inject
@@ -18,8 +16,7 @@ class RecipesAdapter @Inject constructor(
     private val glide: RequestManager
 ): RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder>()  {
 
-    class RecipesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val binding = ItemRecipesBinding.bind(itemView)
+    class RecipesViewHolder(val binding: ItemRecipesBinding) : RecyclerView.ViewHolder(binding.root){
         val recipeNameTv: TextView = binding.recipeNameTv
         val recipeAuthorTv: TextView = binding.recipeAuthorTv
         val imageView: ImageView = binding.imageView
@@ -60,8 +57,8 @@ class RecipesAdapter @Inject constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         RecipesViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_recipes,
+            ItemRecipesBinding.inflate(
+                LayoutInflater.from(parent.context),
                 parent,
                 false
             )

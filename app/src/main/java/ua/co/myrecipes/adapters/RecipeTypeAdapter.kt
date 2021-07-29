@@ -1,7 +1,6 @@
 package ua.co.myrecipes.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,8 +17,7 @@ class RecipeTypeAdapter @Inject constructor(
     private val glide: RequestManager
 ) : RecyclerView.Adapter<RecipeTypeAdapter.RecipeTypeViewHolder>() {
 
-    class RecipeTypeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val binding = ItemRecipetypeBinding.bind(itemView)
+    class RecipeTypeViewHolder(val binding: ItemRecipetypeBinding) : RecyclerView.ViewHolder(binding.root){
         val recipeTypeTv: TextView = binding.recipeTypeTv
         val recipeTypeImv: ImageView = binding.recipeTypeImv
     }
@@ -58,8 +56,8 @@ class RecipeTypeAdapter @Inject constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         RecipeTypeViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_recipetype,
+            ItemRecipetypeBinding.inflate(
+                LayoutInflater.from(parent.context),
                 parent,
                 false
             )

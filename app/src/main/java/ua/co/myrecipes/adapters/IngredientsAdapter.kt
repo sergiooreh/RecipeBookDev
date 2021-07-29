@@ -1,13 +1,11 @@
 package ua.co.myrecipes.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ua.co.myrecipes.R
 import ua.co.myrecipes.databinding.ItemIngredientBinding
 import ua.co.myrecipes.model.Ingredient
 
@@ -15,8 +13,7 @@ class IngredientsAdapter(
     var ingredients: List<Ingredient>
 ): RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
 
-    class IngredientsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val binding = ItemIngredientBinding.bind(itemView)
+    class IngredientsViewHolder(val binding: ItemIngredientBinding) : RecyclerView.ViewHolder(binding.root){
         val tvName: TextView = binding.tvName
         val tvUnit: TextView = binding.tvUnit
         val tvAmount: TextView = binding.tvAmount
@@ -47,8 +44,8 @@ class IngredientsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         IngredientsViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_ingredient,
+            ItemIngredientBinding.inflate(
+                LayoutInflater.from(parent.context),
                 parent,
                 false
             )

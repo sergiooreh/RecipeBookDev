@@ -1,21 +1,18 @@
 package ua.co.myrecipes.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ua.co.myrecipes.R
 import ua.co.myrecipes.databinding.ItemDirectionBinding
 
 class DirectionsAdapter(
     var directions: List<String>
 ): RecyclerView.Adapter<DirectionsAdapter.DirectionsViewHolder>() {
 
-    class DirectionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val binding = ItemDirectionBinding.bind(itemView)
+    class DirectionsViewHolder(val binding: ItemDirectionBinding) : RecyclerView.ViewHolder(binding.root){
         val directionNameTv: TextView = binding.directionNameTv
     }
 
@@ -41,8 +38,8 @@ class DirectionsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         DirectionsViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_direction,
+            ItemDirectionBinding.inflate(
+                LayoutInflater.from(parent.context),
                 parent,
                 false
             )
