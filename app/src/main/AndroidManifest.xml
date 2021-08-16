@@ -28,7 +28,8 @@
         android:theme="@style/splashScreenTheme">
 
         <service android:name=".notification.service.FirebaseService"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
@@ -37,7 +38,8 @@
 
         <activity android:name=".ui.MainActivity"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
