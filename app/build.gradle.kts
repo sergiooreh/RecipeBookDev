@@ -16,8 +16,8 @@ android {
         applicationId = "ua.co.myrecipes"
         minSdk = 22
         targetSdk = 30
-        versionCode = 6
-        versionName = "1.2.0"
+        versionCode = 8
+        versionName = "1.2.1"
 
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "ua.co.myrecipes.HiltTestRunner"

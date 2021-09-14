@@ -70,14 +70,14 @@ abstract class BaseFragment<out T : ViewBinding>: Fragment() {
     fun openImageSource(){
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.choose_resource)
-            .setPositiveButton(R.string.camera) { _, _ ->
+            /*.setPositiveButton(R.string.camera) { _, _ ->
                 if (isPermissionGranted(CAMERA)){
                     createFileAndGetItsUri()
                     takePhoto.launch(uri)
                 } else {
                     requestCameraPermissions.launch(arrayOf(CAMERA))
                 }
-            }
+            }*/
             .setNegativeButton(R.string.gallery) { _, _ ->
                 getContent.launch("image/*")
             }
