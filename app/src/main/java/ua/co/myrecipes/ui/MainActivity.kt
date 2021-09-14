@@ -1,5 +1,6 @@
 package ua.co.myrecipes.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -18,6 +19,11 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.RequestManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
@@ -50,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupUpdateFromCoreLibrary()
         setupNavigationDrawer(savedInstanceState)
         setupNav()
         setupNetworkMonitor()
@@ -90,6 +97,42 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) return true
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupUpdateFromCoreLibrary(){
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+        // Create a listener to track request state updates.
+        val listener = InstallStateUpdatedListener { state ->
+            if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                Snackbar.make(
+                    findViewById(R.id.drawerLayout),
+                    "An update has just been downloaded.",
+                    Snackbar.LENGTH_INDEFINITE
+                ).apply {
+                    setAction("RESTART") { appUpdateManager.completeUpdate() }
+                    show()
+                }
+            }
+        }
+
+        // Before starting an update, register a listener for updates.
+        appUpdateManager.registerListener(listener)
+
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && (appUpdateInfo.clientVersionStalenessDays() ?: -1) >= 5
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.FLEXIBLE,
+                    this,
+                    // Include a request code to later monitor this update request.
+                    453)
+            }
+        }
     }
 
     private fun setupNavigationDrawer(savedInstanceState: Bundle?){
