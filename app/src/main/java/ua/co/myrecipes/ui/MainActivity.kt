@@ -1,6 +1,5 @@
 package ua.co.myrecipes.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
