@@ -1,5 +1,7 @@
 package ua.co.myrecipes.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +22,7 @@ import com.bumptech.glide.RequestManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
@@ -102,7 +105,6 @@ class MainActivity : AppCompatActivity() {
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        // Create a listener to track request state updates.
         val listener = InstallStateUpdatedListener { state ->
             if (state.installStatus() == InstallStatus.DOWNLOADED) {
                 Snackbar.make(
@@ -116,11 +118,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Before starting an update, register a listener for updates.
         appUpdateManager.registerListener(listener)
 
+        //is available update
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+            /*if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && (appUpdateInfo.clientVersionStalenessDays() ?: -1) >= 5
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
@@ -130,8 +132,40 @@ class MainActivity : AppCompatActivity() {
                     this,
                     // Include a request code to later monitor this update request.
                     453)
+            }*/
+
+
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    455
+                )
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 455){
+            when(resultCode) {
+                Activity.RESULT_OK -> {
+                    Toast.makeText(baseContext, "UPDATED", Toast.LENGTH_LONG).show()
+                }
+                //3
+                Activity.RESULT_CANCELED -> {
+                    Toast.makeText(baseContext, "CANCELLED", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+                //4
+                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
+                    Toast.makeText(baseContext, "FAILED", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setupNavigationDrawer(savedInstanceState: Bundle?){

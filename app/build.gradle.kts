@@ -1,6 +1,6 @@
 plugins{
     id("com.android.application")
-    id("kotlin-android")
+    id("kotlin-android")                    // kotlin("android")
     id("kotlin-parcelize")                  /*https://developer.android.com/topic/libraries/view-binding/migration#kts*/
     id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
@@ -16,8 +16,8 @@ android {
         applicationId = "ua.co.myrecipes"
         minSdk = 22
         targetSdk = 30
-        versionCode = 8
-        versionName = "1.2.1"
+        versionCode = 9
+        versionName = "1.2.3"
 
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "ua.co.myrecipes.HiltTestRunner"
@@ -63,9 +63,7 @@ android {
 
 dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")                //API level 21 needed (Punchio)
-    val kotlinVersion = "1.5.21"
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
