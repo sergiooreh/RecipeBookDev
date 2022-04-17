@@ -18,6 +18,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.RequestManager
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +57,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(){
         userViewModel.getUser(userName)
         subscribeToObservers()
 
+        binding.userImv.setOnClickListener {
+            cropImage.launch(
+                options {
+                    setAspectRatio(500, 500)
+                    setFixAspectRatio(true)
+                }
+            )
+        }
+
         binding.profileLogOutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             findNavController().navigate(
@@ -85,16 +96,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(){
                     "recipeAuthor" to "@".plus(userName))
             )
         }
+    }
 
-        cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract){
-            it?.let {
-                binding.userImv.setImageURI(it)
-                userViewModel.updateImage((binding.userImv.drawable as BitmapDrawable).bitmap)
-                glide.load(it).into(binding.userImv)
-                glide.load(it).into(
-                    (activity?.findViewById(R.id.navView) as NavigationView)
-                        .getHeaderView(0).findViewById<CircleImageView>(R.id.drawer_user_img))
-            }
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            val uri = result.uriContent
+            binding.userImv.setImageURI(uri)
+            userViewModel.updateImage((binding.userImv.drawable as BitmapDrawable).bitmap)
+            glide.load(uri).into(binding.userImv)
+            glide.load(uri).into(
+                (activity?.findViewById(R.id.navView) as NavigationView)
+                    .getHeaderView(0).findViewById<CircleImageView>(R.id.drawer_user_img))
+        } else {
+            val exception = result.error
         }
     }
 
@@ -122,9 +136,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(){
             activity?.title = getString(R.string.profile)
             binding.constraintLayout2.setOnClickListener {
                 actNumberDialog()
-            }
-            binding.userImv.setOnClickListener {
-                openImageSource()
             }
         } else {
             activity?.title = userName

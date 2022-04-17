@@ -10,13 +10,12 @@ plugins{
 
 android {
     compileSdk = 32
-    buildToolsVersion = "31.0.0"
 
     defaultConfig {
         applicationId = "ua.co.myrecipes"
         minSdk = 22
         targetSdk = 32
-        versionCode = 9
+        versionCode = 10
         versionName = "1.2.3"
 
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -116,16 +115,16 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.37")
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.12.1")
     androidTestImplementation("org.mockito:mockito-core:3.10.0")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35.1")
-    debugImplementation("androidx.fragment:fragment-testing:1.5.0-alpha04")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.0-alpha05")
 
     //Firebase
-    implementation ("com.google.firebase:firebase-firestore-ktx:24.1.0")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.1.1")
     implementation ("com.google.firebase:firebase-analytics:20.1.2")
     implementation ("com.google.firebase:firebase-crashlytics:18.2.9")
     implementation ("com.google.firebase:firebase-storage-ktx:20.0.1")
     implementation ("com.google.firebase:firebase-auth:21.0.3")
-    implementation ("com.google.firebase:firebase-messaging:23.0.2")
+    implementation ("com.google.firebase:firebase-messaging:23.0.3")
 
     //Retrofit
     val retrofit = "2.9.0"
@@ -135,8 +134,8 @@ dependencies {
     // Easy Permissions
     implementation ("pub.devrel:easypermissions:3.0.0")
 
-    //Image cropper     (jCenter)
-    api ("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+    //Image cropper
+    implementation ("com.github.CanHub:Android-Image-Cropper:4.2.1")
 
     //CircleImageView
     implementation ("de.hdodenhof:circleimageview:3.1.0")

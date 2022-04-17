@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ua.co.myrecipes.R
@@ -34,16 +36,13 @@ class NewRecipeFragment : BaseFragment<FragmentNewRecipeBinding>() {
             findNavController().navigate(R.id.action_newRecipeFragment_to_regFragment, bundleOf("redirectToRegister" to true))
         }
 
-        cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract){
-            it?.let {
-                imgUri = it
-                binding.recipeImg.setImageURI(it)
-                binding.setImageTv.hint = ""                           //clear textView
-            }
-        }
-
         binding.addRecipeImg.setOnClickListener {
-            openImageSource()
+            cropImage.launch(
+                options {
+                    setAspectRatio(500, 500)
+                    setFixAspectRatio(true)
+                }
+            )
         }
 
         binding.prepTimeBtn.setOnClickListener(this::choosingTime)
@@ -82,6 +81,16 @@ class NewRecipeFragment : BaseFragment<FragmentNewRecipeBinding>() {
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.add_new_recipe)
+    }
+
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            imgUri = result.uriContent
+            binding.recipeImg.setImageURI(imgUri)
+            binding.setImageTv.hint = ""                           //clear textView
+        } else {
+            val exception = result.error
+        }
     }
 
     private fun choosingTime(view: View){
