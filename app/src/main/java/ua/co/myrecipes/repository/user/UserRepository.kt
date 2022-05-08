@@ -12,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import ua.co.myrecipes.di.AppModule
+import ua.co.myrecipes.di.AppModule.Users
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.Resource
 import ua.co.myrecipes.util.authCall
@@ -19,9 +21,11 @@ import ua.co.myrecipes.util.dataCall
 import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class UserRepository @Inject constructor(
-    private val collectionReference: CollectionReference,
+    @Users private val collectionReference: CollectionReference,
     private val firebaseAuth: FirebaseAuth
 ): UserRepositoryInt {
 

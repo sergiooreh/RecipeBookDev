@@ -61,7 +61,7 @@ android {
 }
 
 dependencies {
-    implementation("com.google.android.play:core-ktx:1.8.1")                //API level 21 needed (Punchio)
+    implementation("com.google.android.play:core-ktx:1.8.1")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
@@ -70,8 +70,8 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.35.1")
-    kapt("com.google.dagger:hilt-compiler:2.35.1")
+    implementation("com.google.dagger:hilt-android:2.40.5")
+    kapt("com.google.dagger:hilt-compiler:2.40.5")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Coroutines
@@ -115,13 +115,13 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.37")
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.12.1")
     androidTestImplementation("org.mockito:mockito-core:3.10.0")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
-    debugImplementation("androidx.fragment:fragment-testing:1.5.0-alpha05")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.40.5")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.0-beta01")
 
     //Firebase
     implementation ("com.google.firebase:firebase-firestore-ktx:24.1.1")
     implementation ("com.google.firebase:firebase-analytics:20.1.2")
-    implementation ("com.google.firebase:firebase-crashlytics:18.2.9")
+    implementation ("com.google.firebase:firebase-crashlytics:18.2.10")
     implementation ("com.google.firebase:firebase-storage-ktx:20.0.1")
     implementation ("com.google.firebase:firebase-auth:21.0.3")
     implementation ("com.google.firebase:firebase-messaging:23.0.3")

@@ -6,6 +6,9 @@ import android.content.SharedPreferences
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +17,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import ua.co.myrecipes.R
 import ua.co.myrecipes.util.Constants.SHARED_PREFERENCES_NAME
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -38,4 +42,28 @@ object AppModule {
             .error(R.drawable.ic_broken)
             .fitCenter().diskCacheStrategy(DiskCacheStrategy.DATA)
     )
+
+    @Recipes
+    @Singleton
+    @Provides
+    fun provideCollectionRecipes(): CollectionReference = FirebaseFirestore.getInstance().collection("Recipes")
+
+    @Users
+    @Singleton
+    @Provides
+    fun provideCollectionUsers(): CollectionReference = FirebaseFirestore.getInstance().collection("Users")
+
+    @Singleton
+    @Provides
+    fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance().also{
+        it.useAppLanguage()
+    }
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class Recipes
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class Users
 }

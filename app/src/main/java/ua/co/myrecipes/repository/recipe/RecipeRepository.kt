@@ -8,6 +8,9 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import ua.co.myrecipes.di.AppModule
+import ua.co.myrecipes.di.AppModule.Recipes
+import ua.co.myrecipes.di.AppModule.Users
 import ua.co.myrecipes.model.Recipe
 import ua.co.myrecipes.model.User
 import ua.co.myrecipes.util.AuthUtil.Companion.uid
@@ -15,10 +18,12 @@ import ua.co.myrecipes.util.RecipeType
 import ua.co.myrecipes.util.Resource
 import ua.co.myrecipes.util.dataCall
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RecipeRepository @Inject constructor(
-    private val recipeRef: CollectionReference,
-    private val userRef: CollectionReference
+    @Recipes private val recipeRef: CollectionReference,
+    @Users private val userRef: CollectionReference
 ): RecipeRepositoryInt{
 
     override suspend fun getRecipesByType(recipeType: RecipeType) = withContext(Dispatchers.IO) {

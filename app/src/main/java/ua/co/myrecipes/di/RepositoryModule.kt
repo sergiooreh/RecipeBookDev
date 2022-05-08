@@ -1,10 +1,7 @@
 package ua.co.myrecipes.di
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ua.co.myrecipes.repository.recipe.RecipeRepository
@@ -16,46 +13,16 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @Recipes
-    @Singleton
-    @Provides
-    fun provideCollectionRecipes(): CollectionReference = FirebaseFirestore.getInstance().collection("Recipes")
-
-    @Users
-    @Singleton
-    @Provides
-    fun provideCollectionUsers(): CollectionReference = FirebaseFirestore.getInstance().collection("Users")
+//@Binds eliminate code generated, should use it if you provide abstraction!!!! (How to Build a Clean Architecture Stock Market App 1:38:00
 
     @Singleton
-    @Provides
-    fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance().also{
-        it.useAppLanguage()
-    }
-
+    @Binds
+    abstract fun bindRecipeRepository(recipeRepository: RecipeRepository): RecipeRepositoryInt
 
     @Singleton
-    @Provides
-    fun provideRecipeRepository(
-        @Recipes collectionReference: CollectionReference,
-        @Users collectionReferenceUser: CollectionReference
-    ): RecipeRepositoryInt = RecipeRepository(collectionReference, collectionReferenceUser)
+    @Binds
+    abstract fun bindUserRepository(userRepository: UserRepository): UserRepositoryInt
 
-    @Singleton
-    @Provides
-    fun provideUserRepository(
-        @Users collectionReference: CollectionReference,
-        firebaseAuth: FirebaseAuth
-    ): UserRepositoryInt = UserRepository(collectionReference, firebaseAuth)
-
-
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class Recipes
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class Users
 }
