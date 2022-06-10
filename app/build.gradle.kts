@@ -17,6 +17,7 @@ android {
         targetSdk = 32
         versionCode = 10
         versionName = "1.2.3"
+        namespace = "ua.co.myrecipes"
 
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "ua.co.myrecipes.HiltTestRunner"
@@ -63,21 +64,21 @@ android {
 dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.40.5")
-    kapt("com.google.dagger:hilt-compiler:2.40.5")
+    implementation("com.google.dagger:hilt-android:2.42")
+    kapt("com.google.dagger:hilt-compiler:2.42")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.2")
 
     // Coroutine Lifecycle Scopes
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
@@ -102,7 +103,7 @@ dependencies {
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
     testImplementation("com.google.truth:truth:1.0.1")
 
     // Instrumented Unit Tests
@@ -110,21 +111,21 @@ dependencies {
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
     androidTestImplementation("com.google.truth:truth:1.0.1")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.37")
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.12.1")
-    androidTestImplementation("org.mockito:mockito-core:3.10.0")
+    androidTestImplementation("org.mockito:mockito-core:3.12.3")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.40.5")
-    debugImplementation("androidx.fragment:fragment-testing:1.5.0-beta01")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.0-rc01")
 
     //Firebase
-    implementation ("com.google.firebase:firebase-firestore-ktx:24.1.1")
-    implementation ("com.google.firebase:firebase-analytics:20.1.2")
-    implementation ("com.google.firebase:firebase-crashlytics:18.2.10")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.1.2")
+    implementation ("com.google.firebase:firebase-analytics:21.0.0")
+    implementation ("com.google.firebase:firebase-crashlytics:18.2.11")
     implementation ("com.google.firebase:firebase-storage-ktx:20.0.1")
-    implementation ("com.google.firebase:firebase-auth:21.0.3")
-    implementation ("com.google.firebase:firebase-messaging:23.0.3")
+    implementation ("com.google.firebase:firebase-auth:21.0.5")
+    implementation ("com.google.firebase:firebase-messaging:23.0.5")
 
     //Retrofit
     val retrofit = "2.9.0"
@@ -141,7 +142,7 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     //Glide
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("com.github.bumptech.glide:glide:4.13.2")
     kapt ("com.github.bumptech.glide:compiler:4.12.0")
 
     //LeakCanary

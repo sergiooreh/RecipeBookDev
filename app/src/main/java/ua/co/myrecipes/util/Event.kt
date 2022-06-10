@@ -38,6 +38,7 @@ class EventObserver<T>(
                     loading()
                 }
             }
+            else -> {}
         }
     }
 }
