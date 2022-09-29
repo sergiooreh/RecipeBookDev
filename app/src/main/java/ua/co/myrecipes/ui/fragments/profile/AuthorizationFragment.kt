@@ -59,7 +59,7 @@ class AuthorizationFragment: BaseFragment<FragmentAuthBinding>() {
     }
 
     private fun subscribeToObservers() {
-        userViewModel.authStatus.observe(viewLifecycleOwner, { event ->
+        userViewModel.authStatus.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is RegisterEvent.ErrorFieldIsEmpty -> {
                     showSnackBar(R.string.please_fill_out_all_the_fields)
@@ -68,13 +68,14 @@ class AuthorizationFragment: BaseFragment<FragmentAuthBinding>() {
                     showSnackBar(R.string.ERROR_PASSWORDS_DO_NOT_MATCH)
                 }
                 is RegisterEvent.ErrorLogIn -> {
-                    when(event.result.message){
+                    when (event.result.message) {
                         //register
                         "ERROR_INVALID_EMAIL" -> showSnackBar(R.string.ERROR_INVALID_EMAIL)
                         "ERROR_EMAIL_ALREADY_IN_USE" -> showSnackBar(R.string.ERROR_EMAIL_ALREADY_IN_USE)
                         "ERROR_ACTIVATION_LINK_SENT_TO_YOU" -> {
                             showSnackBar(R.string.ERROR_ACTIVATION_LINK_SENT_TO_YOU)
-                            requireView().findViewById<MotionLayout>(R.id.motionLayout).transitionToStart()
+                            requireView().findViewById<MotionLayout>(R.id.motionLayout)
+                                .transitionToStart()
                         }
 
                         //login
@@ -91,7 +92,7 @@ class AuthorizationFragment: BaseFragment<FragmentAuthBinding>() {
                 }
                 else -> Unit
             }
-        })
+        }
     }
 
     private fun startDialog() {

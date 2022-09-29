@@ -63,9 +63,7 @@ android {
 
 dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
@@ -76,14 +74,12 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
 
     // Coroutine Lifecycle Scopes
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
     val room = "2.3.0"
     implementation("androidx.room:room-runtime:$room")
@@ -103,7 +99,7 @@ dependencies {
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     testImplementation("com.google.truth:truth:1.0.1")
 
     // Instrumented Unit Tests
@@ -111,7 +107,7 @@ dependencies {
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation("com.google.truth:truth:1.0.1")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.37")
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.12.1")
@@ -120,12 +116,12 @@ dependencies {
     debugImplementation("androidx.fragment:fragment-testing:1.5.0-rc01")
 
     //Firebase
-    implementation ("com.google.firebase:firebase-firestore-ktx:24.1.2")
-    implementation ("com.google.firebase:firebase-analytics:21.0.0")
-    implementation ("com.google.firebase:firebase-crashlytics:18.2.11")
-    implementation ("com.google.firebase:firebase-storage-ktx:20.0.1")
-    implementation ("com.google.firebase:firebase-auth:21.0.5")
-    implementation ("com.google.firebase:firebase-messaging:23.0.5")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.3.1")
+    implementation ("com.google.firebase:firebase-analytics:21.1.1")
+    implementation ("com.google.firebase:firebase-crashlytics:18.2.13")
+    implementation ("com.google.firebase:firebase-storage-ktx:20.0.2")
+    implementation ("com.google.firebase:firebase-auth:21.0.8")
+    implementation ("com.google.firebase:firebase-messaging:23.0.8")
 
     //Retrofit
     val retrofit = "2.9.0"
