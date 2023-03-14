@@ -23,3 +23,8 @@ allprojects {
 tasks.register(name = "type", type = Delete::class){
     delete(rootProject.buildDir)
 }
+
+tasks.create("printVersionName") {
+    val versionName = "111"
+    println("Version name: $versionName")
+}
