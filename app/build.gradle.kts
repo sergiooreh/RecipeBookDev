@@ -140,3 +140,8 @@ dependencies {
     //LeakCanary
     debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.7")
 }
+
+tasks.create("printVersionName") {
+    val versionName = android.defaultConfig.versionName
+    println("Version name: $versionName")
+}
