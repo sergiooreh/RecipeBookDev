@@ -16,6 +16,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+          
+      - name: Grant rights
+        run: chmod +x build.gradle.kts
       
       - name : Retrieve Version
         run: |
