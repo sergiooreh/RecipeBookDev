@@ -17,5 +17,7 @@ jobs:
         with:
           java-version: 1.8
       
-      - name: Get versionName
-        run: echo "::set-output name=versionName::$(grep -m1 versionName build.gradle | cut -d '"' -f2)"
+      - name : Retrieve Version
+        run: |
+          echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q printVersionName)"
+        id: android_version
