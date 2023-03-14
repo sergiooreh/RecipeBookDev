@@ -63,7 +63,7 @@ android {
 
 dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")
-    implementation("androidx.appcompat:appcompat:1.6.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
@@ -81,11 +81,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
-    val room = "2.5.0"
-    implementation("androidx.room:room-runtime:$room")
-    implementation("androidx.room:room-ktx:$room")
-    kapt("androidx.room:room-compiler:$room")
-
     // Navigation Components
     val navComponents = "2.5.3"
     implementation("androidx.navigation:navigation-fragment-ktx:$navComponents")
@@ -98,13 +93,13 @@ dependencies {
     // Local Unit Tests
     testImplementation("androidx.test:core:1.5.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     testImplementation("com.google.truth:truth:1.1.3")
 
     // Instrumented Unit Tests
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
@@ -116,13 +111,13 @@ dependencies {
     debugImplementation("androidx.fragment:fragment-testing:1.5.5")
 
     //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:31.2.0"))
     implementation ("com.google.firebase:firebase-firestore-ktx")
-    implementation ("com.google.firebase:firebase-analytics")
-    implementation ("com.google.firebase:firebase-crashlytics")
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-crashlytics-ktx")
     implementation ("com.google.firebase:firebase-storage-ktx")
-    implementation ("com.google.firebase:firebase-auth")
-    implementation ("com.google.firebase:firebase-messaging")
+    implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation ("com.google.firebase:firebase-messaging-ktx")
 
     //Retrofit
     val retrofit = "2.9.0"
