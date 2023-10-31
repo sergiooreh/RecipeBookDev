@@ -21,13 +21,13 @@ class EventObserver<T>(
     private inline val onLoading: (() -> Unit)? = null,
     private inline val onSuccess: (T) -> Unit
 ) : Observer<Event<Resource<T>>> {
-    override fun onChanged(t: Event<Resource<T>>?) {
-        when(val content = t?.peekContent()) {
+    override fun onChanged(value: Event<Resource<T>>) {
+        when(val content = value.peekContent()) {
             is Resource.Success -> {
                 content.data?.let(onSuccess)
             }
             is Resource.Error -> {
-                t.getContentIfNotHandled()?.let {
+                value.getContentIfNotHandled()?.let {
                     onError?.let { error ->
                         error(it.message ?: "")
                     }

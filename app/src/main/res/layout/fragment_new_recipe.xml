@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/new_recipe_layout"
@@ -76,14 +75,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/next_step_of_creation_recipe"
         android:src="@drawable/ic_chevron_right"
         app:backgroundTint="@color/colorPrimaryD"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@android:color/white"
-        app:tint="@android:color/white"
-        android:contentDescription="@string/next_step_of_creation_recipe"/>
+        app:tint="@android:color/white" />
 
     <TextView
         android:id="@+id/textView4"

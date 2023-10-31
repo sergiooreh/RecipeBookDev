@@ -15,8 +15,8 @@ android {
         applicationId = "ua.co.myrecipes"
         minSdk = 22
         targetSdk = 33
-        versionCode = 10
-        versionName = "1.2.3"
+        versionCode = 11
+        versionName = "2.0.0"
         namespace = "ua.co.myrecipes"
 
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -41,11 +41,11 @@ android {
         resources.excludes.add("META-INF/LGPL2.1")
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_18.toString()
     }
     buildFeatures {
         viewBinding = true
@@ -66,20 +66,20 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 
     //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
 
     // Coroutine Lifecycle Scopes
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
 
     // Navigation Components
     val navComponents = "2.5.3"
@@ -87,8 +87,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$navComponents")
 
     // Activity KTX for viewModels(), ActivityResultContracts
-    implementation("androidx.activity:activity-ktx:1.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.5")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.fragment:fragment-ktx:1.5.7")
 
     // Local Unit Tests
     testImplementation("androidx.test:core:1.5.0")
@@ -104,11 +104,11 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation("com.google.truth:truth:1.1.3")
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.46")
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.12.1")
     androidTestImplementation("org.mockito:mockito-core:4.6.1")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.44")
-    debugImplementation("androidx.fragment:fragment-testing:1.5.5")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.46")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.7")
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:31.2.0"))
