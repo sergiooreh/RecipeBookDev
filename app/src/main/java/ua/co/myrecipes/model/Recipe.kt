@@ -20,4 +20,5 @@ data class Recipe(
     var imgUrl: String = "",
     @get:Exclude var isLiked: Boolean = false,
     @get:Exclude var isLiking: Boolean = false
+    
 ): Parcelable
