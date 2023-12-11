@@ -1,7 +1,10 @@
 package ua.co.myrecipes.ui
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         setupNavigationDrawer(savedInstanceState)
         setupNav()
         setupNetworkMonitor()
+        checkNotificationPermission()
     }
 
     override fun onResume() {
@@ -284,6 +288,14 @@ class MainActivity : AppCompatActivity() {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             setTheme(R.style.AppTheme)
+        }
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 222)
+            }
         }
     }
 }

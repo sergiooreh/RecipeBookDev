@@ -40,7 +40,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val feedback: Preference? = findPreference(Constants.FIELD_FEEDBACK)
         feedback?.intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:sergiooreh@ukr.net"))
         feedback?.setOnPreferenceClickListener {
-            it?.intent?.apply {
+            it.intent?.apply {
                 this.putExtra(
                     Intent.EXTRA_TEXT,
                     "Device Name:${Build.MODEL}\n" +
@@ -55,7 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val app: Preference? = findPreference(Constants.FIELD_APP)
         app?.intent = Intent(Intent.ACTION_VIEW)
         app?.setOnPreferenceClickListener {
-            it?.intent?.apply {
+            it.intent?.apply {
                 try {
                     this.data = Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
                     startActivity(this)
